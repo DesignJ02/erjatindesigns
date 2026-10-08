@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #070b09;
+  --bg-elevated: #0c1210;
+  --surface: #10201a;
+  --surface-2: #163028;
+  --card-green: #0f3d32;
+  --card-olive: #1a2a1f;
+  --card-slate: #151c1a;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f3f6f4;
+  --text-muted: #9aada4;
+  --text-dim: #6f8379;
+  --accent: #3dd6a5;
+  --accent-soft: #7ee0c2;
+  --coral: #e8a07a;
+  --mint: #8fe3c4;
+  --orange: #f0a06a;
+  --pill: #121816;
+  --grid: rgba(61, 214, 165, 0.06);
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-instrument);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  min-height: 100%;
+}
+
+::selection {
+  background: rgba(61, 214, 165, 0.28);
+  color: #fff;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.7s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero page ambient grid */
+.hero-page-grid {
+  background-image:
+    linear-gradient(rgba(61, 214, 165, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 214, 165, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%);
+  animation: gridDrift 22s linear infinite;
+}
+
+@keyframes gridDrift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 56px 56px;
+  }
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  opacity: 0.35;
+}
+
+.hero-orb-a {
+  top: 8%;
+  left: 12%;
+  width: 280px;
+  height: 280px;
+  background: rgba(61, 214, 165, 0.28);
+  animation: orbFloatA 14s ease-in-out infinite;
+}
+
+.hero-orb-b {
+  top: 18%;
+  right: 8%;
+  width: 320px;
+  height: 320px;
+  background: rgba(232, 160, 122, 0.14);
+  animation: orbFloatB 18s ease-in-out infinite;
+}
+
+@keyframes orbFloatA {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, 30px) scale(1.08);
+  }
+}
+
+@keyframes orbFloatB {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50px, 40px) scale(1.12);
+  }
+}
+
+/* Grid drawn on the hero card itself */
+.hero-card-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 42px 42px;
+  animation: cardGridPulse 10s ease-in-out infinite;
+}
+
+@keyframes cardGridPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    background-position: 0 0;
+  }
+  50% {
+    opacity: 0.55;
+    background-position: 12px 12px;
+  }
+}
+
+/* Soft speckled particle field on the right of the hero card */
+.hero-particles {
+  background-image:
+    radial-gradient(circle, rgba(230, 245, 238, 0.55) 0.7px, transparent 0.8px),
+    radial-gradient(circle, rgba(180, 220, 205, 0.28) 0.55px, transparent 0.7px);
+  background-size: 26px 26px, 40px 40px;
+  background-position: 0 0, 13px 18px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 65% at 72% 42%,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.45) 35%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    ellipse 75% 65% at 72% 42%,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.45) 35%,
+    transparent 72%
+  );
+  animation: particlesDrift 20s linear infinite;
+  opacity: 0.85;
+}
+
+.hero-particles::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image: radial-gradient(
+    circle,
+    rgba(210, 240, 228, 0.4) 0.6px,
+    transparent 0.75px
+  );
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 55% at 68% 40%,
+    #000 0%,
+    transparent 68%
+  );
+  mask-image: radial-gradient(
+    ellipse 60% 55% at 68% 40%,
+    #000 0%,
+    transparent 68%
+  );
+  animation: particlesDrift 28s linear infinite reverse;
+  opacity: 0.55;
+}
+
+.hero-particles::after {
+  display: none;
+}
+
+@keyframes particlesDrift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-26px, 18px, 0);
+  }
+}
+
+.hero-card {
+  transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-page-grid,
+  .hero-orb-a,
+  .hero-orb-b,
+  .hero-card-grid,
+  .hero-particles,
+  .hero-particles::before,
+  .hero-particles::after {
+    animation: none !important;
+  }
+}

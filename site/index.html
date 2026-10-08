@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jatin Srivastava | erjatindesigns</title>
+  <meta name="description" content="Jatin Srivastava is a product designer (formerly an engineer) with 3.5+ years across AdTech, logistics and health-tech. Case studies: LocEarn, Competition Tracking, Kangaru and Datum.">
+  <meta property="og:title" content="Jatin Srivastava | erjatindesigns">
+  <meta property="og:description" content="Product designer making products that feel effortless.">
+  <meta name="theme-color" content="#f2f4f1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@500;600&family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+        if (sessionStorage.getItem("introSeen")) document.documentElement.classList.add("no-intro");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <div class="intro" id="intro" role="presentation">
+    <div class="intro-word" aria-label="erjatindesigns"></div>
+    <div class="intro-hint">Click anywhere to skip</div>
+  </div>
+
+  <a class="logo" href="#top" aria-label="erjatindesigns home">er<i>.</i></a>
+  <nav class="nav" id="nav" aria-label="Main">
+    <a href="#work" class="keep">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="keep">Contact</a>
+    <button type="button" data-open="resume">Resume ↓</button>
+    <button type="button" class="theme" id="theme" aria-label="Toggle dark mode">◐</button>
+    <button type="button" class="menu-btn" id="menu" aria-label="Menu" aria-expanded="false">Menu</button>
+  </nav>
+
+  <main id="top">
+    <!-- HERO -->
+    <header class="hero">
+      <div class="wrap">
+        <div class="eyebrow">
+          <span id="greeting">( Hello )</span>
+          <span>3.5+ years · Product design</span>
+          <span class="open">Open to work <b>/ 2026</b></span>
+        </div>
+        <div class="hero-name">
+          <h1 aria-label="Jatin Srivastava">
+            <span class="l1"><span>Jatin</span></span>
+            <span class="l2"><span>Srivastava</span></span>
+          </h1>
+          <!-- Replace with: <img src="assets/img/jatin.webp" alt="Jatin Srivastava"> -->
+          <div class="avatar" aria-hidden="true">JS</div>
+        </div>
+        <div class="hero-meta">
+          <p class="role">Product Designer</p>
+          <p class="hero-line">Product designer focused on making complex products easier to use. <em>Engineer by training, designer by choice.</em></p>
+        </div>
+        <div class="stack">
+          <span class="label muted">My stack</span>
+          <div class="chips" aria-label="Tools">
+            <span class="chip" title="Figma">Fg</span>
+            <span class="chip" title="Framer">Fr</span>
+            <span class="chip" title="Notion">No</span>
+            <span class="chip" title="Claude">Cl</span>
+            <span class="chip" title="HTML / CSS / JS">&lt;/&gt;</span>
+          </div>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track" id="marquee"></div>
+      </div>
+    </header>
+
+    <!-- WORK -->
+    <section id="work">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="sec-num">02</span>
+          <span class="label">Selected work</span>
+          <h2 class="display">Things I've<br>shipped</h2>
+          <span class="sec-count">04, Projects</span>
+        </div>
+        <div class="work-list">
+          <a class="work-row rv" href="work/locearn.html" style="--c:#c25e00" data-preview="LocEarn">
+            <span class="idx">01</span>
+            <div>
+              <h3>LocEarn</h3>
+              <p class="sub">Helping brands verify outdoor ads through a network of riders</p>
+              <p class="impact">5k+ sites monitored · 400 active riders · 20+ districts</p>
+            </div>
+            <div class="side"><span class="pill">Real product · Shipped</span><span>View case →</span></div>
+          </a>
+          <a class="work-row rv" href="work/competition-tracking.html" style="--c:#0f7b6c" data-preview="Competition Tracking">
+            <span class="idx">02</span>
+            <div>
+              <h3>Competition Tracking</h3>
+              <p class="sub">Helping brands track competitor outdoor ads across locations</p>
+              <p class="impact">2.5k+ sites in the dataset · 5+ brands as users · 10 cities</p>
+            </div>
+            <div class="side"><span class="pill">Real feature · Shipped</span><span>View case →</span></div>
+          </a>
+          <a class="work-row rv" href="work/kangaru.html" style="--c:#4c5b2a" data-preview="Kangaru">
+            <span class="idx">03</span>
+            <div>
+              <h3>Kangaru</h3>
+              <p class="sub">Reducing vehicle costs for last-mile delivery riders</p>
+              <p class="impact">Redesigned mid-project through an investment pivot</p>
+            </div>
+            <div class="side"><span class="pill">Real product · In development</span><span>View case →</span></div>
+          </a>
+          <a class="work-row rv" href="work/datum.html" style="--c:#2b3a42" data-preview="Datum · Soon">
+            <span class="idx">04</span>
+            <div>
+              <h3>Datum</h3>
+              <p class="sub">A token-first design system built from scratch</p>
+              <p class="impact">Foundations, components and docs · unlocking soon</p>
+            </div>
+            <div class="side"><span class="pill">Personal project</span><span>Coming soon →</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <div class="preview" id="preview" aria-hidden="true"></div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="sec-num">03</span>
+          <span class="label">About</span>
+          <h2 class="display">From code<br>to craft</h2>
+        </div>
+        <div class="about-grid">
+          <div class="rv">
+            <p class="statement">I turn complex product problems into <em>simple, usable experiences.</em></p>
+            <div class="about-body">
+              <p>Product designer with 3.5+ years across AdTech, logistics and health-tech. I started out as an engineer, which is why I think about how things get built before I draw how they look. I work across research, information architecture, user flows, interaction design, prototyping and design systems, on 0&rarr;1 products, B2B SaaS and mobile experiences.</p><p>Recently at LOCAD, I was the sole designer across four products, partnering with product and engineering to improve workflows, dashboards and field operations.</p>
+              <p><span class="tbd">[TBD] Your story goes here. Share it and I'll write it in your voice.</span></p>
+            </div>
+            <div class="star">
+              <span class="label">My north star</span>
+              <p>Make things better. Build products that feel <b>effortless to anyone using them.</b></p>
+            </div>
+          </div>
+          <div class="rv">
+            <div class="collage" id="collage">
+              <figure class="polaroid" style="--r:-6deg;left:0;top:20px"><div class="ph" style="--g:linear-gradient(135deg,#c25e00,#ffd3a0)">📷</div><figcaption>you, here</figcaption></figure>
+              <figure class="polaroid" style="--r:5deg;right:0;top:0"><div class="ph" style="--g:linear-gradient(135deg,#ff6b3d,#ffd1bd)">🎬</div><figcaption>weekend</figcaption></figure>
+              <figure class="polaroid" style="--r:3deg;left:12%;bottom:0"><div class="ph" style="--g:linear-gradient(135deg,#2b3a42,#8fa3ad)">✈️</div><figcaption>somewhere</figcaption></figure>
+              <figure class="polaroid" style="--r:-4deg;right:6%;bottom:30px"><div class="ph" style="--g:linear-gradient(135deg,#4c5b2a,#c8d79a)">🎧</div><figcaption>on repeat</figcaption></figure>
+            </div>
+            <div class="stats">
+              <div class="stat"><b>5k+</b><span>Sites monitored on LocEarn</span></div>
+              <div class="stat"><b>400</b><span>Active riders deployed</span></div>
+              <div class="stat"><b>3.5+</b><span>Years designing products</span></div>
+            </div>
+            <p class="now"><span class="label">/ Currently</span><span class="tbd">[TBD]</span> what you're reading, watching or learning.</p>
+          </div>
+        </div>
+
+        <div class="rv" style="margin-top:80px">
+          <span class="label">Interests &amp; hobbies <span class="tbd">[TBD, placeholders]</span></span>
+          <div class="interests">
+            <span class="sticker" style="--c:#c25e00;--r:-3deg">Design systems</span>
+            <span class="sticker" style="--c:#0f7b6c;--r:2deg">Interests go here</span>
+            <span class="sticker" style="--c:#2b3a42;--r:-2deg">Hobbies go here</span>
+            <span class="sticker" style="--c:#4c5b2a;--r:3deg">More soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HABITS -->
+    <section>
+      <div class="wrap">
+        <div class="rv">
+          <span class="label">How I work</span>
+          <h2 class="display" style="font-size:clamp(34px,6vw,72px);margin-top:10px">Four habits I bring<br>to every project</h2>
+        </div>
+        <div class="notes">
+          <article class="note rv" style="--r:-1.5deg"><span class="n">01</span><h3>Systems over screens</h3><p>I fix the source, not the symptom. One design language beats ten polished screens.</p><a href="work/datum.html">See it in Datum →</a></article>
+          <article class="note rv" style="--r:1deg"><span class="n">02</span><h3>Research earns the pixels</h3><p>Opinions are cheap, tests aren't. LocEarn V1 was rebuilt because riders said so.</p><a href="work/locearn.html">See it in LocEarn →</a></article>
+          <article class="note rv" style="--r:-1deg"><span class="n">03</span><h3>Design with the business</h3><p>The deposit, the fee, the wallet: business model is a design problem.</p><a href="work/kangaru.html">See it in Kangaru →</a></article>
+          <article class="note rv" style="--r:1.5deg"><span class="n">04</span><h3>Ship, then measure</h3><p>Design isn't done at handoff. I stay for what happens in the field.</p><a href="work/locearn.html">See it in LocEarn →</a></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUTURE -->
+    <section>
+      <div class="wrap">
+        <div class="sec-head rv">
+          <span class="sec-num">04</span>
+          <span class="label">Where I'm headed</span>
+          <h2 class="display">What's next</h2>
+        </div>
+        <ul class="future-list rv">
+          <li><div><h3>The work</h3><p>Complex B2B and mobility products where trust, data and speed collide. <span class="tbd">[TBD] refine</span></p></div></li>
+          <li><div><h3>The team</h3><p>A collaborative product team where design sits upstream of the brief. Hybrid or remote.</p></div></li>
+          <li><div><h3>The craft</h3><p>Going deeper on design systems and shipping every case study properly. <span class="tbd">[TBD] add your aspirations</span></p></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (placeholders: replace with real quotes) -->
+    <div class="band">
+      <div class="wrap">
+        <section style="padding-bottom:0">
+          <div class="rv">
+            <span class="label" style="color:var(--signal)">( What teammates say )</span>
+            <h2 class="display" style="font-size:clamp(34px,6vw,72px);margin:10px 0 40px">Words from the people<br>I've built with</h2>
+          </div>
+          <div class="quotes">
+            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Add a real quote from a teammate, manager or professor. Placeholders are not shown as real testimonials.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
+            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Second quote goes here.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
+            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Third quote goes here.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="wrap">
+        <span class="label">05 · Contact, open to product design roles</span>
+        <div class="contact-grid">
+          <div>
+            <h2 class="display rv"><span>Let's</span><span>talk<b class="dot">.</b></span></h2>
+            <p class="tag-line rv">...and build something <em>people like.</em></p>
+            <div class="round-row rv">
+              <button class="round primary" type="button" data-open="contact">Contact me</button>
+              <button class="round" type="button" data-open="resume">Resume ↓</button>
+            </div>
+          </div>
+          <button class="ticket rv" type="button" data-open="contact" aria-label="Open contact options">
+            <small>● Admit one</small>
+            <h3>Portfolio</h3>
+            <small>This ticket admits a conversation</small>
+            <div class="bars"></div>
+            <small>erjatindesigns · 2026</small>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div><strong>erjatindesigns®</strong>Product designer, based in India</div>
+      <div>© 2026 · Designed and built by hand<br><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+
+  <!-- CONTACT PICKER -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <div class="sheet">
+      <h3 id="m-title">How should we talk?</h3>
+      <p id="m-sub">Pick how you'd like to reach me.</p>
+      <button class="opt" type="button" data-channel="email">Email <span>→</span></button>
+      <button class="opt" type="button" data-channel="linkedin">LinkedIn <span>→</span></button>
+      <button class="opt" type="button" data-channel="whatsapp">WhatsApp <span>→</span></button>
+      <button class="opt" type="button" data-channel="resume" hidden>Download resume (PDF) <span>↓</span></button>
+      <button class="close" type="button" id="m-close">Close (Esc)</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
