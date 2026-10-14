@@ -6,257 +6,215 @@
   <title>Jatin Srivastava | erjatindesigns</title>
   <meta name="description" content="Jatin Srivastava is a product designer (formerly an engineer) with 3.5+ years across AdTech, logistics and health-tech. Case studies: LocEarn, Competition Tracking, Kangaru and Datum.">
   <meta property="og:title" content="Jatin Srivastava | erjatindesigns">
-  <meta property="og:description" content="Product designer making products that feel effortless.">
-  <meta name="theme-color" content="#f2f4f1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@500;600&family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta property="og:description" content="Product designer making complex products simpler.">
+  <meta name="theme-color" content="#ece8dd">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="datum.css?v=7"><link rel="stylesheet" href="style.css?v=7"><link rel="stylesheet" href="drafting.css?v=37"><link rel="stylesheet" href="intro.css?v=14">
   <script>
     (function () {
       try {
         var t = localStorage.getItem("theme");
         if (t) document.documentElement.setAttribute("data-theme", t);
-        if (sessionStorage.getItem("introSeen")) document.documentElement.classList.add("no-intro");
+        var h = document.documentElement, rm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (sessionStorage.getItem("introSeen") || rm || /[?&]nointro/.test(location.search)) h.classList.add("no-intro");
+        else { h.classList.add("intro-pending", "intro-lock"); if (!/[?&]hold/.test(location.search)) setTimeout(function () { h.classList.remove("intro-pending", "intro-lock"); if (window.__runHero) window.__runHero(); }, 14000); }
       } catch (e) {}
     })();
   </script>
 </head>
-<body>
+<body class="dr">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<filter id="rough" x="-6%" y="-6%" width="112%" height="112%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+<pattern id="hatch-p" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--pencil);stroke-width:1"/></pattern>
+<pattern id="hatch-r" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--accent);stroke-width:1.1"/></pattern>
+<pattern id="hatch-w" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><line x1="0" y1="0" x2="0" y2="5" stroke="rgba(255,255,255,.35)" stroke-width="1"/></pattern>
+</defs></svg>
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"></div>
 
-  <div class="intro" id="intro" role="presentation">
-    <div class="intro-word" aria-label="erjatindesigns"></div>
-    <div class="intro-hint">Click anywhere to skip</div>
-  </div>
+  <div id="intro" aria-live="off"></div>
 
-  <a class="logo" href="#top" aria-label="erjatindesigns home">er<i>.</i></a>
-  <nav class="nav" id="nav" aria-label="Main">
-    <a href="#work" class="keep">Work</a>
-    <a href="#about">About</a>
-    <a href="#contact" class="keep">Contact</a>
-    <button type="button" data-open="resume">Resume ↓</button>
-    <button type="button" class="theme" id="theme" aria-label="Toggle dark mode">◐</button>
-    <button type="button" class="menu-btn" id="menu" aria-label="Menu" aria-expanded="false">Menu</button>
-  </nav>
+  <div class="dr-sheet" id="top">
+    <div class="dr-gutter" aria-hidden="true"></div>
+    <div class="dr-dim-top"><span class="dim-h" data-measure="w:.dr-sheet"><b></b><i>1200</i><b></b></span></div>
 
-  <main id="top">
-    <!-- HERO -->
-    <header class="hero">
-      <div class="wrap">
-        <div class="eyebrow">
-          <span id="greeting">( Hello )</span>
-          <span>3.5+ years · Product design</span>
-          <span class="open">Open to work <b>/ 2026</b></span>
-        </div>
-        <div class="hero-name">
-          <h1 aria-label="Jatin Srivastava">
-            <span class="l1"><span>Jatin</span></span>
-            <span class="l2"><span>Srivastava</span></span>
-          </h1>
-          <!-- Replace with: <img src="assets/img/jatin.webp" alt="Jatin Srivastava"> -->
-          <div class="avatar" aria-hidden="true">JS</div>
-        </div>
-        <div class="hero-meta">
-          <p class="role">Product Designer</p>
-          <p class="hero-line">Product designer focused on making complex products easier to use. <em>Engineer by training, designer by choice.</em></p>
-        </div>
-        <div class="stack">
-          <span class="label muted">My stack</span>
-          <div class="chips" aria-label="Tools">
-            <span class="chip" title="Figma">Fg</span>
-            <span class="chip" title="Framer">Fr</span>
-            <span class="chip" title="Notion">No</span>
-            <span class="chip" title="Claude">Cl</span>
-            <span class="chip" title="HTML / CSS / JS">&lt;/&gt;</span>
-          </div>
-        </div>
-      </div>
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track" id="marquee"></div>
-      </div>
+    <header class="dr-bar">
+      <a class="dr-logo" href="#top" aria-label="erjatindesigns home">er<i>.</i></a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#work" class="keep">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="keep">Contact</a>
+        <button type="button" data-open="resume">Resume</button>
+        <button type="button" class="theme" id="theme" aria-label="Toggle light and dark mode" title="Light / dark"><svg viewBox="0 0 26 26" class="ln bulb" aria-hidden="true"><circle class="glow" cx="13" cy="11" r="9"/><path class="rays" d="M13 1.2v1.8M3.6 5l1.3 1.3M22.4 5l-1.3 1.3M1.4 11h1.8M22.8 11h1.8"/><path class="glass" d="M9.6 17.4c0-1.8-2.6-3-2.6-6.2a6 6 0 0 1 12 0c0 3.2-2.6 4.4-2.6 6.2z"/><path class="fil red thin" d="M11.2 17.4v-3.6l1.8-1.6 1.8 1.6v3.6"/><path d="M10 20h6M11 22.6h4"/></svg></button>
+        <button type="button" class="menu-btn" id="menu" aria-label="Menu" aria-expanded="false">Menu</button>
+      </nav>
     </header>
 
-    <!-- WORK -->
-    <section id="work">
-      <div class="wrap">
-        <div class="sec-head rv">
-          <span class="sec-num">02</span>
-          <span class="label">Selected work</span>
-          <h2 class="display">Things I've<br>shipped</h2>
-          <span class="sec-count">04, Projects</span>
-        </div>
-        <div class="work-list">
-          <a class="work-row rv" href="work/locearn.html" style="--c:#c25e00" data-preview="LocEarn">
-            <span class="idx">01</span>
-            <div>
-              <h3>LocEarn</h3>
-              <p class="sub">Helping brands verify outdoor ads through a network of riders</p>
-              <p class="impact">5k+ sites monitored · 400 active riders · 20+ districts</p>
-            </div>
-            <div class="side"><span class="pill">Real product · Shipped</span><span>View case →</span></div>
-          </a>
-          <a class="work-row rv" href="work/competition-tracking.html" style="--c:#0f7b6c" data-preview="Competition Tracking">
-            <span class="idx">02</span>
-            <div>
-              <h3>Competition Tracking</h3>
-              <p class="sub">Helping brands track competitor outdoor ads across locations</p>
-              <p class="impact">2.5k+ sites in the dataset · 5+ brands as users · 10 cities</p>
-            </div>
-            <div class="side"><span class="pill">Real feature · Shipped</span><span>View case →</span></div>
-          </a>
-          <a class="work-row rv" href="work/kangaru.html" style="--c:#4c5b2a" data-preview="Kangaru">
-            <span class="idx">03</span>
-            <div>
-              <h3>Kangaru</h3>
-              <p class="sub">Reducing vehicle costs for last-mile delivery riders</p>
-              <p class="impact">Redesigned mid-project through an investment pivot</p>
-            </div>
-            <div class="side"><span class="pill">Real product · In development</span><span>View case →</span></div>
-          </a>
-          <a class="work-row rv" href="work/datum.html" style="--c:#2b3a42" data-preview="Datum · Soon">
-            <span class="idx">04</span>
-            <div>
-              <h3>Datum</h3>
-              <p class="sub">A token-first design system built from scratch</p>
-              <p class="impact">Foundations, components and docs · unlocking soon</p>
-            </div>
-            <div class="side"><span class="pill">Personal project</span><span>Coming soon →</span></div>
-          </a>
-        </div>
+    <main>
+    <section class="dr-hero">
+      <div class="dr-eyebrow">
+        <span id="greeting">( Hello )</span><span>Product designer</span><span>User-centred design</span><span class="open">Open to work <b>/ 2026</b></span>
       </div>
+      <div class="dr-hero-grid">
+        <span class="dim-v" data-measure="h:.hero-name"><b></b><i>190</i><b></b></span>
+        <div>
+          <div class="hero-name">
+            <h1 aria-label="Jatin Srivastava"><span class="l1"><span>Jatin</span></span><span class="l2"><span>Srivastava</span></span></h1>
+          </div>
+          <p class="dr-role">Product Designer</p>
+          <div class="stack">
+            <span class="label muted">MY STACK</span>
+            <ul class="chips" aria-label="Tools I use"><li><button type="button" class="chip edge-l" aria-label="Figma: Interfaces, flows and systems."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><g transform="translate(9.5 4) scale(.5)"><path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0ACF83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#FF7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#F24E1E" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#A259FF" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/></g></svg><span class="tip" role="tooltip"><b>Figma</b><span>Interfaces, flows and systems.</span></span></button></li><li><button type="button" class="chip edge-l" aria-label="Claude: Thinking partner and code pair."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><line x1="24.0" y1="20.0" x2="35.0" y2="20.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="23.5" y1="22.0" x2="33.0" y2="27.5" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="22.0" y1="23.5" x2="27.5" y2="33.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="20.0" y1="24.0" x2="20.0" y2="35.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="18.0" y1="23.5" x2="12.5" y2="33.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="16.5" y1="22.0" x2="7.0" y2="27.5" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="16.0" y1="20.0" x2="5.0" y2="20.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="16.5" y1="18.0" x2="7.0" y2="12.5" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="18.0" y1="16.5" x2="12.5" y2="7.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="20.0" y1="16.0" x2="20.0" y2="5.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="22.0" y1="16.5" x2="27.5" y2="7.0" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/><line x1="23.5" y1="18.0" x2="33.0" y2="12.5" stroke="#D97757" stroke-width="3.2" stroke-linecap="round"/></svg><span class="tip" role="tooltip"><b>Claude</b><span>Thinking partner and code pair.</span></span></button></li><li><button type="button" class="chip" aria-label="Cursor: AI-first editor for quick builds."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M20 4 33 11.5v17L20 36 7 28.5v-17z" fill="#14120B"/><path d="M20 4 33 11.5 20 19 7 11.5z" fill="#4a4a48"/><path d="M20 19 33 11.5v17L20 36z" fill="#2b2b29"/><path d="M20 19 7 11.5v17L20 36z" fill="#14120B"/></svg><span class="tip" role="tooltip"><b>Cursor</b><span>AI-first editor for quick builds.</span></span></button></li><li><button type="button" class="chip" aria-label="Google Antigravity: Agents that build alongside me."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><defs><linearGradient id="agx" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#3B82F6"/><stop offset=".6" stop-color="#6366F1"/><stop offset="1" stop-color="#F97316"/></linearGradient></defs><path d="M20 5 33 34h-6.2L20 18.6 13.2 34H7z" fill="url(#agx)"/><path d="M13 29h14" stroke="url(#agx)" stroke-width="3" stroke-linecap="round"/></svg><span class="tip" role="tooltip"><b>Google Antigravity</b><span>Agents that build alongside me.</span></span></button></li><li><button type="button" class="chip" aria-label="WisprFlow: Dictation that keeps up with me."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><g fill="#111"><rect x="6" y="15" width="4" height="10" rx="2"/><rect x="13" y="9" width="4" height="22" rx="2"/><rect x="20" y="13" width="4" height="14" rx="2"/><rect x="27" y="6" width="4" height="28" rx="2"/><rect x="34" y="16" width="3" height="8" rx="1.5" opacity=".5"/></g></svg><span class="tip" role="tooltip"><b>WisprFlow</b><span>Dictation that keeps up with me.</span></span></button></li><li><button type="button" class="chip" aria-label="FigJam: Workshops and whiteboard thinking."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="3" y="3" width="34" height="34" rx="9" fill="#1BA0FF"/><circle cx="14.5" cy="16" r="3" fill="#fff"/><circle cx="25.5" cy="16" r="3" fill="#fff"/><path d="M12.5 24c2 3.6 12.9 3.6 15 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/><rect x="26" y="3" width="11" height="11" rx="3" fill="#A259FF"/></svg><span class="tip" role="tooltip"><b>FigJam</b><span>Workshops and whiteboard thinking.</span></span></button></li><li><button type="button" class="chip" aria-label="Framer: Portfolio sites and live prototypes."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M9 4h22v11H20zM9 15h11l11 11H9zM9 26h11v10z" fill="#0055FF"/></svg><span class="tip" role="tooltip"><b>Framer</b><span>Portfolio sites and live prototypes.</span></span></button></li><li><button type="button" class="chip" aria-label="Storybook: Component docs and states."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="3" y="3" width="34" height="34" rx="9" fill="#FF4785"/><path d="M14 10h10.5v20l-5.2-3.4L14 30z" fill="#fff"/></svg><span class="tip" role="tooltip"><b>Storybook</b><span>Component docs and states.</span></span></button></li><li><button type="button" class="chip edge-r" aria-label="Miro: Research boards and mapping."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="3" y="3" width="34" height="34" rx="9" fill="#FFD02F"/><g stroke="#050038" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M11 28 16 12M18 28 23 12M25 28 30 12"/></g></svg><span class="tip" role="tooltip"><b>Miro</b><span>Research boards and mapping.</span></span></button></li><li><button type="button" class="chip edge-r" aria-label="Notion: Notes, specs and planning."><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect x="4" y="4" width="32" height="32" rx="6" fill="#fff" stroke="#111" stroke-width="2.4"/><path d="M13 29V11h2.6l8.8 12.6V11H27v18h-2.6l-8.8-12.6V29z" fill="#111"/></svg><span class="tip" role="tooltip"><b>Notion</b><span>Notes, specs and planning.</span></span></button></li></ul>
+          </div>
+        </div>
+        <aside class="dr-side">
+          <div class="xp" id="xp">
+  <div class="xp-stage" role="button" tabindex="0" aria-pressed="false"
+       aria-label="Portrait of Jatin Srivastava. Hover, tap, or press Enter to see how the portrait is built, layer by layer.">
+    <svg class="xp-guides xp-g-rest" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true"><circle class="pl" cx="70.0" cy="31.0" r="16.00"/><line class="cl" x1="49.80" y1="31.0" x2="90.20" y2="31.0"/><line class="cl" x1="70.0" y1="10.80" x2="70.0" y2="51.20"/><path class="tk" d="M53.0 31.0 h2 M54.0 30.0 v2"/><path class="tk" d="M85.0 31.0 h2 M86.0 30.0 v2"/><path class="tk" d="M69.0 15.0 h2 M70.0 14.0 v2"/><path class="tk" d="M69.0 47.0 h2 M70.0 46.0 v2"/></svg>
+    <svg class="xp-guides xp-g-open" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true"><rect class="pl" x="14.500" y="15.500" width="21.000" height="21.000"/><rect class="pl" x="24.147" y="17.511" width="22.489" height="22.489"/><rect class="pl" x="35.266" y="19.828" width="24.206" height="24.206"/><rect class="pl" x="48.224" y="22.529" width="26.207" height="26.207"/><rect class="pl" x="63.516" y="25.716" width="28.568" height="28.568"/><line class="rail" x1="14.500" y1="15.500" x2="63.516" y2="25.716"/><line class="rail" x1="35.500" y1="15.500" x2="92.084" y2="25.716"/><line class="rail" x1="14.500" y1="36.500" x2="63.516" y2="54.284"/><line class="rail" x1="35.500" y1="36.500" x2="92.084" y2="54.284"/><line class="axis" x1="25.000" y1="26.000" x2="77.800" y2="40.000"/><line class="ld" x1="15.00" y1="11.60" x2="25.000" y2="15.500"/><circle class="dot" cx="15.00" cy="11.60" r="0.55"/><line class="ld" x1="29.39" y1="55.20" x2="35.391" y2="40.000"/><circle class="dot" cx="29.39" cy="55.20" r="0.55"/><line class="ld" x1="41.37" y1="15.93" x2="47.369" y2="19.828"/><circle class="dot" cx="41.37" cy="15.93" r="0.55"/><line class="ld" x1="55.33" y1="55.20" x2="61.327" y2="48.736"/><circle class="dot" cx="55.33" cy="55.20" r="0.55"/><line class="ld" x1="69.80" y1="21.82" x2="77.800" y2="25.716"/><circle class="dot" cx="69.80" cy="21.82" r="0.55"/></svg>
+    <div class="xl xl-yellow" style="--ox:25.000; --oy:26.000; --os:0.4773; --osx:0.4773; --i:4; --z:1"><span class="disc"></span></div><div class="xl xl-sketch" style="--ox:35.391; --oy:28.755; --os:0.5111; --osx:0.5111; --i:3; --z:2"><span class="plate" style="--m:url(assets/portrait/plate-full.webp)"></span><img src="assets/portrait/sketch.webp" width="440" height="440" alt="" aria-hidden="true" decoding="async"></div><div class="xl xl-shading" style="--ox:47.369; --oy:31.931; --os:0.5501; --osx:0.5501; --i:2; --z:3"><span class="plate" style="--m:url(assets/portrait/plate-full.webp)"></span><img src="assets/portrait/shading.webp" width="440" height="440" alt="" aria-hidden="true" decoding="async"></div><div class="xl xl-detail" style="--ox:61.327; --oy:35.632; --os:0.5956; --osx:0.5956; --i:1; --z:4"><span class="plate" style="--m:url(assets/portrait/plate-head.webp)"></span><img src="assets/portrait/detail.webp" width="440" height="440" alt="" aria-hidden="true" decoding="async"></div><div class="xl xl-final" style="--ox:77.800; --oy:40.000; --os:0.6493; --osx:0.6493; --i:0; --z:5"><span class="plate" style="--m:url(assets/portrait/plate-full.webp)"></span><img src="assets/portrait/final.webp" width="440" height="440" alt="Jatin Srivastava, pencil-sketch portrait" decoding="async"></div>
+    <ul class="xp-labels" aria-hidden="true"><li class="xl-lab l-yellow" style="--lx:13.0; --ly:4.0"><b>Background Layer</b><span>Creates contrast and focus</span></li><li class="xl-lab l-sketch" style="--lx:27.39; --ly:56.0"><b>Sketch Layer</b><span>Initial idea and proportions</span></li><li class="xl-lab l-shading" style="--lx:39.37; --ly:8.33"><b>Shading Layer</b><span>Adds depth and dimension</span></li><li class="xl-lab l-detail" style="--lx:53.33; --ly:56.0"><b>Detail Layer</b><span>Refines features and expression</span></li><li class="xl-lab l-final" style="--lx:67.8; --ly:14.22"><b>Final Composite</b><span>All layers come together to create the complete portrait</span></li></ul>
+    <span class="xp-hint" aria-hidden="true">
+      <span class="hint-text hint-hover">hover me</span><span class="hint-text hint-tap">tap me</span>
+      <svg viewBox="0 0 70 44" focusable="false"><path d="M3 8 C 22 1, 50 8, 62 34"/><path d="M52 30 L62 36 L65 24"/></svg>
+    </span>
+    <span class="xp-hit"></span>
+  </div>
+</div>
+          <p>Product designer focused on making complex products simpler. Former <mark>engineer</mark> by training, <mark>designer</mark> by choice.</p>
+        </aside>
+      </div>
+      <div class="dr-keys"><span>Product Design</span><span>Products</span><span>B2B SaaS</span><span>Mobile Experiences</span><span>Design Systems</span><span>UX Research</span><span class="arr">&rarr;</span></div>
     </section>
-    <div class="preview" id="preview" aria-hidden="true"></div>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="wrap">
-        <div class="sec-head rv">
-          <span class="sec-num">03</span>
-          <span class="label">About</span>
-          <h2 class="display">From code<br>to craft</h2>
-        </div>
-        <div class="about-grid">
-          <div class="rv">
-            <p class="statement">I turn complex product problems into <em>simple, usable experiences.</em></p>
-            <div class="about-body">
-              <p>Product designer with 3.5+ years across AdTech, logistics and health-tech. I started out as an engineer, which is why I think about how things get built before I draw how they look. I work across research, information architecture, user flows, interaction design, prototyping and design systems, on 0&rarr;1 products, B2B SaaS and mobile experiences.</p><p>Recently at LOCAD, I was the sole designer across four products, partnering with product and engineering to improve workflows, dashboards and field operations.</p>
-              <p><span class="tbd">[TBD] Your story goes here. Share it and I'll write it in your voice.</span></p>
-            </div>
-            <div class="star">
-              <span class="label">My north star</span>
-              <p>Make things better. Build products that feel <b>effortless to anyone using them.</b></p>
-            </div>
-          </div>
-          <div class="rv">
-            <div class="collage" id="collage">
-              <figure class="polaroid" style="--r:-6deg;left:0;top:20px"><div class="ph" style="--g:linear-gradient(135deg,#c25e00,#ffd3a0)">📷</div><figcaption>you, here</figcaption></figure>
-              <figure class="polaroid" style="--r:5deg;right:0;top:0"><div class="ph" style="--g:linear-gradient(135deg,#ff6b3d,#ffd1bd)">🎬</div><figcaption>weekend</figcaption></figure>
-              <figure class="polaroid" style="--r:3deg;left:12%;bottom:0"><div class="ph" style="--g:linear-gradient(135deg,#2b3a42,#8fa3ad)">✈️</div><figcaption>somewhere</figcaption></figure>
-              <figure class="polaroid" style="--r:-4deg;right:6%;bottom:30px"><div class="ph" style="--g:linear-gradient(135deg,#4c5b2a,#c8d79a)">🎧</div><figcaption>on repeat</figcaption></figure>
-            </div>
-            <div class="stats">
-              <div class="stat"><b>5k+</b><span>Sites monitored on LocEarn</span></div>
-              <div class="stat"><b>400</b><span>Active riders deployed</span></div>
-              <div class="stat"><b>3.5+</b><span>Years designing products</span></div>
-            </div>
-            <p class="now"><span class="label">/ Currently</span><span class="tbd">[TBD]</span> what you're reading, watching or learning.</p>
-          </div>
-        </div>
-
-        <div class="rv" style="margin-top:80px">
-          <span class="label">Interests &amp; hobbies <span class="tbd">[TBD, placeholders]</span></span>
-          <div class="interests">
-            <span class="sticker" style="--c:#c25e00;--r:-3deg">Design systems</span>
-            <span class="sticker" style="--c:#0f7b6c;--r:2deg">Interests go here</span>
-            <span class="sticker" style="--c:#2b3a42;--r:-2deg">Hobbies go here</span>
-            <span class="sticker" style="--c:#4c5b2a;--r:3deg">More soon</span>
-          </div>
-        </div>
+    <section class="dr-sec" id="work">
+      <div class="dr-head">
+        <div class="dr-no">02<small>S-02</small></div>
+        <span class="eyebrow-l">Selected work</span>
+        <h2>Things I&rsquo;ve shipped</h2>
+        <aside class="rv dr-iso"><div class="dr-note" aria-hidden="true">NOTE:<br>- real problems<br>- usable solutions<br>- impact at scale</div><div class="slab"><svg class="sk ln draw" viewBox="0 0 300 190" aria-hidden="true" focusable="false" ><g filter="url(#rough)">
+<polygon points="30,92 150,142 150,162 30,112" class="paper"/><polygon points="150,142 270,92 270,112 150,162" class="paper"/>
+<polygon points="150,36 270,92 150,142 30,92" class="paper"/>
+<polygon points="150,58 208,84 150,110 92,84" class="thin" style="fill:var(--surface)"/>
+<line x1="150" y1="36" x2="150" y2="10" class="thin dash"/><line x1="270" y1="92" x2="292" y2="104" class="thin dash"/><line x1="30" y1="92" x2="8" y2="104" class="thin dash"/>
+<path d="M150 84 L208 84" class="thin dash"/><path d="M92 84 L150 110" class="thin"/></g></svg><svg class="sk dm" viewBox="0 0 300 190" aria-hidden="true"><text x="154" y="22">45°</text><text x="274" y="82">12</text><text x="6" y="82">R2</text><text x="184" y="176">60</text></svg></div></aside>
+      </div>
+      <div class="dr-list">
+        <a class="dr-row" href="work/locearn.html" data-preview="LocEarn" style="--rot:-2deg"><span class="dim-v" data-measure="h:self"><b></b><i>190</i><b></b></span><span class="n">01</span><div class="copy"><h3>LocEarn</h3><p>Helping brands verify outdoor ads through a network of riders.</p></div><div class="art"><img src="assets/work/locearn.webp" alt="Sketch of the LocEarn rider app: a map with a location pin and task cards" width="1100" decoding="async"></div><span class="dr-status live">Live product</span><span class="go">View case &rarr;</span></a>
+        <a class="dr-row" href="work/competition-tracking.html" data-preview="Competition Tracking" style="--rot:1.5deg"><span class="dim-v" data-measure="h:self"><b></b><i>190</i><b></b></span><span class="n">02</span><div class="copy"><h3>Competition Tracking</h3><p>Helping brands track competitor outdoor ads across locations.</p></div><div class="art"><img src="assets/work/competition.webp" alt="Sketch of the Competition Tracking dashboard: metrics, bar chart with a red trend line" width="1100" decoding="async"></div><span class="dr-status use">Shipped feature</span><span class="go">View case &rarr;</span></a>
+        <a class="dr-row" href="work/kangaru.html" data-preview="Kangaru" style="--rot:2.5deg"><span class="dim-v" data-measure="h:self"><b></b><i>190</i><b></b></span><span class="n">03</span><div class="copy"><h3>Kangaru</h3><p>Reducing vehicle costs for last-mile delivery riders.</p></div><div class="art"><img src="assets/work/kangaru.webp" alt="Sketch of the Kangaru delivery app: route map and an accept-task button" width="1100" decoding="async"></div><span class="dr-status pre">In development</span><span class="go">View case &rarr;</span></a>
+        <a class="dr-row" href="work/datum.html" data-preview="Datum" style="--rot:-1.5deg"><span class="dim-v" data-measure="h:self"><b></b><i>190</i><b></b></span><span class="n">04</span><div class="copy"><h3>Datum</h3><p>A dark-first design system built from scratch, documented for scale.</p></div><div class="art"><img src="assets/work/datum.webp" alt="Sketch of the Datum design system: buttons, cards, colour tokens, type and icons" width="1100" decoding="async"></div><span class="dr-status sys">Design system</span><span class="go">View case &rarr;</span></a>
       </div>
     </section>
 
-    <!-- HABITS -->
-    <section>
-      <div class="wrap">
+    <section class="dr-sec" id="about">
+      <div class="dr-head">
+        <div class="dr-no">03<small>S-03</small></div>
+        <span class="eyebrow-l">About</span>
+        <h2>From code<br>to craft</h2>
+      </div>
+      <div class="dr-about">
         <div class="rv">
-          <span class="label">How I work</span>
-          <h2 class="display" style="font-size:clamp(34px,6vw,72px);margin-top:10px">Four habits I bring<br>to every project</h2>
+          <p class="dr-lede">I turn complex product problems into <em>simple, usable experiences.</em></p>
+          <p class="dr-copy">Product designer with 3.5+ years across AdTech, logistics and health-tech. I started out as an engineer, so I think about how things get built before I draw how they look. I work across research, flows, interaction design, prototyping and design systems, and I care most about how people <mark>actually enjoy using</mark> a product.</p>
+          <p class="dr-copy"><span class="tbd">[TBD]</span> Your story goes here when you&rsquo;re ready to share it.</p>
         </div>
-        <div class="notes">
-          <article class="note rv" style="--r:-1.5deg"><span class="n">01</span><h3>Systems over screens</h3><p>I fix the source, not the symptom. One design language beats ten polished screens.</p><a href="work/datum.html">See it in Datum →</a></article>
-          <article class="note rv" style="--r:1deg"><span class="n">02</span><h3>Research earns the pixels</h3><p>Opinions are cheap, tests aren't. LocEarn V1 was rebuilt because riders said so.</p><a href="work/locearn.html">See it in LocEarn →</a></article>
-          <article class="note rv" style="--r:-1deg"><span class="n">03</span><h3>Design with the business</h3><p>The deposit, the fee, the wallet: business model is a design problem.</p><a href="work/kangaru.html">See it in Kangaru →</a></article>
-          <article class="note rv" style="--r:1.5deg"><span class="n">04</span><h3>Ship, then measure</h3><p>Design isn't done at handoff. I stay for what happens in the field.</p><a href="work/locearn.html">See it in LocEarn →</a></article>
+        <div class="rv">
+          <svg class="sk ln draw" viewBox="0 0 450 350" aria-hidden="true"><g filter="url(#rough)"><polygon points="62,280 190,332 190,342 62,290" class="paper"/><polygon points="190,332 318,280 318,290 190,342" class="paper"/><polygon points="190,228 318,280 190,332 62,280" class="paper"/><polygon points="62,226 190,278 190,288 62,236" class="paper"/><polygon points="190,278 318,226 318,236 190,288" class="paper"/><polygon points="190,174 318,226 190,278 62,226" class="paper"/><polygon points="190,200.0 254.0,226 190,252.0 126.0,226" class="thin dash"/><polygon points="62,172 190,224 190,234 62,182" class="paper"/><polygon points="190,224 318,172 318,182 190,234" class="paper"/><polygon points="190,120 318,172 190,224 62,172" class="paper"/><polygon points="190,146.0 254.0,172 190,198.0 126.0,172" class="thin"/><line class="thin" x1="158.0" y1="159.0" x2="222.0" y2="185.0"/><line class="thin" x1="222.0" y1="159.0" x2="158.0" y2="185.0"/><polygon points="62,118 190,170 190,180 62,128" class="paper"/><polygon points="190,170 318,118 318,128 190,180" class="paper"/><polygon points="190,66 318,118 190,170 62,118" class="fillp"/><polygon points="190,92.0 254.0,118 190,144.0 126.0,118" class="thin" style="fill:var(--surface)"/><polygon points="62,64 190,116 190,126 62,74" class="paper"/><polygon points="190,116 318,64 318,74 190,126" class="paper"/><polygon points="190,12 318,64 190,116 62,64" class="fillr"/><polygon points="190,38.0 254.0,64 190,90.0 126.0,64" class="thin" style="fill:var(--surface)"/><line class="thin dash" x1="62" y1="64" x2="62" y2="288"/><line class="thin dash" x1="318" y1="64" x2="318" y2="288"/><line class="thin dash" x1="190" y1="12" x2="190" y2="-16"/><path class="thin" d="M288 70 L350 70 H356"/><circle cx="288" cy="70" r="2" style="fill:var(--accent);stroke:none"/><path class="thin" d="M288 124 L350 124 H356"/><circle cx="288" cy="124" r="2" style="fill:var(--accent);stroke:none"/><path class="thin" d="M288 178 L350 178 H356"/><circle cx="288" cy="178" r="2" style="fill:var(--accent);stroke:none"/><path class="thin" d="M288 232 L350 232 H356"/><circle cx="288" cy="232" r="2" style="fill:var(--accent);stroke:none"/><path class="thin" d="M288 286 L350 286 H356"/><circle cx="288" cy="286" r="2" style="fill:var(--accent);stroke:none"/></g><text class="t" x="360" y="74" style="fill:var(--pencil);font-size:11px;letter-spacing:.06em;stroke:none">RESEARCH</text><text class="t" x="360" y="128" style="fill:var(--pencil);font-size:11px;letter-spacing:.06em;stroke:none">WIREFRAMES</text><text class="t" x="360" y="182" style="fill:var(--pencil);font-size:11px;letter-spacing:.06em;stroke:none">PROTOTYPE</text><text class="t" x="360" y="236" style="fill:var(--pencil);font-size:11px;letter-spacing:.06em;stroke:none">ITERATE</text><text class="t" x="360" y="290" style="fill:var(--pencil);font-size:11px;letter-spacing:.06em;stroke:none">SHIP</text></svg>
+          <div class="dr-stats">
+            <div><b>5k+</b><span>sites monitored on LocEarn</span></div>
+            <div><b>400</b><span>active riders deployed</span></div>
+            <div><b>3.5+</b><span>years designing products</span></div>
+          </div>
         </div>
+      </div>
+      <div class="dr-tags"><span class="dr-tag r">Design systems</span><span class="dr-tag b">User research</span><span class="dr-tag">Mobile app design</span><a class="dr-tag more" href="#contact">More about me &rarr;</a></div>
+    </section>
+
+    <section class="dr-sec" id="habits">
+      <div class="dr-head" style="grid-template-columns:1fr">
+        <span class="eyebrow-l" style="grid-column:1">For work</span>
+        <h2 style="grid-column:1">Four habits I bring<br>to every project</h2>
+      </div>
+      <div class="dr-habits">
+        <article class="dr-habit rv"><svg viewBox="0 0 48 48" class="ln" aria-hidden="true"><g filter="url(#rough)"><circle cx="24" cy="24" r="17"/><path class="red" d="M24 11 L29 24 L24 37 L19 24 Z"/><circle cx="24" cy="24" r="2"/><path class="thin" d="M24 4v4M24 40v4M4 24h4M40 24h4"/></g></svg><h3>Systems over screens</h3><p>I fix the source, not the symptom. One design language beats ten polished screens.</p></article>
+        <article class="dr-habit rv"><svg viewBox="0 0 48 48" class="ln" aria-hidden="true"><g filter="url(#rough)"><circle cx="17" cy="17" r="6"/><circle cx="33" cy="19" r="5"/><path d="M6 40c0-8 5-13 11-13s11 5 11 13"/><path d="M28 31c2-1.5 4-2 6-2 5 0 8 4 8 11"/></g></svg><h3>Research earns the pixels</h3><p>Opinions are cheap, tests aren&rsquo;t. LocEarn V1 was rebuilt because riders said so.</p></article>
+        <article class="dr-habit rv"><svg viewBox="0 0 48 48" class="ln" aria-hidden="true"><g filter="url(#rough)"><path d="M24 6 L40 15 L40 33 L24 42 L8 33 L8 15 Z"/><path d="M8 15 L24 24 L40 15"/><path d="M24 24 V42" class="red"/></g></svg><h3>Design with the business</h3><p>The deposit, the fee, the wallet: business model is a design problem.</p></article>
+        <article class="dr-habit rv"><svg viewBox="0 0 48 48" class="ln" aria-hidden="true"><g filter="url(#rough)"><path d="M6 40 H44"/><rect x="11" y="28" width="6" height="12"/><rect x="21" y="20" width="6" height="20"/><rect x="31" y="12" width="6" height="28" class="fillr"/><path class="red" d="M10 22 L22 12 L30 17 L42 6"/></g></svg><h3>Ship, then measure</h3><p>Design isn&rsquo;t done at handoff. I stay for what happens in the field.</p></article>
       </div>
     </section>
 
-    <!-- FUTURE -->
-    <section>
-      <div class="wrap">
-        <div class="sec-head rv">
-          <span class="sec-num">04</span>
-          <span class="label">Where I'm headed</span>
-          <h2 class="display">What's next</h2>
+    <section class="dr-sec" id="next">
+      <div class="dr-head">
+        <div class="dr-no">04<small>S-04</small></div>
+        <span class="eyebrow-l">My goals ahead</span>
+        <h2>What&rsquo;s next</h2>
+      </div>
+      <div class="dr-next">
+        <div class="dr-goals rv">
+          <div class="dr-goal"><span class="no">01</span><svg viewBox="0 0 56 40" class="ln" aria-hidden="true"><g filter="url(#rough)"><path d="M6 28 L10 16 H34 L42 24 H50 V32 H6 Z"/><circle cx="16" cy="32" r="5" class="paper"/><circle cx="40" cy="32" r="5" class="paper"/><path class="thin" d="M16 16 L14 28 M26 16 V28"/></g></svg><p>Contribute to real mobility products where <mark>trust, safety and speed</mark> collide.</p></div>
+          <div class="dr-goal"><span class="no">02</span><svg viewBox="0 0 56 40" class="ln" aria-hidden="true"><g filter="url(#rough)"><circle cx="18" cy="14" r="6"/><circle cx="36" cy="16" r="5"/><path d="M6 36c0-8 5-12 12-12s12 4 12 12"/><path d="M30 28c2-1 4-1.5 6-1.5 5 0 8 3.5 8 10"/></g></svg><p>A collaborative product team where design <mark>sits in the centre</mark> of the build.</p></div>
+          <div class="dr-goal"><span class="no">03</span><svg viewBox="0 0 56 40" class="ln" aria-hidden="true"><g filter="url(#rough)"><path d="M6 36 H50"/><rect x="10" y="24" width="7" height="12"/><rect x="22" y="16" width="7" height="20"/><rect x="34" y="8" width="7" height="28" class="fillr"/><path class="red" d="M8 18 L22 8 L32 12 L48 2"/></g></svg><p>Keep improving my design systems and <mark>ship more useful products</mark>.</p></div>
         </div>
-        <ul class="future-list rv">
-          <li><div><h3>The work</h3><p>Complex B2B and mobility products where trust, data and speed collide. <span class="tbd">[TBD] refine</span></p></div></li>
-          <li><div><h3>The team</h3><p>A collaborative product team where design sits upstream of the brief. Hybrid or remote.</p></div></li>
-          <li><div><h3>The craft</h3><p>Going deeper on design systems and shipping every case study properly. <span class="tbd">[TBD] add your aspirations</span></p></div></li>
-        </ul>
+        <div class="rv"><svg class="sk ln draw" viewBox="0 0 260 160" aria-hidden="true" focusable="false" ><g filter="url(#rough)">
+<path d="M10 140 L98 40 L138 88 L162 62 L236 140 Z" class="paper"/>
+<path class="thin" d="M98 40 L112 140 M98 40 L84 140 M98 40 L70 140 M98 40 L56 140 M98 40 L40 140 M126 74 L132 140 M142 90 L152 140"/>
+<path d="M98 40 V12" class="red"/><path d="M98 12 L124 20 L98 28 Z" class="red fillr"/>
+<path d="M10 140 H236" /><path d="M175 78 L190 92 M200 104 L212 116" class="thin"/></g></svg><svg class="sk dm" viewBox="0 0 260 160" aria-hidden="true"><line x1="248" y1="40" x2="248" y2="140"/><line x1="243" y1="40" x2="253" y2="40"/><line x1="243" y1="140" x2="253" y2="140"/><text x="238" y="94" transform="rotate(-90 238 94)">100</text><line x1="10" y1="152" x2="236" y2="152"/><line x1="10" y1="147" x2="10" y2="157"/><line x1="236" y1="147" x2="236" y2="157"/><text x="112" y="150">226</text></svg></div>
       </div>
     </section>
 
-    <!-- TESTIMONIALS (placeholders: replace with real quotes) -->
-    <div class="band">
-      <div class="wrap">
-        <section style="padding-bottom:0">
-          <div class="rv">
-            <span class="label" style="color:var(--signal)">( What teammates say )</span>
-            <h2 class="display" style="font-size:clamp(34px,6vw,72px);margin:10px 0 40px">Words from the people<br>I've built with</h2>
-          </div>
-          <div class="quotes">
-            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Add a real quote from a teammate, manager or professor. Placeholders are not shown as real testimonials.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
-            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Second quote goes here.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
-            <blockquote class="quote rv"><span class="mark">“</span><p><span class="tbd">[TBD]</span> Third quote goes here.</p><div class="who"><b>Name</b><span class="label muted">Role, company</span></div></blockquote>
-          </div>
-        </section>
+    <section class="dr-sec" id="words">
+      <div class="dr-head" style="grid-template-columns:1fr">
+        <span class="eyebrow-l" style="grid-column:1">What teammates say</span>
+        <h2 style="grid-column:1">Words from the people<br>I&rsquo;ve built with</h2>
       </div>
-    </div>
-
-    <!-- CONTACT -->
-    <section id="contact" class="contact">
-      <div class="wrap">
-        <span class="label">05 · Contact, open to product design roles</span>
-        <div class="contact-grid">
-          <div>
-            <h2 class="display rv"><span>Let's</span><span>talk<b class="dot">.</b></span></h2>
-            <p class="tag-line rv">...and build something <em>people like.</em></p>
-            <div class="round-row rv">
-              <button class="round primary" type="button" data-open="contact">Contact me</button>
-              <button class="round" type="button" data-open="resume">Resume ↓</button>
-            </div>
-          </div>
-          <button class="ticket rv" type="button" data-open="contact" aria-label="Open contact options">
-            <small>● Admit one</small>
-            <h3>Portfolio</h3>
-            <small>This ticket admits a conversation</small>
-            <div class="bars"></div>
-            <small>erjatindesigns · 2026</small>
-          </button>
-        </div>
+      <div class="dr-quotes">
+        <blockquote class="dr-quote rv"><span class="m">&ldquo;</span><p><span class="tbd">[TBD]</span> Add a real quote from a teammate, manager or professor.</p><div class="who"><b>Name</b>Role, company</div></blockquote>
+        <blockquote class="dr-quote rv"><span class="m">&ldquo;</span><p><span class="tbd">[TBD]</span> Second quote goes here.</p><div class="who"><b>Name</b>Role, company</div></blockquote>
+        <blockquote class="dr-quote rv"><span class="m">&ldquo;</span><p><span class="tbd">[TBD]</span> Third quote goes here.</p><div class="who"><b>Name</b>Role, company</div></blockquote>
       </div>
     </section>
-  </main>
 
-  <footer>
-    <div class="wrap foot">
-      <div><strong>erjatindesigns®</strong>Product designer, based in India</div>
-      <div>© 2026 · Designed and built by hand<br><a href="#top">Back to top ↑</a></div>
-    </div>
-  </footer>
+    <section class="dr-sec" id="contact">
+      <div class="dr-head" style="grid-template-columns:110px minmax(0,1fr)">
+        <div class="dr-no">05<small>S-05</small></div>
+        <span class="eyebrow-l">Get in touch</span>
+      </div>
+      <div class="dr-contact">
+        <div>
+          <h2>Let&rsquo;s<br>talk<span class="dot">.</span></h2>
+          <p class="tagline">&hellip;and build something <em>people like.</em></p>
+          <div class="dr-btns">
+            <button class="dt-btn dt-btn--primary dt-btn--big" type="button" data-open="contact">Contact me</button>
+            <button class="dt-btn dt-btn--outline dt-btn--big" type="button" data-open="resume">Resume &rarr;</button>
+          </div>
+        </div>
+        <button class="dr-ticket rv" type="button" data-open="contact" aria-label="Open contact options"><svg class="sk ln draw" viewBox="0 0 340 190" aria-hidden="true" focusable="false" style="overflow:visible"><g filter="url(#rough)">
+<g transform="rotate(-6 170 100)"><path d="M30 48 H310 V76 a11 11 0 0 0 0 22 V128 H30 V98 a11 11 0 0 0 0 -22 Z" class="paper"/>
+<line class="thin dash" x1="238" y1="48" x2="238" y2="128"/><path d="M286 60 l14 -2 -2 14" class="thin"/><line x1="298" y1="58" x2="276" y2="78" class="thin"/>
+<line x1="52" y1="100" x2="52" y2="122"/><line x1="57" y1="100" x2="57" y2="118"/><line x1="62" y1="100" x2="62" y2="118"/><line x1="67" y1="100" x2="67" y2="122"/><line x1="72" y1="100" x2="72" y2="118"/><line x1="77" y1="100" x2="77" y2="118"/><line x1="82" y1="100" x2="82" y2="122"/><line x1="87" y1="100" x2="87" y2="118"/><line x1="92" y1="100" x2="92" y2="118"/><line x1="97" y1="100" x2="97" y2="122"/><line x1="102" y1="100" x2="102" y2="118"/><line x1="107" y1="100" x2="107" y2="118"/><line x1="112" y1="100" x2="112" y2="122"/><line x1="117" y1="100" x2="117" y2="118"/><line x1="122" y1="100" x2="122" y2="118"/><line x1="127" y1="100" x2="127" y2="122"/><line x1="132" y1="100" x2="132" y2="118"/><line x1="137" y1="100" x2="137" y2="118"/><line x1="142" y1="100" x2="142" y2="122"/><line x1="147" y1="100" x2="147" y2="118"/><line x1="152" y1="100" x2="152" y2="118"/><line x1="157" y1="100" x2="157" y2="122"/><line x1="162" y1="100" x2="162" y2="118"/><line x1="167" y1="100" x2="167" y2="118"/><line x1="172" y1="100" x2="172" y2="122"/><line x1="177" y1="100" x2="177" y2="118"/><line x1="182" y1="100" x2="182" y2="118"/><line x1="187" y1="100" x2="187" y2="122"/><line x1="192" y1="100" x2="192" y2="118"/><line x1="197" y1="100" x2="197" y2="118"/><line x1="202" y1="100" x2="202" y2="122"/><line x1="207" y1="100" x2="207" y2="118"/><line x1="212" y1="100" x2="212" y2="118"/></g></g><text class="hand" x="52" y="98" transform="rotate(-6 170 100)">Portfolio</text><text class="t" x="52" y="68" transform="rotate(-6 170 100)">ADMIT ONE</text><text class="t" x="248" y="92" transform="rotate(-6 170 100)">N&#186; 01</text></svg><svg class="sk dm" viewBox="0 0 340 190" aria-hidden="true"><line x1="30" y1="22" x2="310" y2="22"/><line x1="30" y1="17" x2="30" y2="27"/><line x1="310" y1="17" x2="310" y2="27"/><text x="158" y="19">280</text></svg></button>
+      </div>
+    </section>
+    </main>
+
+    <footer class="dr-foot">
+      <div class="dr-title">
+        <div><small>Drawing</small><strong>ERJATINDESIGNS&reg;</strong>Product Designer &middot; Delhi, India</div>
+        <div><small>Drawn by</small><strong>Jatin Srivastava</strong>Engineer turned designer</div>
+        <div><small>Scale / Sheet</small><strong>1:1 &middot; 1 of 1</strong>Units in px</div>
+        <div><small>Rev</small><strong>2026</strong><a href="#top">Back to top &uarr;</a></div>
+        <div class="reg"><svg viewBox="0 0 26 26" class="ln" aria-hidden="true"><circle cx="13" cy="13" r="8"/><path d="M13 1v24M1 13h24"/></svg></div>
+      </div>
+      <div class="dim-h dr-foot-dim"><b></b><i data-measure="w:.dr-sheet">1200</i><b></b></div>
+    </footer>
+  </div>
+
+  <div class="preview" id="preview" aria-hidden="true"></div>
 
   <!-- CONTACT PICKER -->
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
@@ -271,9 +229,27 @@
     </div>
   </div>
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="script.js"></script>
+  <script src="intro.js?v=18"></script>
+  <script src="script.js?v=9"></script>
+  <script src="drafting.js?v=11"></script>
+  <script src="portrait.js?v=1"></script>
 </body>
 </html>

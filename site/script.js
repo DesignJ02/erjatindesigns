@@ -30,27 +30,15 @@
   // ---- intro ----
   var intro = $("#intro");
   function runHero() {
-    if (reduce || !window.gsap) return;
+    if (reduce || !window.gsap) {
+      $$(".hero-name .l1 > span, .hero-name .l2 > span").forEach(function (s) { s.style.transform = "none"; });
+      return;
+    }
     gsap.to(".hero-name .l1 > span, .hero-name .l2 > span", { y: 0, duration: 1.1, ease: "expo.out", stagger: 0.12 });
   }
-  if (intro && !document.documentElement.classList.contains("no-intro")) {
-    var word = $(".intro-word", intro);
-    "erjatindesigns".split("").forEach(function (c, i) {
-      var s = document.createElement("span");
-      s.textContent = c;
-      s.style.animationDelay = i * 0.05 + "s";
-      word.appendChild(s);
-    });
-    var closed = false;
-    var closeIntro = function () {
-      if (closed) return;
-      closed = true;
-      intro.classList.add("done");
-      try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
-      setTimeout(runHero, 250);
-    };
-    intro.addEventListener("click", closeIntro);
-    setTimeout(closeIntro, reduce ? 300 : 2600);
+  // the paper intro (intro.js) calls window.__runHero when it hands over to the page
+  if (document.documentElement.classList.contains("intro-pending")) {
+    window.__runHero = runHero;
   } else {
     runHero();
   }
@@ -100,8 +88,7 @@
 
   var root = document.documentElement;
   $("#theme").addEventListener("click", function () {
-    var cur = root.getAttribute("data-theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    var cur = root.getAttribute("data-theme") || "light";
     var next = cur === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
     try { localStorage.setItem("theme", next); } catch (e) {}
@@ -137,7 +124,7 @@
 
   // ---- magnetic buttons ----
   if (fine && !reduce) {
-    $$(".round, .ticket").forEach(function (b) {
+    $$(".round, .ticket, .dt-btn").forEach(function (b) {
       b.addEventListener("mousemove", function (e) {
         var r = b.getBoundingClientRect();
         b.style.translate = (e.clientX - r.left - r.width / 2) * 0.12 + "px " + (e.clientY - r.top - r.height / 2) * 0.12 + "px";

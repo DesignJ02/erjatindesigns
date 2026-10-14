@@ -1,0 +1,130 @@
+/* Datum design system tokens + components.
+   Source: datum-design-system (app/globals.css and component pages). Dark-first. */
+
+:root {
+  /* brand */
+  --color-brand-primary: #E72757;
+  --color-brand-secondary: #1B92F3;
+
+  /* primitive palettes */
+  --color-crimson-900: #400C19; --color-crimson-800: #5A1123; --color-crimson-700: #73162E; --color-crimson-600: #A72042;
+  --color-crimson-500: #E72757; --color-crimson-400: #E16181; --color-crimson-300: #E98CA3; --color-crimson-200: #F1B6C5;
+  --color-crimson-100: #F5CCD6; --color-crimson-50: #F9E1E7;
+
+  --color-blue-sel-900: #042C4E; --color-blue-sel-800: #06406F; --color-blue-sel-700: #07518D; --color-blue-sel-600: #0A72C7;
+  --color-blue-sel-500: #1B92F3; --color-blue-sel-400: #55AEF6; --color-blue-sel-300: #86C5F9; --color-blue-sel-200: #B6DCFB;
+  --color-blue-sel-100: #CFE8FC; --color-blue-sel-50: #E7F3FE;
+
+  --color-grey-900: #000000; --color-grey-800: #272727; --color-grey-700: #343434; --color-grey-600: #4E4E4E;
+  --color-grey-500: #686868; --color-grey-400: #828282; --color-grey-300: #9B9B9B; --color-grey-200: #DADADA;
+  --color-grey-100: #F3F3F3; --color-grey-50: #FFFFFF;
+
+  --color-orange-900: #48260A; --color-orange-800: #703B0F; --color-orange-700: #8D4307; --color-orange-600: #C75F0A;
+  --color-orange-500: #F37C1B; --color-orange-400: #F69E55; --color-orange-300: #F9BA86; --color-orange-200: #FBD5B6;
+  --color-orange-100: #F9E4D2; --color-orange-50: #FEF1E7;
+
+  --color-yellow-900: #454E04; --color-yellow-800: #636F06; --color-yellow-700: #7D8D07; --color-yellow-600: #B1C70A;
+  --color-yellow-500: #D1E727; --color-yellow-400: #E3F655; --color-yellow-300: #EBF986; --color-yellow-200: #F3FBB6;
+  --color-yellow-100: #F7FCCF; --color-yellow-50: #FAFCE9;
+
+  --color-teal-900: #044E3E; --color-teal-800: #066F59; --color-teal-700: #078D70; --color-teal-600: #0AC79E;
+  --color-teal-500: #1BF3C4; --color-teal-400: #55F6D3; --color-teal-300: #86F9E0; --color-teal-200: #B6FBEC;
+  --color-teal-100: #CFFCF3; --color-teal-50: #E7FEF9;
+
+  --color-green-900: #044E0D; --color-green-800: #066F12; --color-green-700: #078D17; --color-green-600: #0AC720;
+  --color-green-500: #1BF334; --color-green-400: #55F668; --color-green-300: #86F993; --color-green-200: #B6FBBE;
+  --color-green-100: #CFFCD4; --color-green-50: #E7FEE9;
+
+  --color-red-900: #4E0414; --color-red-800: #6F061D; --color-red-700: #8D0724; --color-red-600: #C70A33;
+  --color-red-500: #F31B4A; --color-red-400: #F65578; --color-red-300: #F9869F; --color-red-200: #FBB6C5;
+  --color-red-100: #FCCFD8; --color-red-50: #FEE7EC;
+
+  /* semantic surfaces */
+  --surface-brand-primary: #E72757; --surface-brand-primary-subtle: #F9E1E7;
+  --surface-brand-secondary: #1B92F3; --surface-secondary-hover: #0A72C7; --surface-primary-hover: #A72042;
+  --surface-error: #C70A33; --surface-error-subtle: #FCCFD8;
+  --surface-success: #0AC720; --surface-success-subtle: #E7FEE9;
+  --surface-warning: #D1E727; --surface-warning-subtle: #FAFCE9;
+  --surface-online: #078D17; --surface-away: #F3FBB6; --surface-offline: #686868; --surface-busy: #F9869F;
+
+  /* semantic text + border */
+  --text-brand-primary: #E72757; --text-brand-primary-subtle: #E16181;
+  --text-error: #C70A33; --text-success: #0AC720; --text-white: #FFFFFF; --text-grey: #9B9B9B; --text-dark: #000000;
+  --border-default: #A72042; --border-disabled: #828282; --border-focused: #000000;
+  --border-error: #C70A33; --border-success: #0AC720;
+
+  /* type */
+  --font-family-primary: 'General Sans', 'Inter', system-ui, sans-serif;
+  --font-family-mono: 'DM Mono', monospace;
+  --font-weight-light: 300; --font-weight-regular: 400; --font-weight-medium: 500;
+  --font-weight-semibold: 600; --font-weight-bold: 700;
+  --font-size-display: 64px; --font-size-h1: 56px; --font-size-h2: 48px; --font-size-h3: 40px; --font-size-h4: 36px;
+  --font-size-body-lg: 24px; --font-size-body-base: 20px; --font-size-body-sm: 16px;
+  --font-size-label-lg: 14px; --font-size-label-sm: 12px; --font-size-code: 12px;
+
+  /* spacing, radius, stroke, shadow */
+  --space-0: 0px; --space-2: 2px; --space-4: 4px; --space-8: 8px; --space-12: 12px; --space-16: 16px;
+  --space-20: 20px; --space-28: 28px; --space-44: 44px; --space-48: 48px; --space-56: 56px;
+  --radius-2: 2px; --radius-4: 4px; --radius-8: 8px; --radius-12: 12px; --radius-16: 16px; --radius-20: 20px;
+  --radius-24: 24px; --radius-32: 32px; --radius-40: 40px; --radius-48: 48px; --radius-52: 52px; --radius-full: 9999px;
+  --stroke-1: 1px; --stroke-2: 2px; --stroke-4: 4px; --stroke-8: 8px; --stroke-12: 12px;
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.08); --shadow-md: 0 4px 8px rgba(0,0,0,0.10); --shadow-lg: 0 8px 16px rgba(0,0,0,0.12);
+  --shadow-xl: 0 12px 20px rgba(0,0,0,0.14); --shadow-2xl: 0 16px 48px rgba(0,0,0,0.18);
+  --shadow-brand: 0 4px 20px rgba(231,39,87,0.35);
+
+  /* Datum dark chrome (default theme) */
+  --bg-page: #080808; --bg-sidebar: #0D0D0D; --bg-card: #131B2E; --bg-panel: #0F1420; --bg-tooltip: #1A1A2E;
+  --border-muted: rgba(255,255,255,0.07);
+  --text-primary: #FFFFFF; --text-muted: rgba(255,255,255,0.45); --text-dim: rgba(255,255,255,0.25);
+}
+
+/* ---------- Button (types: primary | outline | secondary | ghost | danger; sizes: small | md | big) ---------- */
+.dt-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-family-primary); font-weight: 600; font-size: 14px; line-height: 1.2;
+  padding: 10px 20px; border-radius: 8px; border: 0; cursor: pointer; white-space: nowrap;
+  transition: background .15s, color .15s, transform .3s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+}
+.dt-btn--small { padding: 6px 14px; font-size: 12px; border-radius: 6px; }
+.dt-btn--big { padding: 14px 28px; font-size: 16px; border-radius: 10px; }
+.dt-btn--primary { background: var(--color-brand-primary); color: #fff; }
+.dt-btn--primary:hover { background: var(--surface-primary-hover); }
+.dt-btn--secondary { background: var(--color-brand-secondary); color: #fff; }
+.dt-btn--secondary:hover { background: var(--surface-secondary-hover); }
+.dt-btn--outline { background: transparent; color: var(--color-brand-primary); box-shadow: inset 0 0 0 1.5px var(--color-brand-primary); }
+.dt-btn--outline:hover { background: rgba(231,39,87,.12); }
+.dt-btn--ghost { background: transparent; color: rgba(255,255,255,.8); }
+.dt-btn--ghost:hover { background: rgba(255,255,255,.07); }
+.dt-btn--danger { background: var(--surface-error); color: #fff; }
+.dt-btn[disabled] { background: rgba(255,255,255,.08); color: rgba(255,255,255,.3); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); cursor: not-allowed; opacity: .5; }
+.dt-btn:focus-visible { outline: 2px solid var(--color-brand-primary); outline-offset: 3px; }
+.dt-btn:hover { transform: translateY(-2px); }
+
+/* ---------- Tag & Badge (variants: brand | success | error | warning | info | default; sizes: sm | md | lg) ---------- */
+.dt-tag {
+  display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-family-primary);
+  font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 6px; line-height: 1.3;
+  background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); white-space: nowrap;
+}
+.dt-tag--sm { font-size: 10px; padding: 2px 8px; border-radius: 4px; }
+.dt-tag--lg { font-size: 14px; padding: 6px 16px; border-radius: 8px; }
+.dt-tag--brand { background: rgba(231,39,87,.18); color: #E72757; }
+.dt-tag--success { background: rgba(10,199,32,.18); color: #0AC720; }
+.dt-tag--error { background: rgba(199,10,51,.18); color: #F65578; }
+.dt-tag--warning { background: rgba(243,124,27,.2); color: #F37C1B; }
+.dt-tag--info { background: rgba(27,146,243,.18); color: #1B92F3; }
+.dt-tag--dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ---------- Tooltip (placement: top | bottom | left | right; theme: dark | light) ---------- */
+.dt-tooltip {
+  position: absolute; background: var(--bg-tooltip); color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 7px 12px;
+  font-family: var(--font-family-primary); font-size: 12px; font-weight: 500; white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4); pointer-events: none;
+}
+.dt-tooltip--light { background: #fff; color: #111; border-color: rgba(0,0,0,.1); }
+
+/* ---------- Card / panel ---------- */
+.dt-card { background: var(--bg-panel); border: 1px solid var(--border-muted); border-radius: 12px; }
+.dt-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+.dt-code { font-family: var(--font-family-mono); font-size: var(--font-size-code); }

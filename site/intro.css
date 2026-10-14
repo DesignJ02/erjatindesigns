@@ -1,0 +1,67 @@
+/* Paper-unfolding intro. Everything lives inside #intro; the real page sits underneath, laid out but not painted. */
+#intro { display: none; }
+html.intro-pending body > :not(#intro) { visibility: hidden; }
+html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 9999; background: #2c5a42; overflow: hidden; touch-action: none; overscroll-behavior: contain; }
+/* no overflow:hidden lock: removing the scrollbar would shift the page under the camera move; scroll is swallowed in JS instead */
+
+#intro .pi-world { position: absolute; inset: 0; will-change: transform; }
+#intro .pi-cam { position: absolute; inset: 0; perspective: 4200px; perspective-origin: 50% 46%; }
+#intro .pi-tilt { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
+
+/* drafting mat: green, fine 10 mm grid, heavier 50 mm lines, faint grain */
+#intro .pi-mat {
+  position: absolute; left: -1500px; top: -1500px; width: 3000px; height: 3000px; transform: translateZ(-6px);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.16) 0 1.5px, transparent 1.5px 200px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 1.5px, transparent 1.5px 200px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.065) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.065) 0 1px, transparent 1px 40px),
+    radial-gradient(circle at 50% 50%, #3b7255 0, #2f5f47 38%, #234a37 100%);
+}
+#intro .pi-mat::after {
+  content: ""; position: absolute; inset: 0; opacity: .1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#intro .pi-vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 46%, transparent 38%, rgba(0,0,0,.42) 100%); }
+
+/* shadows on the mat (one per paper strip, moved by transform only) */
+#intro .pi-shadow { position: absolute; left: 0; top: 0; background: #07140d; pointer-events: none; transform-origin: 0 0; filter: blur(5px); will-change: transform, opacity; }
+
+/* the paper: six strips chained hinge-to-hinge */
+#intro .pi-sheet { position: absolute; left: 0; top: 0; width: 0; height: 0; transform-style: preserve-3d; }
+#intro .seg { will-change: transform; position: absolute; left: 100%; top: 0; transform-origin: 0 50%; transform-style: preserve-3d; }
+#intro .pi-sheet > .seg { left: 0; }
+#intro .face { position: absolute; left: 0; top: 0; height: 100%; width: calc(100% + 1px); backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+#intro .face.back { transform: rotateY(180deg); }
+#intro .face.front, #intro .face.back {
+  background-color: #ebe7dc;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
+}
+#intro .face.back { background-color: #e6e0cf; }
+#intro .face svg { position: absolute; left: 0; top: 0; width: calc(100% - 1px); height: 100%; display: block; opacity: 0; will-change: opacity; }
+#intro .face .sh { position: absolute; inset: 0; background: #14110c; opacity: 0; pointer-events: none; will-change: opacity; }
+/* a crease line on each fold */
+#intro .seg.main > .face.front::before, #intro .seg.main > .face.back::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px;
+  background: linear-gradient(90deg, rgba(40,32,18,.30), rgba(40,32,18,.06) 55%, transparent);
+}
+#intro .face.front.last::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 1px; background: rgba(40,32,18,.18); }
+
+/* ink (drawn once, faded in on the compositor) */
+#intro .dr { fill: none; stroke: #2b2a28; stroke-width: 1.4; stroke-linecap: round; }
+#intro .dr.thin { stroke-width: .8; }
+#intro .dr.red { stroke: #c81e48; }
+#intro .dr.dash { stroke-dasharray: none; }
+#intro .dr.chain { stroke-dasharray: 14 4 3 4; }
+#intro .t { fill: #2b2a28; font-family: "General Sans", "Onest", system-ui, sans-serif; }
+#intro .t.mono { font-family: "DM Mono", ui-monospace, monospace; letter-spacing: .08em; fill: #5e5a51; }
+#intro .t.red { fill: #c81e48; }
+#intro .disc { fill: #f9bf3c; }
+
+#intro .pi-skip {
+  position: absolute; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 3;
+  font: 500 12px/1 "DM Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase;
+  color: #ebe7dc; background: rgba(14, 30, 22, .65); border: 1px solid rgba(235, 231, 220, .55); padding: 10px 14px; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+#intro .pi-skip:hover, #intro .pi-skip:focus-visible { background: #ebe7dc; color: #1d2b22; outline: none; }
