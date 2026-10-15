@@ -1,8 +1,7 @@
 /* Paper-unfolding intro.
-   A three-panel sheet (six equal strips) lies folded on a green drafting mat and opens in two waves:
-     1st opening  -> the engineering drawing (mechanical engineer: flange, section, title block)
-     2nd opening  -> the designer's block and the homepage, printed as "Detail A"
-   Then the camera pushes into that print until it is the real page.
+   A gate-fold of three equal panels lies on a green drafting mat. The designer panel stays put; the engineering
+   drawing and the homepage are two doors folded over it. They swing open one after the other (two openings),
+   then the camera pushes into the homepage print until it is the real page.
    The motion is computed once and played by the compositor (Web Animations), so page work cannot stutter it. */
 (function () {
   "use strict";
@@ -145,19 +144,21 @@
     }
     var PANELS = [panelEngineer(), panelDesigner(), panelHome()];    // left -> right: drawing first, homepage last
 
-    /* ---------- DOM ---------- */
-    var segHTML = "", k;
-    for (k = N - 1; k >= 0; k--) {
-      var pi = k >> 1, half = k & 1;
-      var face = '<div class="face front' + (k === N - 1 ? " last" : "") + '"><svg viewBox="' + (half * 500) + ' 0 500 ' + PH.toFixed(1) + '" preserveAspectRatio="none" aria-hidden="true">' + PANELS[pi] + '</svg><i class="sh"></i></div>' +
-                 '<div class="face back"><i class="sh"></i></div>';
-      segHTML = '<div class="seg' + (MAIN[k] ? " main" : "") + '" data-k="' + k + '" style="width:' + SW.toFixed(3) + 'px;height:' + Hp.toFixed(3) + 'px;' + (k === 0 ? "margin-top:" + (-Hp / 2).toFixed(3) + "px" : "") + '">' + face + segHTML + "</div>";
+    /* ---------- DOM: a gate-fold. The designer panel stays put; the drawing and the homepage are two equal
+       doors that lie folded over it and swing open one after the other. ---------- */
+    function panelHTML(cls, left, art, origin) {
+      return '<div class="pn ' + cls + '" style="left:' + left.toFixed(2) + 'px;top:' + (-Hp / 2).toFixed(2) + 'px;width:' + P.toFixed(2) + 'px;height:' + Hp.toFixed(2) + 'px;transform-origin:' + origin + '">' +
+        '<div class="face front"><svg viewBox="0 0 ' + PU + ' ' + PH.toFixed(1) + '" preserveAspectRatio="none" aria-hidden="true">' + art + '</svg><i class="sh"></i></div>' +
+        '<div class="face back"><i class="sh"></i></div></div>';
     }
     var shadows = "", q;
-    for (q = 0; q < N; q++) shadows += '<div class="pi-shadow"></div>';
+    for (q = 0; q < 3; q++) shadows += '<div class="pi-shadow" style="width:' + P.toFixed(2) + 'px;height:' + Hp.toFixed(1) + 'px"></div>';
     root.innerHTML =
       '<div class="pi-world"><div class="pi-cam"><div class="pi-tilt">' +
-      '<div class="pi-mat"></div>' + shadows + '<div class="pi-sheet">' + segHTML + "</div>" +
+      '<div class="pi-mat"></div>' + shadows +
+      panelHTML("c", -P / 2, PANELS[1], "50% 50%") +
+      panelHTML("r", P / 2, PANELS[2], "0 50%") +
+      panelHTML("l", -1.5 * P, PANELS[0], "100% 50%") +
       '</div></div></div><div class="pi-vig"></div>' +
       '<button type="button" class="pi-skip" aria-label="Skip intro animation">Skip intro</button>';
     root.setAttribute("role", "dialog");
@@ -165,14 +166,12 @@
 
     var world = root.querySelector(".pi-world");
     var tilt = root.querySelector(".pi-tilt");
-    var sheet = root.querySelector(".pi-sheet");
-    var segs = Array.prototype.slice.call(root.querySelectorAll(".seg"));
-    segs.sort(function (a, b) { return a.getAttribute("data-k") - b.getAttribute("data-k"); });
+    var pnC = root.querySelector(".pn.c"), pnL = root.querySelector(".pn.l"), pnR = root.querySelector(".pn.r");
+    var pns = [pnL, pnC, pnR];                              /* left door, centre, right door */
     var shEls = Array.prototype.slice.call(root.querySelectorAll(".pi-shadow"));
-    var svgs = Array.prototype.slice.call(root.querySelectorAll(".face.front svg"));
-    shEls.forEach(function (e) { e.style.width = SW.toFixed(2) + "px"; e.style.height = Hp.toFixed(1) + "px"; });
-    var faceF = segs.map(function (s) { return s.querySelector(":scope > .face.front .sh"); });
-    var faceB = segs.map(function (s) { return s.querySelector(":scope > .face.back .sh"); });
+    var svgs = pns.map(function (p) { return p.querySelector(".face.front svg"); });
+    var faceF = pns.map(function (p) { return p.querySelector(".face.front .sh"); });
+    var faceB = pns.map(function (p) { return p.querySelector(".face.back .sh"); });
     var skipBtn = root.querySelector(".pi-skip");
     skipBtn.addEventListener("click", skip);
     document.addEventListener("keydown", onKey);
@@ -188,92 +187,96 @@
     var ss = function (v) { v = clamp(v, 0, 1); return v * v * v * (v * (v * 6 - 15) + 10); };      // smootherstep
     var sine = function (v) { return 0.5 - 0.5 * Math.cos(Math.PI * clamp(v, 0, 1)); };
     var cub = function (v) { v = clamp(v, 0, 1); return v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2; };
-    var TT = { fold0: 0.55, fold: 3.8, ink0: 0.9, ink: 1.5, zoom0: 4.7, zoom: 1.5, end: 6.4, fps: 60 };
+    var TT = { l0: 0.95, ld: 1.5, r0: 2.9, rd: 1.5, ink0: 0.5, ink: 1.6, zoom0: 4.9, zoom: 1.5, end: 6.6, fps: 60 };
     var LX = -0.38, LZ = 0.925;                          // key light
-    var Z_EPS = 1.2;
-
-    function chain(Pm) {
-      var h = [], zoff = [], i;
-      for (i = 0; i < N; i++) { h.push(0); zoff.push(0); }
-      for (i = 1; i < N; i++) {
-        h[i] = MAIN[i] * 179.6 * (1 - Pm[i]);
-        zoff[i] = -MAIN[i] * Z_EPS * (1 - Pm[i]);
-      }
-      var phi = 0, x = 0, z = 0, xs = [], zs = [], phis = [];
-      for (i = 0; i < N; i++) {
-        phi += h[i]; var r = phi * Math.PI / 180;
-        phis.push(r); xs.push(x); zs.push(z);
-        x += SW * Math.cos(r); z += -SW * Math.sin(r);
-      }
-      xs.push(x); zs.push(z);
-      return { h: h, zoff: zoff, xs: xs, zs: zs, phis: phis };
-    }
-    /* the accordion is pulled open from its near end: each hinge lets one equal strip fall flat while the
-       still-folded bundle behind it (never longer than one strip) rides along, so no big flap ever swings */
-    var START = [0, 0.0, 0.1, 0.5, 0.6, 0.7], WIN = 0.28;
+    var D = Math.PI / 180;
 
     var cw = root.clientWidth || vw, ch = root.clientHeight || vh, u = P / PU;
-    var camX = cw / 2 - Ws / 2 + 2 * P + HERO.x * u, camY = ch / 2 - Hp / 2 + HERO.y * u;
+    var camX = cw / 2 + P / 2 + HERO.x * u, camY = ch / 2 - Hp / 2 + HERO.y * u;      /* top-left of the homepage print, sheet flat */
     var camS = cw / (HERO.w * u);
     world.style.transformOrigin = camX.toFixed(1) + "px " + camY.toFixed(1) + "px";
 
-    /* pass 1: kinematics + raw centring */
-    var NF = Math.ceil(TT.end * TT.fps) + 1, fr = [], k2;
+    var NF = Math.ceil(TT.end * TT.fps) + 1, k2;
+    /* camera: frame whatever is open at the moment, then low-pass it so the scale and the sideways drift stay silky */
+    var rawS = [], rawC = [];
     for (k2 = 0; k2 < NF; k2++) {
-      var t = k2 / TT.fps, mm = clamp((t - TT.fold0) / TT.fold, 0, 1);
-      var Pm = [0]; for (var hh = 1; hh < N; hh++) Pm.push(ss((mm - START[hh]) / WIN));
-      var c0 = chain(Pm);
-      var mn = Infinity, mx = -Infinity;
-      for (var bb = 0; bb <= N; bb++) { mn = Math.min(mn, c0.xs[bb]); mx = Math.max(mx, c0.xs[bb]); }
-      c0.rawTx = -(mn + mx) / 2; c0.t = t; c0.m = mm;
-      fr.push(c0);
+      var tq = k2 / TT.fps;
+      var cL = Math.cos(179.6 * (1 - ss((tq - TT.l0) / TT.ld)) * D), cR = Math.cos(179.6 * (1 - ss((tq - TT.r0) / TT.rd)) * D);
+      var x0 = -P / 2 - P * Math.max(0, cL), x1 = P / 2 + P * Math.max(0, cR);
+      rawS.push(clamp(0.9 * cw / (x1 - x0), 1, 1.3));
+      rawC.push((x0 + x1) / 2);
     }
-    /* the sheet re-centres while it opens; low-pass it so the pan never kinks when the extreme edge changes hands */
-    var tx = fr.map(function (f) { return f.rawTx; }), pass, win = Math.round(0.45 * TT.fps);
-    for (pass = 0; pass < 3; pass++) {
-      var out = [];
-      for (k2 = 0; k2 < NF; k2++) {
-        var acc = 0, cnt = 0;
-        for (var d = -win; d <= win; d++) { var j = clamp(k2 + d, 0, NF - 1); acc += tx[j]; cnt++; }
-        out.push(acc / cnt);
+    function smoothArr(arr, secs, passes) {
+      var win = Math.round(secs * TT.fps), pass, out, i, d, acc;
+      for (pass = 0; pass < passes; pass++) {
+        out = [];
+        for (i = 0; i < arr.length; i++) { acc = 0; for (d = -win; d <= win; d++) acc += arr[clamp(i + d, 0, arr.length - 1)]; out.push(acc / (2 * win + 1)); }
+        arr = out;
       }
-      tx = out;
+      return arr;
     }
-
-    /* pass 2: per-element keyframes */
-    var K = { sheet: [], tilt: [], world: [], root: [], seg: [], shT: [], faceF: [], faceB: [], svg: [] };
-    for (var q3 = 0; q3 < N; q3++) { K.seg.push([]); K.shT.push([]); K.faceF.push([]); K.faceB.push([]); K.svg.push([]); }
+    var camScale = smoothArr(rawS, 0.35, 3), camPan = smoothArr(rawC, 0.35, 3);
+    /* landing is measured against the final framing (scale sF, sheet centred) */
+    var sF = camScale[NF - 1];
+    camX = cw / 2 + sF * (P / 2 + HERO.x * u);
+    camY = ch / 2 + sF * (-Hp / 2 + HERO.y * u);
+    camS = cw / (HERO.w * u * sF);
+    world.style.transformOrigin = camX.toFixed(1) + "px " + camY.toFixed(1) + "px";
+    var K = { tilt: [], world: [], root: [], mat: [], fFront: [[], [], []], fBack: [[], [], []], pn: [[], [], []], shT: [[], [], []], faceF: [[], [], []], faceB: [[], [], []], svg: [[], [], []] };
     for (k2 = 0; k2 < NF; k2++) {
-      var f = fr[k2], tt = f.t, e = sine(f.m);
-      var inkV = sine((tt - TT.ink0) / TT.ink).toFixed(3);
-      var zz = cub((tt - TT.zoom0) / TT.zoom);
-      K.root.push({ opacity: clamp(tt / 0.5, 0, 1).toFixed(3) });
-      K.sheet.push({ transform: "translate3d(" + tx[k2].toFixed(2) + "px,0,0)" });
-      K.tilt.push({ transform: "rotateX(" + (28 * (1 - e)).toFixed(3) + "deg) rotateZ(" + (-2 * (1 - e)).toFixed(3) + "deg)" });
+      var t = k2 / TT.fps;
+      var pL = ss((t - TT.l0) / TT.ld), pR = ss((t - TT.r0) / TT.rd);
+      var openAll = ss((t - TT.l0) / (TT.r0 + TT.rd - TT.l0));
+      var e = sine((t - TT.l0) / (TT.r0 + TT.rd - TT.l0));
+      var inkV = sine((t - TT.ink0) / TT.ink).toFixed(3);
+      var zz = cub((t - TT.zoom0) / TT.zoom);
+      /* angle about each hinge: 180 deg = folded over the centre panel, 0 = lying flat beside it */
+      var thL = 179.6 * (1 - pL) * D, thR = -179.6 * (1 - pR) * D;
+      var ths = [thL, 0, thR];
+      /* tiny lift so the stacked doors never z-fight: right door above the centre, left door above both */
+      var zo = [2.4 * (1 - pL), 0, 1.2 * (1 - pR)];
+      K.root.push({ opacity: clamp(t / 0.5, 0, 1).toFixed(3) });
+      K.tilt.push({ transform: "scale(" + camScale[k2].toFixed(4) + ") translate3d(" + (-camPan[k2]).toFixed(2) + "px,0,0) rotateX(" + (26 * (1 - e)).toFixed(3) + "deg)" });
+      K.mat.push({ transform: "scale(" + (1.1 + 0.08 * (1 - e)).toFixed(4) + ")" });
       K.world.push({ transform: "translate3d(" + (-camX * zz).toFixed(2) + "px," + (-camY * zz).toFixed(2) + "px,0) scale(" + (1 + (camS - 1) * zz).toFixed(4) + ")" });
-      for (var c = 0; c < N; c++) {
-        K.seg[c].push({ transform: c === 0 ? "none" : "rotateY(" + f.h[c].toFixed(3) + "deg) translateZ(" + f.zoff[c].toFixed(3) + "px)" });
-        var n0 = Math.sin(f.phis[c]), n1 = Math.cos(f.phis[c]);
+      for (var c = 0; c < 3; c++) {
+        var th = ths[c];
+        K.pn[c].push({ transform: "translateZ(" + zo[c].toFixed(2) + "px) rotateY(" + (th / D).toFixed(3) + "deg)" });
+        var n0 = Math.sin(th), n1 = Math.cos(th);
         var lit = n0 * LX + n1 * LZ, front = n1 >= 0, litv = front ? lit : -lit;
         var al = clamp((0.92 - litv) * 0.4, 0, 0.17).toFixed(3);
+        K.fFront[c].push({ opacity: front ? "1" : "0" });
+        K.fBack[c].push({ opacity: front ? "0" : "1" });
         K.faceF[c].push({ opacity: front ? al : "0" });
         K.faceB[c].push({ opacity: front ? "0" : al });
-        var zmid = Math.max(0, (f.zs[c] + f.zs[c + 1]) / 2), xa = f.xs[c] + tx[k2], xb = f.xs[c + 1] + tx[k2];
-        var sx = Math.max(0.02, Math.abs(xb - xa) / SW);
+        /* shadow on the mat: the footprint of the door, shrinking as it stands up, drifting with its height */
+        var wFrac = Math.abs(Math.cos(th)), zmid = (c === 1) ? 0 : (P / 2) * Math.abs(Math.sin(th));
+        var sx = Math.max(0.02, wFrac), left;
+        if (c === 0) left = (-P / 2) - P * (th === 0 ? 1 : wFrac) + (th > Math.PI / 2 ? 0 : 0) - 0;
+        else if (c === 2) left = P / 2;
+        else left = -P / 2;
+        if (c === 0) {                                   /* door spans from the hinge (-P/2) outward by P*cos(th) */
+          var xEnd = -P / 2 - P * Math.cos(th);
+          left = Math.min(-P / 2, xEnd);
+        } else if (c === 2) {
+          var xEnd2 = P / 2 + P * Math.cos(th);
+          left = Math.min(P / 2, xEnd2);
+        }
         K.shT[c].push({
-          transform: "translate3d(" + (Math.min(xa, xb) + zmid * 0.35 + 1).toFixed(1) + "px," + (-Hp / 2 + zmid * 0.28 + 2).toFixed(1) + "px,-3px) scale3d(" + sx.toFixed(4) + ",1,1)",
+          transform: "translate3d(" + (left + zmid * 0.35 + 1).toFixed(1) + "px," + (-Hp / 2 + zmid * 0.28 + 2).toFixed(1) + "px,-3px) scale3d(" + sx.toFixed(4) + ",1,1)",
           opacity: clamp(0.3 - zmid * 0.0009, 0.08, 0.3).toFixed(2)
         });
         K.svg[c].push({ opacity: inkV });
       }
     }
-
+    /* the shadow box is P wide and scaled about its left edge, so for a leftward door the box must start at its left edge */
     var opts = { duration: TT.end * 1000, easing: "linear", fill: "both" };
     function add(el, frames) { if (!el) return; var a = el.animate(frames, opts); a.pause(); anims.push(a); }
-    add(root, K.root); add(sheet, K.sheet); add(tilt, K.tilt); add(world, K.world);
-    for (var c2 = 0; c2 < N; c2++) {
-      add(segs[c2], K.seg[c2]); add(shEls[c2], K.shT[c2]);
+    add(root, K.root); add(tilt, K.tilt); add(world, K.world); add(root.querySelector(".pi-mat"), K.mat);
+    for (var c2 = 0; c2 < 3; c2++) {
+      add(pns[c2], K.pn[c2]); add(shEls[c2], K.shT[c2]);
       add(faceF[c2], K.faceF[c2]); add(faceB[c2], K.faceB[c2]); add(svgs[c2], K.svg[c2]);
+      add(pns[c2].querySelector('.face.front'), K.fFront[c2]); add(pns[c2].querySelector('.face.back'), K.fBack[c2]);
     }
     var master = anims[0];
     window.__introAnims = anims;

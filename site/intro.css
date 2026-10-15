@@ -65,3 +65,15 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
   transition: background .2s, color .2s;
 }
 #intro .pi-skip:hover, #intro .pi-skip:focus-visible { background: #ebe7dc; color: #1d2b22; outline: none; }
+
+/* gate-fold panels */
+#intro .pn { position: absolute; transform-style: preserve-3d; will-change: transform; }
+#intro .pn .face { width: 100%; }
+#intro .pn.l .face.front::after, #intro .pn.l .face.back::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(270deg, rgba(40,32,18,.22), transparent); }
+#intro .pn.r .face.front::after, #intro .pn.r .face.back::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: linear-gradient(90deg, rgba(40,32,18,.22), transparent); }
+
+/* faces are swapped by opacity (no backface-visibility, no mirrored child): the back is a plain sheet in the same plane */
+#intro .pn .face { backface-visibility: visible; -webkit-backface-visibility: visible; }
+#intro .pn .face.back { transform: none; }
+/* the site-wide ".back" link style (margin-top: 60px, inline-block) must not leak into the paper's back face */
+#intro .face.back { margin: 0; display: block; letter-spacing: normal; text-transform: none; }

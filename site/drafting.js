@@ -68,3 +68,75 @@
     try { localStorage.setItem("theme", next); } catch (e) {}
   });
 })();
+
+/* project artwork has a dark-mode variant; swap sources with the theme (no filter, so a paper backing works in both) */
+(function () {
+  var root = document.documentElement;
+  function sync() {
+    var dark = root.getAttribute("data-theme") === "dark";
+    document.querySelectorAll("img[data-dark]").forEach(function (im) {
+      var want = dark ? im.getAttribute("data-dark") : im.getAttribute("data-light");
+      if (want && im.getAttribute("src") !== want) im.setAttribute("src", want);
+    });
+  }
+  sync();
+  try { new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme"] }); } catch (e) {}
+})();
+
+/* images occasionally fail on a busy dev server / flaky connection and then stay as a broken-image icon;
+   retry each failed image a few times with a cache-busting query so the exploded portrait and work art always load */
+(function () {
+  function retry(im) {
+    var n = +(im.getAttribute("data-retry") || 0);
+    if (n >= 4) return;
+    im.setAttribute("data-retry", String(n + 1));
+    var base = (im.getAttribute("src") || "").replace(/([?&])r=\d+/, "").replace(/[?&]$/, "");
+    if (!base) return;
+    setTimeout(function () { im.setAttribute("src", base + (base.indexOf("?") > -1 ? "&" : "?") + "r=" + (n + 1) + Date.now() % 1000); }, 250 * (n + 1));
+  }
+  function watch(im) {
+    im.addEventListener("error", function () { retry(im); });
+    if (im.complete && im.naturalWidth === 0 && im.getAttribute("src")) retry(im);
+  }
+  var imgs = document.querySelectorAll("img");
+  for (var i = 0; i < imgs.length; i++) watch(imgs[i]);
+})();
+
+/* process stack: opens on first hover/tap, then follows scroll direction while in view; each layer explains a step */
+(function () {
+  var stk = document.getElementById("stk");
+  if (!stk) return;
+  var card = stk.querySelector(".stk-card"), layers = Array.prototype.slice.call(stk.querySelectorAll(".lay"));
+  var kEl = card.querySelector(".k"), tEl = card.querySelector("b"), pEl = card.querySelector("p");
+  var dflt = [kEl.textContent, tEl.textContent, pEl.textContent];
+  var used = false, inView = false, lastY = window.pageYOffset || 0, ticking = false;
+  function setState(s) { if (stk.getAttribute("data-state") !== s) stk.setAttribute("data-state", s); }
+  function show(l) {
+    layers.forEach(function (x) { x.classList.toggle("on", x === l); });
+    stk.classList.toggle("has-on", !!l);
+    if (l) { kEl.textContent = l.getAttribute("data-key"); tEl.textContent = l.getAttribute("data-title"); pEl.textContent = l.getAttribute("data-text"); }
+    else { kEl.textContent = dflt[0]; tEl.textContent = dflt[1]; pEl.textContent = dflt[2]; }
+  }
+  stk.addEventListener("pointerenter", function () { used = true; setState("open"); });
+  layers.forEach(function (l) {
+    l.addEventListener("pointerenter", function () { used = true; setState("open"); show(l); });
+    l.addEventListener("focus", function () { used = true; setState("open"); show(l); });
+    l.addEventListener("blur", function () { show(null); });
+    l.addEventListener("click", function () { used = true; setState("open"); show(l); });   /* touch */
+  });
+  stk.addEventListener("pointerleave", function () { show(null); });
+  try {
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.15 }).observe(stk);
+  } catch (e) { inView = true; }
+  function onScroll() {
+    ticking = false;
+    var y = window.pageYOffset || 0, d = y - lastY;
+    if (Math.abs(d) < 8) return;
+    lastY = y;
+    var r = stk.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight;
+    inView = r.bottom > vh * 0.1 && r.top < vh * 0.9;
+    if (!used || !inView) return;       /* the first opening is always the visitor's own hover */
+    setState(d > 0 ? "open" : "closed");
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+})();

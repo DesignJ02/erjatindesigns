@@ -5,9 +5,9 @@
   // ---- Fill these in. Empty values show "not set yet" in the picker. ----
   var CONFIG = {
     email: "jatinsri98@gmail.com",
-    linkedin: "", // e.g. "https://www.linkedin.com/in/your-handle"
-    whatsapp: "", // digits with country code, e.g. "919876543210"
-    resume: "", // e.g. "assets/resume/Jatin-Srivastava-Resume.pdf"
+    linkedin: "https://www.linkedin.com/in/jsri02/",
+    whatsapp: "919971404680", // digits with country code
+    resume: "https://drive.google.com/file/d/1VxPSlpZjVewjcQyfMw71a3DpOndeNl4g/view?usp=drive_link",
   };
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -140,7 +140,7 @@
     lastFocus = document.activeElement;
     var isResume = mode === "resume";
     $("#m-title").textContent = isResume ? "Get my resume" : "How should we talk?";
-    $("#m-sub").textContent = isResume ? "Download it, or reach out and I'll send it over." : "Pick how you'd like to reach me.";
+    $("#m-sub").textContent = isResume ? "Open it in a new tab, or reach out and I'll send it over." : "Pick how you'd like to reach me.";
     $('[data-channel="resume"]').hidden = !isResume;
     modal.classList.add("open");
     if (lenis) lenis.stop();
@@ -151,7 +151,13 @@
     if (lenis) lenis.start();
     if (lastFocus) lastFocus.focus();
   }
-  $$("[data-open]").forEach(function (b) { b.addEventListener("click", function () { open(b.dataset.open); }); });
+  $$("[data-open]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      /* "Resume" goes straight to the file; only "Contact" shows the channel picker */
+      if (b.dataset.open === "resume" && CONFIG.resume) { window.open(CONFIG.resume, "_blank", "noopener"); return; }
+      open(b.dataset.open);
+    });
+  });
   $("#m-close").addEventListener("click", close);
   modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
   document.addEventListener("keydown", function (e) {
@@ -166,7 +172,7 @@
   var urls = {
     email: function () { return CONFIG.email && "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent("Hello Jatin"); },
     linkedin: function () { return CONFIG.linkedin; },
-    whatsapp: function () { return CONFIG.whatsapp && "https://wa.me/" + CONFIG.whatsapp.replace(/\D/g, ""); },
+    whatsapp: function () { return CONFIG.whatsapp && "https://wa.me/" + CONFIG.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent("Hi Jatin, I came across your portfolio and wanted to connect."); },
     resume: function () { return CONFIG.resume; },
   };
   $$("[data-channel]").forEach(function (b) {
