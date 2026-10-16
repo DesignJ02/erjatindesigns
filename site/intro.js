@@ -56,6 +56,97 @@
   try {
     var vw = html.clientWidth || window.innerWidth || 1280, vh = window.innerHeight || html.clientHeight || 720;
 
+    /* ---------- phones: one sheet, two folds opening downward, then the page. Same compositor-driven approach. ---------- */
+    if (vw <= 760) {
+      var MW = Math.min(vw * 0.82, 340), MH = MW * 1.34, S3 = MH / 3;
+      var INKC = "#2b2a28", REDC = "#c81e48", YELC = "#f9bf3c";
+      var mart = function (x, y, s, txt, extra) { return '<text x="' + x + '" y="' + y + '" font-size="' + s + '" font-family="DM Mono, monospace" letter-spacing=".08em" fill="' + INKC + '" ' + (extra || "") + '>' + txt + '</text>'; };
+      var artSvg =
+        '<rect x="6" y="6" width="288" height="390" fill="none" stroke="' + INKC + '" stroke-opacity=".5" stroke-width="1"/>' +
+        '<path d="M6 40h8M286 40h8M6 362h8M286 362h8M60 6v8M240 6v8M60 388v8M240 388v8" stroke="' + INKC + '" stroke-opacity=".5"/>' +
+        mart(150, 34, 9, "DETAIL B · DESIGNER", 'text-anchor="middle"') +
+        '<circle cx="150" cy="128" r="78" fill="none" stroke="' + INKC + '" stroke-opacity=".55" stroke-dasharray="3 3"/>' +
+        '<path d="M58 128H242M150 36V220" stroke="' + REDC + '" stroke-opacity=".7" stroke-dasharray="9 3 2 3"/>' +
+        '<circle cx="150" cy="128" r="62" fill="' + YELC + '"/>' +
+        '<defs><clipPath id="pmc"><circle cx="150" cy="128" r="62"/></clipPath></defs>' +
+        '<image href="assets/portrait/final.webp" x="75" y="53" width="150" height="150" clip-path="url(#pmc)" preserveAspectRatio="xMidYMid slice"/>' +
+        '<path d="M82 226H218M82 220v12M218 220v12" stroke="' + INKC + '" stroke-width="1"/>' + mart(150, 246, 10, "&#216;336", 'text-anchor="middle"') +
+        mart(150, 268, 9.5, "REV A → REV B", 'text-anchor="middle" fill="' + REDC + '" style="fill:' + REDC + '"') + '<path d="M96 276H204" stroke="' + REDC + '"/>' +
+        '<rect x="22" y="292" width="256" height="88" fill="none" stroke="' + INKC + '"/><path d="M22 328H278M22 354H278M178 354V380" stroke="' + INKC + '" stroke-opacity=".7"/>' +
+        '<text x="34" y="319" font-size="19" font-weight="700" font-family="General Sans, sans-serif" fill="' + INKC + '">JATIN SRIVASTAVA</text>' +
+        mart(34, 345, 7.6, "MECHANICAL ENGINEER → PRODUCT DESIGNER") +
+        mart(34, 371, 8, "REV A · ENGINEER") + mart(188, 371, 8, "REV B · DESIGNER", 'style="fill:' + REDC + '"');
+      var face = function (i) {
+        return '<div class="pm-face f"><svg viewBox="0 0 300 402" style="position:absolute;left:0;top:' + (-i * S3).toFixed(2) + 'px;width:' + MW.toFixed(2) + 'px;height:' + MH.toFixed(2) + 'px" aria-hidden="true">' + artSvg + '</svg><i class="pm-sh"></i></div><div class="pm-face b"><i class="pm-sh"></i></div>';
+      };
+      root.innerHTML =
+        '<div class="pm-stage"><div class="pi-mat pm-mat"></div><div class="pm-world"><div class="pm-tilt"><div class="pm-sheet" style="width:' + MW.toFixed(2) + 'px;height:' + S3.toFixed(2) + 'px">' +
+        '<div class="pm-s sa">' + face(0) +
+        '<div class="pm-s sb" style="height:' + S3.toFixed(2) + 'px">' + face(1) +
+        '<div class="pm-s sc" style="height:' + S3.toFixed(2) + 'px">' + face(2) + '</div></div></div></div></div></div></div><div class="pi-vig"></div>' +
+        '<button type="button" class="pi-skip" aria-label="Skip intro animation">Skip intro</button>';
+      root.setAttribute("role", "dialog");
+      root.setAttribute("aria-label", "Intro animation");
+      var mskip = root.querySelector(".pi-skip");
+      mskip.addEventListener("click", skip);
+      document.addEventListener("keydown", onKey);
+      window.addEventListener("resize", onResize);
+      var mswallow = function (e) { e.preventDefault(); e.stopPropagation(); };
+      root.addEventListener("wheel", mswallow, { passive: false });
+      root.addEventListener("touchmove", mswallow, { passive: false });
+      html.classList.add("intro-lock");
+      try { mskip.focus({ preventScroll: true }); } catch (e) {}
+
+      var mc = function (v, a, b) { return v < a ? a : v > b ? b : v; };
+      var mss = function (v) { v = mc(v, 0, 1); return v * v * v * (v * (v * 6 - 15) + 10); };
+      var msine = function (v) { return 0.5 - 0.5 * Math.cos(Math.PI * mc(v, 0, 1)); };
+      var MT = { end: 3.7, c0: 0.8, cd: 1.05, b0: 1.95, bd: 1.15, handoff: 3.3 }, D2R = Math.PI / 180, NFm = Math.ceil(MT.end * 60) + 1;
+      var sheet = root.querySelector(".pm-sheet"), tiltEl = root.querySelector(".pm-tilt"), sa = root.querySelector(".sa"), sb = root.querySelector(".sb"), sc = root.querySelector(".sc"), world = root.querySelector(".pm-world");
+      sheet.style.marginLeft = (-MW / 2).toFixed(2) + "px";
+      var KK = { world: [], tilt: [], sheet: [], b: [], c: [], bF: [], bB: [], cF: [], cB: [], bS: [], cS: [], mat: [] };
+      for (var m1 = 0; m1 < NFm; m1++) {
+        var t = m1 / 60, tC = mss((t - MT.c0) / MT.cd), tB = mss((t - MT.b0) / MT.bd);
+        var th2 = -180 * (1 - tC), th1 = 180 * (1 - tB), abs2 = th1 + th2;
+        var cen = S3 * (0.5 - 0.5 * tC + 1.5 * tB);
+        var ee = msine((t - MT.c0) / (MT.b0 + MT.bd - MT.c0));
+        var land = mss((t - 3.0) / 0.7);
+        KK.world.push({ transform: "scale(" + (0.94 + 0.06 * msine(t / 0.7) + 0.5 * land).toFixed(4) + ")", opacity: mc(t / 0.5, 0, 1).toFixed(3) });
+        KK.tilt.push({ transform: "rotateX(" + (16 * (1 - ee)).toFixed(3) + "deg)" });
+        KK.sheet.push({ transform: "translateY(" + (-cen).toFixed(2) + "px)" });
+        KK.b.push({ transform: "translateZ(" + (0.7 * th1 / 180).toFixed(2) + "px) rotateX(" + th1.toFixed(3) + "deg)" });
+        KK.c.push({ transform: "translateZ(" + (0.7 * Math.abs(th2) / 180).toFixed(2) + "px) rotateX(" + th2.toFixed(3) + "deg)" });
+        var bf = Math.cos(th1 * D2R) >= 0, cf = Math.cos(abs2 * D2R) >= 0;
+        KK.bF.push({ opacity: bf ? "1" : "0" }); KK.bB.push({ opacity: bf ? "0" : "1" });
+        KK.cF.push({ opacity: cf ? "1" : "0" }); KK.cB.push({ opacity: cf ? "0" : "1" });
+        KK.bS.push({ opacity: (0.2 * Math.abs(Math.sin(th1 * D2R))).toFixed(3) });
+        KK.cS.push({ opacity: (0.2 * Math.abs(Math.sin(th2 * D2R))).toFixed(3) });
+        KK.mat.push({ transform: "scale(" + (1.12 - 0.06 * ee).toFixed(4) + ")" });
+      }
+      var mopts = { duration: MT.end * 1000, easing: "linear", fill: "both" };
+      function madd(el, fr) { if (!el) return; var a = el.animate(fr, mopts); a.pause(); anims.push(a); }
+      madd(world, KK.world); madd(tiltEl, KK.tilt); madd(sheet, KK.sheet); madd(sb, KK.b); madd(sc, KK.c);
+      madd(sb.querySelector(":scope > .pm-face.f"), KK.bF); madd(sb.querySelector(":scope > .pm-face.b"), KK.bB);
+      madd(sc.querySelector(":scope > .pm-face.f"), KK.cF); madd(sc.querySelector(":scope > .pm-face.b"), KK.cB);
+      madd(sb.querySelector(":scope > .pm-face.f .pm-sh"), KK.bS); madd(sc.querySelector(":scope > .pm-face.f .pm-sh"), KK.cS);
+      madd(root.querySelector(".pm-mat"), KK.mat);
+      window.__introAnims = anims;
+      window.__introSeek = function (sec) { anims.forEach(function (a) { a.pause(); a.currentTime = sec * 1000; }); };
+      var mgo = function () {
+        if (started || finished) return; started = true;
+        anims.forEach(function (a) { a.currentTime = 0; a.play(); });
+        setTimeout(function () { if (!finished) reveal(false); }, MT.handoff * 1000);
+      };
+      window.__introGo = mgo;
+      if (!/[?&]hold/.test(location.search)) {
+        var pim = new Image(); pim.src = "assets/portrait/final.webp";
+        (pim.decode ? pim.decode().catch(function () {}) : Promise.resolve()).then(mgo);
+        setTimeout(mgo, 1000);
+      }
+      watchdog = setTimeout(function () { if (!finished && !/[?&]hold/.test(location.search)) skip(); }, (MT.end + 6) * 1000);
+      return;
+    }
+
+
     /* ---------- geometry: 3 panels, each 2 strips, 5 hinges ---------- */
     var PANEL_RATIO = 1.12;                         // panel height / width
     var Ws = Math.min(vw * 0.92, (vh * 0.76 / PANEL_RATIO) * 3, 1500);

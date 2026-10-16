@@ -472,3 +472,16 @@ body.le .act p { font-size: clamp(15px, 1.3vw, 18px); max-width: 52ch; margin: 0
     linear-gradient(180deg, rgba(20, 17, 12, .2), rgba(20, 17, 12, .08) 30%, transparent) 0 2px / 100% 26px no-repeat;
 }
 .le .fold > .crease::after { content: ""; position: absolute; left: 0; right: 0; top: -2px; height: 2px; background: linear-gradient(180deg, transparent, rgba(255, 255, 255, .35)); }
+
+/* ================= phones: readable labels, pannable wide screens, comfortable tap targets ================= */
+.le .pan::after { display: none; }
+@media (max-width: 700px) {
+  .le .cx-t, .le .cs-sub, .le figcaption, .le .cx-cmp-tag, .le .cx-cmp-hint, .le .cs-card .k, .le .cs-note b, .le .cs-chips i,
+  .le .cx-eyebrow, .le .cx-meta b, .le .cx-stats span, .le .ds-sw span, .le .act b, .le .ch-label, .le .cx-tag { font-size: 12px; }
+  .le .cx-box { outline-offset: 2px; padding: 20px 16px; }
+  .le .dr-foot a { display: inline-block; padding: 12px 0; }
+  .le .pan .cx-flat { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .le .pan .cx-flat img { width: auto; max-width: none; min-width: 720px; }
+  .le .pan::after { display: block; content: "Swipe to explore \2192"; margin-top: 10px; font: 500 11px/1 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .le .cx-cmp-knob::after { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+}

@@ -77,3 +77,17 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
 #intro .pn .face.back { transform: none; }
 /* the site-wide ".back" link style (margin-top: 60px, inline-block) must not leak into the paper's back face */
 #intro .face.back { margin: 0; display: block; letter-spacing: normal; text-transform: none; }
+
+/* phones: a single sheet with two folds that open downward */
+#intro .pm-stage { position: absolute; inset: 0; overflow: hidden; perspective: 1500px; perspective-origin: 50% 40%; }
+#intro .pm-mat { left: 50%; top: 50%; margin: -1500px 0 0 -1500px; transform: none; }
+#intro .pm-world { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform, opacity; }
+#intro .pm-tilt { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; will-change: transform; }
+#intro .pm-sheet { position: absolute; left: 0; top: 0; transform-style: preserve-3d; will-change: transform; }
+#intro .pm-s { position: absolute; left: 0; top: 100%; width: 100%; transform-origin: 50% 0; transform-style: preserve-3d; will-change: transform; }
+#intro .pm-s.sa { top: 0; height: 100%; }
+#intro .pm-face { position: absolute; inset: 0; overflow: hidden; background-color: #e4e3de; box-shadow: 0 0 0 1px rgba(40, 32, 18, .16); }
+#intro .pm-face.b { background-color: #dfded9; opacity: 0; }
+#intro .pm-s.sa > .pm-face.b { display: none; }
+#intro .pm-sh { position: absolute; inset: 0; background: #14110c; opacity: 0; pointer-events: none; }
+#intro .pm-face svg text { font-variant-ligatures: none; }

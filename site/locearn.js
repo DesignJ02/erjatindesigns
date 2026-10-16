@@ -31,6 +31,7 @@
   span();
   window.addEventListener("resize", span);
   window.addEventListener("load", span);
+  var narrow = window.matchMedia("(max-width: 760px)");
   var ease = function (t) { return t * t * (3 - 2 * t); };
   var ticking = false;
   function update() {
@@ -38,7 +39,7 @@
     var vh = window.innerHeight;
     folds.forEach(function (f) {
       var top = f.act.getBoundingClientRect().top;
-      var p = (vh * 0.9 - top) / (vh * 0.5);
+      var p = narrow.matches ? (vh * 0.92 - top) / (vh * 0.34) : (vh * 0.9 - top) / (vh * 0.5);
       p = p < 0 ? 0 : p > 1 ? 1 : p;
       p = Math.round(ease(p) * 500) / 500;
       if (p === f.last) return;
@@ -46,7 +47,7 @@
       if (p >= 1) { f.fold.style.transform = ""; f.fold.style.willChange = ""; f.fold.style.setProperty("--fp", 0); f.fold.classList.remove("folding"); return; }
       f.fold.classList.add("folding");
       f.fold.style.willChange = "transform";
-      f.fold.style.transform = "perspective(2400px) rotateX(" + (80 * (1 - p)).toFixed(2) + "deg)";
+      f.fold.style.transform = (narrow.matches ? "perspective(1700px) rotateX(" + (42 * (1 - p)).toFixed(2) : "perspective(2400px) rotateX(" + (80 * (1 - p)).toFixed(2)) + "deg)";
       f.fold.style.setProperty("--fp", (1 - p).toFixed(3));
     });
   }

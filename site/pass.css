@@ -24,3 +24,13 @@
 .pass-msg { margin: 14px 0 0; font: 400 12.5px/1.5 var(--font-family-mono); letter-spacing: .04em; color: var(--muted); text-align: center; }
 .dr-ticket.done .pass-msg { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .sk .pn .hole, .sk .stamp, .sk .pn .ck { transition: none; animation: none !important; } }
+
+/* phones: the pass is drawn at about 1:1, so the holes and their names need to be larger to read and tap */
+@media (max-width: 600px) {
+  .sk .pn .nm { font-size: 7px; letter-spacing: .02em; }
+  .sk .pn .hole { r: 12px; }
+  .sk .pn .core { r: 4px; }
+  .sk .nm { font-size: 7px; letter-spacing: .02em; }
+  .sk .cnt { font-size: 12px; }
+  .pass-msg { font-size: 12px; }
+}

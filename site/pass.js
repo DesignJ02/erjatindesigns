@@ -14,6 +14,11 @@
 
   var pass = document.getElementById("pass");
   if (!pass) return;
+  Array.prototype.forEach.call(pass.querySelectorAll(".pn"), function (a) {          /* a larger invisible target around each hole */
+    var c = a.querySelector(".hole"), t = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    t.setAttribute("cx", c.getAttribute("cx")); t.setAttribute("cy", c.getAttribute("cy")); t.setAttribute("r", "21"); t.setAttribute("fill", "transparent");
+    a.insertBefore(t, a.firstChild);
+  });
   function render() {
     var visited = read(KEY), seen = read(SEEN), fresh = false;
     Array.prototype.forEach.call(pass.querySelectorAll(".pn"), function (a) {
