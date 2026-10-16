@@ -34,10 +34,10 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
 #intro .face { position: absolute; left: 0; top: 0; height: 100%; width: calc(100% + 1px); backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
 #intro .face.back { transform: rotateY(180deg); }
 #intro .face.front, #intro .face.back {
-  background-color: #edecE8;
+  background-color: #e4e3de;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
 }
-#intro .face.back { background-color: #e6e5e0; }
+#intro .face.back { background-color: #dfded9; }
 #intro .face svg { position: absolute; left: 0; top: 0; width: calc(100% - 1px); height: 100%; display: block; opacity: 0; will-change: opacity; }
 #intro .face .sh { position: absolute; inset: 0; background: #14110c; opacity: 0; pointer-events: none; will-change: opacity; }
 /* a crease line on each fold */

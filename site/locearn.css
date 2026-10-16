@@ -461,3 +461,14 @@ body.le .act h3, body.le .act p { grid-column: auto; }
 .le #options .cx-k.bad h4 { text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent); }
 body.le .act h3 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 10px; }
 body.le .act p { font-size: clamp(15px, 1.3vw, 18px); max-width: 52ch; margin: 0 auto; }
+
+/* the crease the sheet is hinged on: a pressed fold line with a lit lip above, a soft shadow below and slightly uneven pressure along its length */
+.le .fold > .crease {
+  position: absolute; left: 0; right: 0; top: 0; height: 34px; z-index: 7; pointer-events: none; display: block;
+  opacity: calc(.62 + var(--fp, 0) * .38);
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .5) 12%, rgba(255, 255, 255, .15) 38%, rgba(255, 255, 255, .55) 64%, rgba(255, 255, 255, .2) 86%, transparent 100%) 0 0 / 100% 1px no-repeat,
+    linear-gradient(90deg, rgba(20, 17, 12, .22), rgba(20, 17, 12, .42) 18%, rgba(20, 17, 12, .3) 47%, rgba(20, 17, 12, .46) 73%, rgba(20, 17, 12, .26)) 0 1px / 100% 1.5px no-repeat,
+    linear-gradient(180deg, rgba(20, 17, 12, .2), rgba(20, 17, 12, .08) 30%, transparent) 0 2px / 100% 26px no-repeat;
+}
+.le .fold > .crease::after { content: ""; position: absolute; left: 0; right: 0; top: -2px; height: 2px; background: linear-gradient(180deg, transparent, rgba(255, 255, 255, .35)); }

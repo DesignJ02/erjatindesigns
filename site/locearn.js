@@ -10,6 +10,10 @@
     var fold = document.createElement("div");
     fold.className = "fold";
     act.parentNode.insertBefore(fold, secs[0]);
+    var crease = document.createElement("i");              /* the natural crease the sheet hangs from */
+    crease.className = "crease";
+    crease.setAttribute("aria-hidden", "true");
+    fold.appendChild(crease);
     secs.forEach(function (s) { fold.appendChild(s); });
     folds.push({ act: act, fold: fold, last: -1 });
   });
@@ -46,8 +50,24 @@
       f.fold.style.setProperty("--fp", (1 - p).toFixed(3));
     });
   }
-  function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  /* update on every signal that can move an act, plus a slow safety poll, so a fold can never be left half-open
+     (layout shifts from late images or fonts, a dropped frame, a jump from a chapter link, restored scroll positions) */
+  var pending = 0;
+  function req() {
+    if (pending) return;
+    pending = requestAnimationFrame(function () { pending = 0; update(); });
+    setTimeout(function () { if (pending) { cancelAnimationFrame(pending); pending = 0; update(); } }, 120);
+  }
   window.addEventListener("scroll", req, { passive: true });
   window.addEventListener("resize", req);
+  window.addEventListener("load", function () { span(); req(); });
+  window.addEventListener("pageshow", req);
+  document.addEventListener("visibilitychange", req);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(req); folds.forEach(function (f) { ro.observe(f.fold); }); ro.observe(document.documentElement); }
+  setInterval(function () { f_force(); }, 400);
+  function f_force() {
+    folds.forEach(function (f) { f.last = -1; });                 /* drop the cache so the next pass re-applies the correct state */
+    update();
+  }
   update();
 })();

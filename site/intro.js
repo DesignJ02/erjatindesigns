@@ -139,7 +139,7 @@
       s += R(HERO.x, HERO.y, HERO.w, HERO.h.toFixed(1), "thin");
       s += T(60, HERO.y + HERO.h + 70, "PRODUCT DESIGN · USER-CENTRED", "mono", 24);
       s += T(60, HERO.y + HERO.h + 112, "FORMER ENGINEER · DESIGNER BY CHOICE", "mono", 24);
-      s += T(940, PH - 60, "er.", "", 64, 'text-anchor="end" font-weight="700"');
+      s += T(940, PH - 60, "JS.", "", 64, 'text-anchor="end" font-weight="700"');
       return s;
     }
     var PANELS = [panelEngineer(), panelDesigner(), panelHome()];    // left -> right: drawing first, homepage last
