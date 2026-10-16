@@ -34,10 +34,10 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
 #intro .face { position: absolute; left: 0; top: 0; height: 100%; width: calc(100% + 1px); backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
 #intro .face.back { transform: rotateY(180deg); }
 #intro .face.front, #intro .face.back {
-  background-color: #ebe7dc;
+  background-color: #edecE8;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
 }
-#intro .face.back { background-color: #e6e0cf; }
+#intro .face.back { background-color: #e6e5e0; }
 #intro .face svg { position: absolute; left: 0; top: 0; width: calc(100% - 1px); height: 100%; display: block; opacity: 0; will-change: opacity; }
 #intro .face .sh { position: absolute; inset: 0; background: #14110c; opacity: 0; pointer-events: none; will-change: opacity; }
 /* a crease line on each fold */
@@ -61,10 +61,10 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
 #intro .pi-skip {
   position: absolute; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 3;
   font: 500 12px/1 "DM Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase;
-  color: #ebe7dc; background: rgba(14, 30, 22, .65); border: 1px solid rgba(235, 231, 220, .55); padding: 10px 14px; cursor: pointer;
+  color: #edecE8; background: rgba(14, 30, 22, .65); border: 1px solid rgba(235, 231, 220, .55); padding: 10px 14px; cursor: pointer;
   transition: background .2s, color .2s;
 }
-#intro .pi-skip:hover, #intro .pi-skip:focus-visible { background: #ebe7dc; color: #1d2b22; outline: none; }
+#intro .pi-skip:hover, #intro .pi-skip:focus-visible { background: #edecE8; color: #1d2b22; outline: none; }
 
 /* gate-fold panels */
 #intro .pn { position: absolute; transform-style: preserve-3d; will-change: transform; }

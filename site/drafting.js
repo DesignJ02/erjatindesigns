@@ -140,3 +140,49 @@
   }
   window.addEventListener("scroll", onScroll, { passive: true });
 })();
+
+/* CAD inspector: hovering a line of the name selects it like a CAD object and reads out live dimensions,
+   font, weight and size straight from the computed style. */
+(function () {
+  var h1 = document.querySelector('h1[aria-label="Jatin Srivastava"]');
+  if (!h1 || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  var lines = h1.querySelectorAll(".l1 > span, .l2 > span");
+  if (!lines.length) return;
+  var el = document.createElement("div");
+  el.className = "cad-hover";
+  el.setAttribute("aria-hidden", "true");
+  el.innerHTML = '<div class="cad-box"><i class="g a"></i><i class="g b"></i><i class="g c"></i><i class="g d"></i></div>' +
+    '<div class="cad-dw"><b></b></div><div class="cad-dh"><b></b></div><div class="cad-tip"></div>';
+  document.body.appendChild(el);
+  var box = el.querySelector(".cad-box"), dw = el.querySelector(".cad-dw"), dh = el.querySelector(".cad-dh"), tip = el.querySelector(".cad-tip");
+  var cur = null, mx = 0, my = 0, raf = 0;
+  var WEIGHTS = { 100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "Semibold", 700: "Bold", 800: "ExtraBold", 900: "Black" };
+  var f1 = function (n) { return n.toFixed(1); };
+
+  function draw() {
+    raf = 0;
+    if (!cur) return;
+    var rg = document.createRange();
+    rg.selectNodeContents(cur);
+    var r = rg.getBoundingClientRect(), cs = getComputedStyle(cur);
+    var fam = cs.fontFamily.split(",")[0].replace(/["']/g, "").trim();
+    var w = WEIGHTS[cs.fontWeight] || cs.fontWeight;
+    var fs = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
+    var ls = cs.letterSpacing === "normal" ? "0" : f1(parseFloat(cs.letterSpacing)) + "px";
+    box.style.cssText = "left:" + r.left + "px;top:" + r.top + "px;width:" + r.width + "px;height:" + r.height + "px";
+    dw.style.cssText = "left:" + r.left + "px;top:" + (r.bottom + 4) + "px;width:" + r.width + "px";
+    dw.firstChild.textContent = f1(r.width);
+    dh.style.cssText = "left:" + (r.right + 18) + "px;top:" + r.top + "px;height:" + r.height + "px";
+    dh.firstChild.textContent = f1(r.height);
+    tip.innerHTML = '<b>' + fam + ' ' + w + '</b><span>' + f1(fs) + ' px &middot; lead ' + (isNaN(lh) ? "auto" : f1(lh)) + ' &middot; track ' + ls + '</span>';
+    var tw = tip.offsetWidth, x = r.right + 46, y = r.top + r.height / 2 - 18;
+    if (x + tw > window.innerWidth - 8) { x = r.left; y = r.bottom + 30; }
+    tip.style.transform = "translate(" + x + "px," + y + "px)";
+    raf = requestAnimationFrame(draw);
+  }
+  Array.prototype.forEach.call(lines, function (s) {
+    s.addEventListener("pointerenter", function () { cur = s; el.classList.add("on"); if (!raf) raf = requestAnimationFrame(draw); });
+    s.addEventListener("pointermove", function (e) { mx = e.clientX; my = e.clientY; });
+    s.addEventListener("pointerleave", function () { if (cur === s) { cur = null; el.classList.remove("on"); } });
+  });
+})();

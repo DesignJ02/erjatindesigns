@@ -224,3 +224,240 @@ body.le .act b { grid-row: 1 / span 2; font: 500 12px/1 "DM Mono", ui-monospace,
 body.le .act h3 { margin: 0; font-size: 24px; line-height: 1.2; font-weight: 500; color: var(--ink); }
 body.le .act p { margin: 0; color: var(--muted); font-size: 15px; }
 @media (max-width: 640px) { body.le .act { grid-template-columns: 1fr; } body.le .act b { grid-row: auto; } }
+
+/* ================= CAD / engineering-drawing layer =================
+   Dimension lines, balloon callouts, section hatching, grid plates with crop marks, a title block.
+   Pure presentation: every mark is drawn with gradients and pseudo-elements from the existing tokens. */
+body.le {
+  --cad-line: var(--pencil);
+  --cad-grid: color-mix(in srgb, var(--ink) 7%, transparent);
+  --cad-grid-major: color-mix(in srgb, var(--ink) 13%, transparent);
+  --cad-hatch: color-mix(in srgb, var(--accent) 16%, transparent);
+  counter-reset: secno;
+}
+
+/* graph-paper plates behind every device mockup */
+.le .cx-stage, .le .cx-hero-art::before {
+  background-color: var(--le-plate);
+  background-image:
+    linear-gradient(var(--cad-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cad-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--cad-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cad-grid) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-position: -1px -1px;
+}
+.le #v2 .cx-stage { background: transparent; }                                   /* the sliders keep their clean stage */
+.le #v2 .cx-redo-art .cx-stage { background-image: none; }
+
+/* crop / registration marks at the four corners of each plate */
+.le #trust .cx-stage, .le #feedback .cx-feed .cx-stage, .le #final .cx-stage { position: relative; }
+.le #trust .cx-stage::after, .le #feedback .cx-feed .cx-stage::after, .le #final .cx-stage::after, .le .cx-hero-art::before {
+  --m: var(--accent);
+}
+.le #trust .cx-stage::after, .le #feedback .cx-feed .cx-stage::after, .le #final .cx-stage::after {
+  content: ""; position: absolute; inset: 7px; pointer-events: none;
+  background:
+    linear-gradient(var(--m), var(--m)) 0 0 / 14px 1px no-repeat, linear-gradient(var(--m), var(--m)) 0 0 / 1px 14px no-repeat,
+    linear-gradient(var(--m), var(--m)) 100% 0 / 14px 1px no-repeat, linear-gradient(var(--m), var(--m)) 100% 0 / 1px 14px no-repeat,
+    linear-gradient(var(--m), var(--m)) 0 100% / 14px 1px no-repeat, linear-gradient(var(--m), var(--m)) 0 100% / 1px 14px no-repeat,
+    linear-gradient(var(--m), var(--m)) 100% 100% / 14px 1px no-repeat, linear-gradient(var(--m), var(--m)) 100% 100% / 1px 14px no-repeat;
+}
+
+/* section heads: a dimension line with a live section counter */
+.le section.ch { counter-increment: secno; }
+.le .ch-head::after {
+  content: "SEC. " counter(secno, decimal-leading-zero) " / " var(--tot, "11"); grid-column: 1 / -1; margin-top: 22px; padding: 0 0 7px;
+  text-align: center; font: 400 10.5px/1 var(--le-mono); letter-spacing: 0.22em; color: var(--muted);
+  background:
+    linear-gradient(var(--cad-line), var(--cad-line)) 0 100% / 100% 1px no-repeat,
+    linear-gradient(var(--cad-line), var(--cad-line)) 0 100% / 1px 12px no-repeat,
+    linear-gradient(var(--cad-line), var(--cad-line)) 100% 100% / 1px 12px no-repeat,
+    linear-gradient(135deg, transparent 45%, var(--accent) 46% 54%, transparent 55%) 0 100% / 10px 10px no-repeat,
+    linear-gradient(135deg, transparent 45%, var(--accent) 46% 54%, transparent 55%) 100% 100% / 10px 10px no-repeat;
+}
+
+/* act dividers: centre-line (dash-dot) instead of a plain rule */
+.le .act { border-top: 0; position: relative; }
+.le .act::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--cad-line) 0 22px, transparent 22px 28px, var(--cad-line) 28px 32px, transparent 32px 38px);
+}
+
+/* balloon callouts: numbered items sit in circles, like part numbers on an assembly drawing */
+.le #v2 .cx-pt i { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--accent); border-radius: 50%; font-size: 12px; letter-spacing: 0; }
+.le #v2 .cx-pt i::before { content: ""; }
+.le #trust .cx-k .n, .le #options .cx-k .n, .le #reflection .cx-k .n, .le #feedback .cx-cards .n, .le #problem .cx-k .n {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--accent); border-radius: 50%;
+  font: 500 11.5px/1 var(--le-mono); letter-spacing: 0; color: var(--accent); -webkit-text-stroke: 0;
+}
+.le #proof .cx-k .n { display: inline-grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; font: 500 13px/1 var(--le-mono); letter-spacing: 0; color: var(--accent); -webkit-text-stroke: 0; margin-bottom: 16px; }
+
+/* section hatching on the chosen / highlighted items, strike hatching on rejected ones */
+.le .cx-k.hl, .le #problem .cx-flow .node.on {
+  background-image: repeating-linear-gradient(135deg, var(--cad-hatch) 0 1px, transparent 1px 9px);
+}
+.le #options .cx-k.bad { background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink) 5%, transparent) 0 1px, transparent 1px 11px); }
+
+/* title block: the hero meta row becomes a ruled drawing title block */
+.le .cx-meta { border: 2px solid var(--cad-line); background: var(--surface); }
+.le .cx-meta > div { border-left: 1px solid var(--cad-line); }
+.le .cx-meta > div:first-child { border-left: 0; }
+.le .cx-meta b { font-size: 10.5px; color: var(--accent); }
+.le .cx-stats { border: 2px solid var(--cad-line); border-top: 0; background: var(--surface); }
+.le .cx-stats div { border-left: 1px solid var(--cad-line); }
+.le .cx-stats div:first-child { border-left: 0; padding-left: clamp(16px, 2vw, 28px); }
+
+/* hero: dimension line over the artwork and a centre mark */
+.le .cx-hero-art::after { content: "FIG. 01  /  RIDER APP  /  SCALE 1:1"; }
+.le .cx-hero h1::after {
+  content: ""; display: block; width: 120px; height: 11px; margin-top: 22px;
+  background:
+    linear-gradient(var(--cad-line), var(--cad-line)) 0 50% / 100% 1px no-repeat,
+    linear-gradient(var(--cad-line), var(--cad-line)) 0 50% / 1px 11px no-repeat,
+    linear-gradient(var(--cad-line), var(--cad-line)) 100% 50% / 1px 11px no-repeat;
+}
+
+/* the app-flow and comparison frames get a thin double border */
+.le #v1 .bleed .cx-flat { border: 1px solid var(--cad-line); outline: 1px solid var(--line); outline-offset: 4px; box-shadow: none; }
+.le #v2 .cx-redo { box-shadow: none; outline: 1px solid var(--line); outline-offset: 5px; }
+.le #final .cx-ph figcaption::before, .le #trust .cx-ph figcaption::before { content: "\25B8  "; color: var(--accent); }
+
+@media (prefers-reduced-motion: no-preference) { .le .ch-head::after { transition: opacity .4s; } }
+
+/* act junction fold: the following chapters are a sheet hinged on the divider's crease and swing toward you */
+.le .fold { position: relative; transform-origin: 50% 0; }
+.le .fold.folding { backface-visibility: hidden; background: var(--bg); clip-path: inset(0 0 calc(100% - 115vh) 0); }
+.le .fold.folding::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 115vh; z-index: 5; pointer-events: none; opacity: var(--fp, 0);
+  background: linear-gradient(180deg, rgba(20, 17, 12, .5), rgba(20, 17, 12, .1) 70%, transparent);
+}
+/* creases running down both sides of the sheet while it opens, plus the hinge line at the top */
+.le .fold.folding::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 115vh; z-index: 6; pointer-events: none; opacity: var(--fp, 0);
+  background:
+    linear-gradient(rgba(20, 17, 12, .55), rgba(20, 17, 12, .55)) 0 0 / 100% 2px no-repeat,
+    linear-gradient(rgba(20, 17, 12, .5), rgba(20, 17, 12, .5)) 3.2% 0 / 1px 100% no-repeat,
+    linear-gradient(rgba(255, 255, 255, .45), rgba(255, 255, 255, .45)) calc(3.2% + 1px) 0 / 1px 100% no-repeat,
+    linear-gradient(rgba(20, 17, 12, .5), rgba(20, 17, 12, .5)) 96.8% 0 / 1px 100% no-repeat,
+    linear-gradient(rgba(255, 255, 255, .45), rgba(255, 255, 255, .45)) calc(96.8% - 1px) 0 / 1px 100% no-repeat,
+    linear-gradient(90deg, rgba(20, 17, 12, .26), transparent 3.2%) 0 0 / 100% 100% no-repeat,
+    linear-gradient(270deg, rgba(20, 17, 12, .26), transparent 3.2%) 0 0 / 100% 100% no-repeat;
+}
+
+/* ---------- one left edge: number and label on a row, title under them, body flush with both ---------- */
+.le .ch { padding-top: clamp(64px, 7vw, 96px); }
+.le .ch-head, .le .ch-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 18px; row-gap: 10px; margin-bottom: 30px; }
+.le .ch-no { grid-row: 1; grid-column: 1; font-size: clamp(30px, 3vw, 40px); }
+.le .ch-label { grid-row: 1; grid-column: 2; margin: 0; align-self: baseline; }
+.le .ch-head h2 { grid-row: 2; grid-column: 1 / -1; max-width: 22ch; margin: 0; }
+.le .ch-head::after { grid-row: 3; margin-top: 18px; }
+.le .ch-body { padding-left: 0; }
+.le .ch-body > * + * { margin-top: clamp(22px, 2.4vw, 32px); }
+.le .ch-body > p + p { margin-top: 1em; }
+.le .ch-body .bleed { margin-left: 0; }
+@media (min-width: 900px) {
+  .le .ch-head { grid-template-columns: auto minmax(0, 1fr); }
+  .le .ch-body > .cx-cards, .le .ch-body > .cx-big, .le .ch-body > .cx-flow, .le .ch-body > .cx-ask, .le .ch-body > .cx-steps, .le .ch-body > .cx-t { margin-left: 0; }
+}
+.le .ch-body > p, .le .ch-body > .cx-cards, .le .ch-body > .cx-big, .le .ch-body > .cx-flow, .le .ch-body > .cx-ask, .le .ch-body > .cx-steps { max-width: none; }
+.le .ch-body > p { max-width: 64ch; }
+.le .act { grid-template-columns: auto minmax(0, 1fr); column-gap: 18px; }
+.le .act b { grid-row: 1; }
+.le .act h3, .le .act p { grid-column: 2; }
+
+/* text uses the full column instead of a narrow measure */
+.le .ch-body > p { max-width: none; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; }
+.le .ch-head h2 { max-width: none; }
+.le #overview .cx-k p { max-width: none; }
+.le .cx-k p, .le .cx-vq p, .le .cx-pt span, .le .cx-trade { max-width: none; }
+.le #reflection .cx-k p { max-width: none; }
+.le .cx-lead { max-width: 60ch; }
+
+/* hero: title and lead sit together, centred against the artwork; the details row stays below the fold line */
+@media (min-width: 900px) {
+  .le .cx-hero > .cx-wrap { grid-template-rows: auto 1fr 1fr auto auto; }
+  .le .cx-hero h1 { grid-row: 2; align-self: end; margin-top: 0; }
+  .le .cx-lead { grid-row: 3; align-self: start; margin-top: 18px; }
+  .le .cx-hero-art { grid-row: 2 / span 2; }
+  .le .cx-meta { grid-column: 1 / -1; grid-row: 4; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(44px, 4vw, 60px); margin-bottom: 0; }
+  .le .cx-meta > div { border-top: 0; }
+  .le .cx-meta > div:nth-child(even) { border-left: 1px solid var(--cad-line); }
+  .le .cx-stats { grid-row: 5; margin-top: 0; }
+}
+
+/* title block cells: even inner padding so nothing sits on a border; stat suffixes read inline ("5k+", "20+") */
+.le .cx-meta > div { padding: 16px 20px 18px; }
+.le .cx-meta > div:first-child { padding-left: 20px; }
+.le .cx-stats div:first-child { padding-left: 20px; }
+.le .cx-stats b sup, .le .cx-big b sup { font-size: inherit; line-height: inherit; vertical-align: baseline; position: static; top: auto; margin-left: 0.02em; color: var(--accent); }
+
+/* ---------- proximity: things that belong together sit close; groups are separated by a clearly larger gap ----------
+   lead-in (label or sentence) -> its content: 12-16px.   end of one group -> start of the next: 56px. */
+.le .ch-body > * + * { margin-top: 56px; }                                   /* default: a new group */
+.le .ch-body > p + p { margin-top: 1em; }                                     /* paragraphs of one thought */
+.le .ch-body > .cx-t + *, .le .ch-body > .cx-t + p + * { margin-top: 14px; }  /* label -> its lead sentence -> its content */
+.le .ch-body > .cx-t + p { margin-top: 12px; }
+.le .ch-body > p + .cx-cards, .le .ch-body > p + .cx-steps, .le .ch-body > p + .cx-big,
+.le .ch-body > p + .cx-flow, .le .ch-body > p + .bleed { margin-top: 16px; }   /* lead sentence -> the block it introduces */
+.le .ch-body > .cx-flow + p { margin-top: 48px; }
+.le .ch-body > .cx-steps + p { margin-top: 20px; }                            /* "then we tested..." continues the journey */
+.le .ch-body > p.cx-close { margin-top: 24px; }                               /* a closing remark belongs to the block above */
+.le #overview .ch-body > p + .cx-cards { margin-top: 32px; }                  /* intro paragraph, then two separate cards */
+.le .ch-body > p + .cx-cards.c2 + .cx-ask, .le .ch-body > .cx-cards + .cx-ask { margin-top: 56px; }
+.le .ch-body > .cx-t:first-child { margin-top: 0; }
+/* the rule that opens a block no longer floats between the lead-in and its content */
+.le .ch-body > p + .cx-cards, .le .ch-body > p + .cx-big { padding-top: 0; }
+
+/* ================= highlighted groups, options, trust, proof, act headings ================= */
+/* highlighted group: a boxed panel that lifts a key set of points off the page */
+.le .cx-box { position: relative; background: var(--surface); border: 1px solid var(--cad-line); border-top: 3px solid var(--accent); outline: 1px solid var(--line); outline-offset: 5px; padding: clamp(22px, 2.8vw, 40px); }
+.le .cx-box > * + * { margin-top: 16px; }
+.le .cx-box > .cx-t { margin-top: 0; }
+.le .cx-box > p { font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55; max-width: none; }
+.le .cx-box > p.cx-close { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.le .cx-box > .cx-cards, .le .cx-box > .cx-big { border-top: 1px solid var(--cad-line); margin-left: 0; }
+.le .ch-body > .cx-box { margin-top: 64px; }
+.le .ch-body > p + .cx-box { margin-top: 28px; }
+
+/* options: four equal boxes on one baseline */
+.le #options .cx-cards.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.le #options .cx-k { display: flex; flex-direction: column; margin: 0; padding: 24px 22px 24px; border: 1px solid var(--line); border-top: 2px solid var(--pencil); background: transparent; background-image: none; }
+.le #options .cx-k.bad { opacity: 1; background-image: none; }
+.le #options .cx-k h4, .le #options .cx-k.hl h4 { font-size: clamp(18px, 1.55vw, 22px); line-height: 1.2; min-height: 2.4em; margin: 14px 0 10px; }
+.le #options .cx-k.bad h4 { text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, var(--accent) 38%, transparent); color: var(--muted); }
+.le #options .cx-k.hl { margin: 0; padding: 24px 22px 24px; background: var(--surface); background-image: none; border-color: var(--accent); border-top-color: var(--accent); box-shadow: 4px 4px 0 var(--accent); }
+.le #options .cx-tag { margin-top: auto; align-self: flex-start; }
+.le #options .cx-k p { margin: 0 0 18px; }
+@media (max-width: 1000px) { .le #options .cx-cards.c4 { grid-template-columns: 1fr 1fr; } .le #options .cx-k.hl { grid-column: auto; margin: 0; } }
+@media (max-width: 560px) { .le #options .cx-cards.c4 { grid-template-columns: 1fr; } }
+
+/* trust: tighter rhythm, the rider's question is the highlighted line */
+.le #trust .cx-k { padding: 14px 0 16px; }
+.le #trust .cx-k h4 { margin: 0 0 6px; }
+.le #trust .cx-k .ask { display: inline-block; justify-self: start; margin: 0 0 8px; padding: 3px 10px; background: var(--hi-red); border-left: 3px solid var(--accent); font-size: clamp(16px, 1.4vw, 19px); font-weight: 500; font-style: italic; color: var(--accent); }
+
+/* proof: cards on the left, a slot for an image on the right */
+.le #proof .cx-split { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(24px, 4vw, 56px); align-items: stretch; }
+.le #proof .cx-split .cx-cards { grid-template-columns: 1fr; border-top: 2px solid var(--pencil); }
+.le #proof .cx-split .cx-k { display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 16px; margin: 0; padding: 22px 0 24px; border-right: 0; border-bottom: 1px solid var(--line); }
+.le #proof .cx-split .cx-k .n { grid-row: 1 / span 2; margin: 0; }
+.le #proof .cx-split .cx-k h4 { margin: 0 0 4px; }
+.le #proof .cx-slot { margin: 0; min-height: 360px; display: grid; place-items: center; border: 1px dashed var(--cad-line); outline: 1px solid var(--line); outline-offset: 5px;
+  background-color: var(--le-plate); background-image: linear-gradient(var(--cad-grid-major) 1px, transparent 1px), linear-gradient(90deg, var(--cad-grid-major) 1px, transparent 1px); background-size: 40px 40px; }
+.le #proof .cx-slot figcaption { font: 500 11px/1 var(--le-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); }
+@media (max-width: 900px) { .le #proof .cx-split { grid-template-columns: 1fr; } .le #proof .cx-slot { min-height: 260px; } }
+
+/* act headings: centred, a real heading */
+.le .act { display: block; text-align: center; margin: clamp(72px, 8vw, 112px) 0 8px; padding: 34px 0 6px; }
+.le .act b { display: block; font: 500 12px/1 var(--le-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.le .act h3 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 10px; }
+.le .act p { font-size: clamp(15px, 1.3vw, 18px); color: var(--muted); max-width: 52ch; margin: 0 auto; }
+
+/* centred act heading: beats the earlier grid rules */
+body.le .act { display: block; grid-template-columns: none; text-align: center; }
+body.le .act b { display: block; grid-row: auto; width: auto; }
+body.le .act h3, body.le .act p { grid-column: auto; }
+.le #options .cx-k.bad h4 { text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent); }
+body.le .act h3 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 700; margin: 0 0 10px; }
+body.le .act p { font-size: clamp(15px, 1.3vw, 18px); max-width: 52ch; margin: 0 auto; }

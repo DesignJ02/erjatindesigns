@@ -1,0 +1,142 @@
+/* Shared case-study components (Competition Tracking, Kangaru, Datum).
+   Sits on top of case.css, drafting.css and locearn.css (which supplies the generic chapter, act, box and hero rules).
+   Everything is scoped to body.le and built from the site tokens, so it follows the paper and blueprint themes. */
+
+/* ---- card grids ---- */
+.le .cs-grid { display: grid; grid-template-columns: repeat(var(--c, 3), minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+.le .cs-card { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 24px; background: var(--surface); border: 1px solid var(--line); border-top: 2px solid var(--pencil); position: relative; }
+.le .cs-card .n { display: inline-grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--accent); border-radius: 50%; font: 500 11.5px/1 var(--le-mono); color: var(--accent); }
+.le .cs-card .k { font: 500 11.5px/1.2 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 2px 0 0; }
+.le .cs-card h4 { margin: 0; font-size: clamp(18px, 1.55vw, 22px); line-height: 1.2; letter-spacing: -0.025em; }
+.le .cs-card p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
+.le .cs-card p.q { color: var(--ink); font-size: clamp(17px, 1.4vw, 19px); line-height: 1.4; }
+.le .cs-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.le .cs-card li { color: var(--muted); font-size: 15.5px; line-height: 1.45; padding-left: 16px; position: relative; }
+.le .cs-card li::before { content: ""; position: absolute; left: 0; top: .6em; width: 8px; height: 1px; background: var(--accent); }
+.le .cs-card.sel { border-color: var(--accent); border-top-color: var(--accent); box-shadow: 4px 4px 0 var(--accent); }
+.le .cs-card.dim h4 { color: var(--muted); }
+.le .cs-note { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.le .cs-note b { font: 500 10.5px/1.2 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.le .cs-note span { font-size: 15px; line-height: 1.5; color: var(--ink); }
+.le .cs-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.le .cs-chips i { font: 400 11px/1 var(--le-mono); font-style: normal; letter-spacing: .06em; padding: 5px 8px; border: 1px solid var(--line); color: var(--ink); }
+.le .cs-tag { align-self: flex-start; font: 500 10.5px/1 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; padding: 6px 9px; border: 1px solid var(--accent); color: var(--accent); }
+@media (max-width: 1000px) { .le .cs-grid { grid-template-columns: repeat(min(var(--c, 3), 2), minmax(0, 1fr)); } }
+@media (max-width: 600px) { .le .cs-grid { grid-template-columns: 1fr; } }
+
+/* ---- screenshots ---- */
+.le .cs-shot { margin: 0; }
+.le .cs-shot .cx-flat { border: 1px solid var(--cad-line); outline: 1px solid var(--line); outline-offset: 4px; background: #fff; padding: clamp(6px, 1vw, 14px); }
+.le .cs-shot .cx-flat img { display: block; width: 100%; height: auto; }
+.le .cs-shot figcaption { margin-top: 18px; font: 500 11px/1 var(--le-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.le .cs-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.le .cs-split.rev { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .le .cs-split, .le .cs-split.rev { grid-template-columns: 1fr; } }
+.le .cs-plate { background-color: var(--le-plate); background-image: linear-gradient(var(--cad-grid-major) 1px, transparent 1px), linear-gradient(90deg, var(--cad-grid-major) 1px, transparent 1px); background-size: 40px 40px; padding: clamp(14px, 2vw, 28px); border: 1px solid var(--line); }
+
+/* ---- quotes and findings ---- */
+.le .cs-quote { margin: 0; padding: 14px 0 14px 22px; border-left: 3px solid var(--accent); background: linear-gradient(90deg, var(--hi-red), transparent 70%); }
+.le .cs-quote p { margin: 0; font-size: clamp(18px, 1.7vw, 23px); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); max-width: none; }
+.le .cs-quote small { display: block; margin-top: 8px; font: 400 12px/1.4 var(--le-mono); letter-spacing: .06em; color: var(--muted); }
+.le .cs-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.le .cs-list li { padding: 12px 0 0 18px; border-top: 1px solid var(--line); position: relative; font-size: 16.5px; line-height: 1.5; color: var(--muted); }
+.le .cs-list li::before { content: ""; position: absolute; left: 0; top: 1.4em; width: 9px; height: 1px; background: var(--accent); }
+.le .cs-list li b { color: var(--ink); font-weight: 600; }
+.le .cs-sub { font: 500 11.5px/1 var(--le-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.le .cs-stack { display: grid; gap: 22px; align-content: start; }
+
+/* ---- metrics ---- */
+.le .cs-metrics { display: grid; grid-template-columns: repeat(var(--c, 2), minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--cad-line); }
+.le .cs-metrics > div { padding: 24px 24px 26px 0; margin-right: 24px; border-right: 1px solid var(--line); }
+.le .cs-metrics > div:last-child { border-right: 0; margin-right: 0; }
+.le .cs-metrics b { display: block; font-size: clamp(44px, 5.4vw, 64px); letter-spacing: -0.06em; line-height: 1; color: var(--accent); }
+.le .cs-metrics h4 { margin: 14px 0 6px; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: -0.025em; }
+.le .cs-metrics p { margin: 0; color: var(--muted); font-size: 16px; }
+@media (max-width: 700px) { .le .cs-metrics { grid-template-columns: 1fr; } .le .cs-metrics > div { border-right: 0; margin-right: 0; border-bottom: 1px solid var(--line); } }
+
+/* ---- statement boxes (boundary, takeaway) ---- */
+.le .cx-box.stmt > .cs-sub { margin-bottom: 4px; }
+.le .cx-box.stmt > p { font-size: clamp(19px, 1.9vw, 26px); line-height: 1.35; letter-spacing: -0.015em; color: var(--ink); }
+.le .cx-box.stmt > p + p { color: var(--muted); font-size: clamp(16px, 1.4vw, 19px); }
+
+/* ---- comparison sliders on wide screens ---- */
+.le .cs-cmp .cx-cmp.wide .cx-cmp-stage { --ar: 2.05; --fit: contain; background: #fff; border: 1px solid var(--cad-line); box-shadow: none; }
+.le .cs-cmp .cx-cmp-tag { border-radius: 0; font-family: var(--le-mono); letter-spacing: .14em; padding: 6px 10px; }
+.le .cs-cmp .cx-cmp-tag.l { background: var(--surface); color: var(--ink); border: 1px solid var(--pencil); }
+.le .cs-cmp .cx-cmp-tag.r { background: var(--accent); color: #fff; }
+.le .cs-cmp .cx-cmp-hint { font-family: var(--le-mono); font-weight: 400; }
+
+/* ---- hero artwork made from desktop screens ---- */
+.le .cx-hero-art .scr { position: absolute; background: #fff; border: 1px solid var(--pencil); box-shadow: 0 24px 40px rgba(30, 28, 24, .22); }
+.le .cx-hero-art .scr img { display: block; width: 100%; height: auto; }
+.le .cx-hero-art .scr.a { left: 0; top: 20%; width: 88%; z-index: 2; }
+.le .cx-hero-art .scr.b { right: 0; top: 4%; width: 74%; z-index: 1; transform: translate(0, 0); }
+
+/* ---- plain text chapters ---- */
+.le .cs-lead { font-size: clamp(18px, 1.6vw, 22px); line-height: 1.55; color: var(--ink); max-width: none; }
+.le .cs-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 800px) { .le .cs-pair { grid-template-columns: 1fr; } }
+.le .cs-steps3 { display: grid; gap: 28px; }
+.le .cs-step { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(20px, 3.4vw, 48px); align-items: center; padding-top: 24px; border-top: 1px solid var(--cad-line); }
+.le .cs-step .t { display: grid; gap: 10px; }
+.le .cs-step h4 { margin: 0; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.03em; }
+.le .cs-step p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.55; }
+@media (max-width: 800px) { .le .cs-step { grid-template-columns: 1fr; } }
+
+/* per-page figure caption */
+.le.cs .cx-hero-art::after { content: attr(data-fig); }
+.le.cs .cx-hero-art .scr.a { top: 22%; width: 90%; }
+.le.cs .cx-hero-art .scr.b { top: 6%; width: 78%; }
+
+/* body is a grid on these pages: the page column must always take the full width */
+body.le.cs { justify-items: stretch; grid-template-columns: minmax(0, 1fr); }
+.le.cs main { width: 100%; min-width: 0; }
+
+/* phone screens beside their reasoning */
+.le .cs-phone { margin: 0; display: grid; place-items: center; padding: clamp(18px, 3vw, 40px); }
+.le .cs-phone img { display: block; width: 100%; max-width: 300px; height: auto; filter: drop-shadow(0 22px 28px rgba(30, 28, 24, .28)); }
+.le .cs-phone figcaption { margin-top: 16px; font: 500 11px/1 var(--le-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.le .cs-trio-shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 28px); }
+@media (max-width: 700px) { .le .cs-trio-shots { grid-template-columns: 1fr 1fr; } }
+.le .cs-vs { display: grid; gap: 4px; }
+.le .cs-vs + .cs-vs { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+.le .cx-box .cs-vs p { font-size: 16px; }
+
+/* ---- Datum: token specimens ---- */
+.le .ds-sw { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--cad-line); }
+.le .ds-sw > div { display: grid; grid-template-rows: 120px auto; border-left: 1px solid var(--cad-line); background: var(--surface); }
+.le .ds-sw > div:first-child { border-left: 0; }
+.le .ds-sw i { background: var(--c); border-bottom: 1px solid var(--cad-line); }
+.le .ds-sw span { padding: 12px 14px 14px; font: 400 11.5px/1.5 var(--le-mono); letter-spacing: .02em; color: var(--ink); word-break: break-all; }
+.le .ds-sw span em { display: block; font-style: normal; color: var(--accent); margin-top: 2px; }
+@media (max-width: 900px) { .le .ds-sw { grid-template-columns: repeat(2, minmax(0, 1fr)); } .le .ds-sw > div { border-top: 1px solid var(--cad-line); } }
+.le .ds-sp { display: grid; gap: 8px; }
+.le .ds-sp > div { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 14px; font: 400 11.5px/1 var(--le-mono); color: var(--muted); }
+.le .ds-sp i { display: block; height: 10px; background: var(--accent); width: calc(var(--w) * 5px); max-width: 100%; }
+.le .ds-rad { display: flex; flex-wrap: wrap; gap: 14px; }
+.le .ds-rad > div { display: grid; gap: 8px; justify-items: center; font: 400 11px/1 var(--le-mono); color: var(--muted); }
+.le .ds-rad i { display: block; width: 56px; height: 56px; border: 1.5px solid var(--accent); border-radius: var(--r); background: var(--hi-red); }
+.le .ds-sh { display: flex; flex-wrap: wrap; gap: 22px; padding: 26px; background: var(--stage); border: 1px solid var(--line); }
+.le .ds-sh > div { display: grid; gap: 12px; justify-items: center; font: 400 11px/1 var(--le-mono); color: var(--muted); }
+.le .ds-sh i { display: block; width: 76px; height: 76px; background: #fff; border-radius: 8px; box-shadow: var(--s); }
+.le .ds-st { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-end; }
+.le .ds-st > div { display: grid; gap: 10px; justify-items: start; font: 400 11px/1 var(--le-mono); color: var(--muted); }
+.le .ds-st i { display: block; width: 72px; background: var(--ink); height: var(--w); }
+.le .ds-type { display: grid; gap: 0; border-top: 1px solid var(--cad-line); }
+.le .ds-type > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: baseline; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.le .ds-type small { font: 400 11.5px/1.3 var(--le-mono); letter-spacing: .06em; color: var(--muted); }
+.le .ds-type span { line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); overflow-wrap: anywhere; }
+.le .ds-type .mono { font-family: var(--le-mono); letter-spacing: 0; }
+@media (max-width: 700px) { .le .ds-type > div { grid-template-columns: 1fr; gap: 4px; } }
+.le .ds-fonts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.le .ds-fonts .cs-card .big { font-size: clamp(40px, 5vw, 72px); line-height: 1; letter-spacing: -0.04em; color: var(--ink); margin: 6px 0 4px; }
+@media (max-width: 700px) { .le .ds-fonts { grid-template-columns: 1fr; } }
+.le .ds-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.le .ds-chips i { font-style: normal; font: 500 15px/1 var(--le-mono); letter-spacing: .04em; padding: 12px 16px; border: 1px solid var(--cad-line); background: var(--surface); color: var(--ink); }
+.le .ds-link { display: inline-flex; align-items: center; gap: 12px; padding: 16px 22px; border: 1px solid var(--accent); background: var(--surface); color: var(--accent); font: 500 15px/1 var(--le-mono); letter-spacing: .04em; text-decoration: none; box-shadow: 4px 4px 0 var(--accent); }
+.le .ds-link:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--accent); }
+/* hero swatches */
+.le .cx-hero-art .sw { position: absolute; left: 14%; right: 6%; display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 14px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--pencil); font: 400 12px/1.4 var(--le-mono); color: var(--ink); box-shadow: 4px 4px 0 var(--line); }
+.le .cx-hero-art .sw i { display: block; height: 44px; background: var(--c); border: 1px solid var(--pencil); }
+.le .cx-hero-art .sw span { display: grid; gap: 2px; }
+.le .cx-hero-art .sw em { font-style: normal; color: var(--accent); }
