@@ -216,3 +216,11 @@ body.le {
 
 .le .cx-next b { font-size: clamp(32px, 5vw, 64px); letter-spacing: -0.045em; }
 @media (prefers-reduced-motion: reduce) { .le .cx-ph img:hover { transform: none; } }
+
+/* act dividers: three-act spine over the chapters */
+body.le .act { margin: 96px 0 8px; padding-top: 20px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 120px 1fr; column-gap: 24px; row-gap: 6px; align-items: baseline; }
+body.le .act:first-of-type { margin-top: 40px; }
+body.le .act b { grid-row: 1 / span 2; font: 500 12px/1 "DM Mono", ui-monospace, monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+body.le .act h3 { margin: 0; font-size: 24px; line-height: 1.2; font-weight: 500; color: var(--ink); }
+body.le .act p { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 640px) { body.le .act { grid-template-columns: 1fr; } body.le .act b { grid-row: auto; } }
