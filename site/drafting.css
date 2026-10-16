@@ -847,7 +847,8 @@ body.dr::after {
 
 /* the lifted project drawing carries its own paper backing, so the drawings behind it never show through */
 .dr-row { --card: color-mix(in srgb, var(--surface) 55%, var(--bg)); }
-.art:hover img, .dr-row:focus-visible .art img, .dr-row:focus-within .art img { background-color: var(--card); }
+/* no paper box behind the lifted drawing: its neighbours fade out instead, so nothing shows through the sketch */
+body:has(.dr-row:hover) .dr-row:not(:hover) .art img { opacity: 0; }
 
 /* ===== process stack (about): collapsed by default, opens on first hover, then follows scroll direction ===== */
 .stk { position: relative; --k: 44; --gap: calc(var(--k) * 1px); }
@@ -912,3 +913,21 @@ html::after { opacity: 0.35; }
 .cad-tip { position: fixed; left: 0; top: 0; padding: 7px 10px; background: var(--surface); border: 1px solid var(--line);
   font: 400 10.5px/1.5 "DM Mono", ui-monospace, monospace; letter-spacing: .04em; color: var(--muted); white-space: nowrap; display: grid; gap: 2px; }
 .cad-tip b { font-weight: 500; color: var(--ink); }
+
+/* annotation copy is longer than before: give the labels room to keep the title on one line (artwork and geometry untouched) */
+.xl-lab.l-shading { width: 25%; }
+.xl-lab.l-sketch, .xl-lab.l-detail { width: 21%; }
+@media (max-width: 560px) { .xl-lab.l-shading { width: 28%; } .xl-lab.l-sketch, .xl-lab.l-detail { width: 22%; } }
+
+/* project titles in the work list: about 45px, semibold */
+.dr-row h3 { font-size: clamp(30px, 3.2vw, 45px); font-weight: 600; letter-spacing: -0.03em; }
+
+/* the drawing rises when the pointer is anywhere on its row, not only over the drawing */
+@media (min-width: 761px) and (hover: hover) {
+  .dr-row:hover .art { z-index: 70; clip-path: inset(-400px -400px -400px -400px); }
+  .dr-row:hover .art img {
+    transform: translate(-50%, -3%) rotate(calc(var(--rot, 0deg) * -0.5)) scale(1.16);
+    opacity: 1;
+    filter: drop-shadow(0 18px 16px rgba(30, 28, 24, 0.24)) drop-shadow(0 3px 2px rgba(30, 28, 24, 0.18));
+  }
+}
