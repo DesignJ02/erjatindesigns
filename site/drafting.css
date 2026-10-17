@@ -969,3 +969,15 @@ html::after { opacity: 0.35; }
   .dr-side > p { margin-top: -9.5%; transition: opacity 0.25s ease; }
   .dr-side:has(.xp.is-open) > p { opacity: 0; pointer-events: none; }
 }
+
+/* crosshair pointer on every page. The native pointer is hidden only once the crosshair is actually tracking the mouse
+   (html.xh, set by xhair.js after the first mouse move), so a page without the script, or a touch device, keeps its normal pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .cursor { display: block; z-index: 10000; transition: opacity .15s ease, width .2s ease, height .2s ease, margin .2s ease; }
+  .cursor.off { opacity: 0; }
+  html.intro-pending .cursor { visibility: visible !important; }
+  html.xh, html.xh body, html.xh a, html.xh button, html.xh [role="button"], html.xh summary, html.xh label, html.xh .work-row, html.xh .dr-row, html.xh .chip, html.xh .cx-flat img, html.xh .cx-ph img, html.xh .cx-cmp input { cursor: none; }
+  html:not(.xh), html:not(.xh) body, html:not(.xh) a, html:not(.xh) button, html:not(.xh) .work-row { cursor: auto; }
+  html:not(.xh) a, html:not(.xh) button { cursor: pointer; }
+  html.xh input[type="text"], html.xh input[type="email"], html.xh textarea { cursor: text; }
+}

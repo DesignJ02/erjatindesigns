@@ -1,0 +1,28 @@
+/* Contact dropdown in the nav, drawn like the rest of the drawing: paper panel, pencil border, offset shadow, mono captions. */
+.nav-dd {
+  position: fixed; top: 0; left: 0; z-index: 200; width: min(300px, calc(100vw - 32px));
+  background: var(--surface); color: var(--ink); border: 1px solid var(--pencil); box-shadow: 4px 4px 0 var(--accent);
+  padding: 10px 0 6px; text-align: left; transform-origin: 80% 0;
+  opacity: 0; transform: translateY(-6px) scale(.98); transition: opacity .16s ease, transform .2s cubic-bezier(.22, .8, .24, 1);
+}
+.nav-dd.on { opacity: 1; transform: none; }
+.nav-dd[hidden] { display: none; }
+.nav-dd::before { content: ""; position: absolute; top: -6px; left: calc(var(--ax, 40px) - 5px); width: 10px; height: 10px; background: var(--surface); border-left: 1px solid var(--pencil); border-top: 1px solid var(--pencil); transform: rotate(45deg); }
+.nav-dd .dd-cap { margin: 0; padding: 0 16px 10px; font: 500 10.5px/1 var(--font-family-mono, "DM Mono", monospace); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
+.nav-dd .dd-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
+.nav-dd .dd-row:last-child { border-bottom: 0; }
+.nav-dd .dd-main { flex: 1; min-width: 0; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 13px 16px; color: var(--ink); text-decoration: none; border: 0; min-height: 0; background: none; text-transform: none; letter-spacing: 0; font-size: 14px; }
+.nav-dd .dd-main svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.nav-dd .dd-main span { display: grid; gap: 2px; min-width: 0; }
+.nav-dd .dd-main b { font-weight: 600; font-size: 15px; }
+.nav-dd .dd-main em { font-style: normal; font: 400 11.5px/1.3 var(--font-family-mono, "DM Mono", monospace); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-dd .dd-main i { font-style: normal; color: var(--accent); font-size: 16px; transition: transform .2s ease; }
+.nav-dd .dd-main:hover, .nav-dd .dd-main:focus-visible { background: var(--hi-red); outline: none; }
+.nav-dd .dd-main:hover i, .nav-dd .dd-main:focus-visible i { transform: translate(2px, -2px); }
+.nav-dd .dd-copy { align-self: center; margin-right: 12px; padding: 7px 10px; border: 1px solid var(--pencil); background: transparent; color: var(--ink); font: 500 10.5px/1 var(--font-family-mono, "DM Mono", monospace); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; min-height: 0; border-radius: 0; }
+.nav-dd .dd-copy:hover, .nav-dd .dd-copy:focus-visible { background: var(--hi-red); border-color: var(--accent); outline: none; }
+.nav-dd .dd-copy.ok { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav a.has-dd::after { content: ""; width: 5px; height: 5px; margin-left: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; display: inline-block; }
+.nav a.has-dd[aria-expanded="true"]::after { transform: translateY(1px) rotate(-135deg); }
+.dr-bar .nav a.has-dd { display: inline-flex; align-items: center; justify-content: center; }
+@media (prefers-reduced-motion: reduce) { .nav-dd, .nav-dd .dd-main i, .nav a.has-dd::after { transition: none; } }
