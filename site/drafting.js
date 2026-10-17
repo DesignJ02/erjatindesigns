@@ -171,10 +171,10 @@
     var ls = cs.letterSpacing === "normal" ? "0" : f1(parseFloat(cs.letterSpacing)) + "px";
     box.style.cssText = "left:" + r.left + "px;top:" + r.top + "px;width:" + r.width + "px;height:" + r.height + "px";
     dw.style.cssText = "left:" + r.left + "px;top:" + (r.bottom + 4) + "px;width:" + r.width + "px";
-    dw.firstChild.textContent = f1(r.width);
+    dw.firstChild.textContent = Math.round(r.width);
     dh.style.cssText = "left:" + (r.right + 18) + "px;top:" + r.top + "px;height:" + r.height + "px";
-    dh.firstChild.textContent = f1(r.height);
-    tip.innerHTML = '<b>' + fam + ' ' + w + '</b><span>' + f1(fs) + ' px &middot; lead ' + (isNaN(lh) ? "auto" : f1(lh)) + ' &middot; track ' + ls + '</span>';
+    dh.firstChild.textContent = Math.round(r.height);
+    tip.innerHTML = '<b>' + fam + ' ' + w + '</b><span>' + Math.round(fs) + ' px &middot; lead ' + (isNaN(lh) ? "auto" : Math.round(lh) + " px") + ' &middot; track ' + ls + '</span>';
     var tw = tip.offsetWidth, x = r.right + 46, y = r.top + r.height / 2 - 18;
     if (x + tw > window.innerWidth - 8) { x = r.left; y = r.bottom + 30; }
     tip.style.transform = "translate(" + x + "px," + y + "px)";
