@@ -4,10 +4,10 @@
 
 :root, [data-theme="light"] {
   color-scheme: light;
-  --bg: #e4e3de;
-  --surface: #eeede9;
-  --panel: #eeede9;
-  --stage: #d9d8d2;
+  --bg: #f2f2f2;
+  --surface: #fafafa;
+  --panel: #fafafa;
+  --stage: #e8e8e8;
   --band: #e5e0d3;
   --ink: #2b2a28;
   --muted: #5e5a51;
@@ -342,7 +342,7 @@ footer.dr-foot { border: 0; padding: 0; margin: 0; }
    v2 — matched to the reference: quiet paper, big asymmetric work rows,
    larger tilted sketches that lift off the page on hover.
    ===================================================================== */
-:root:not([data-theme="dark"]), [data-theme="light"] { --bg: #e4e3de; --grid: rgba(43, 42, 40, 0.0); }
+:root:not([data-theme="dark"]), [data-theme="light"] { --bg: #f2f2f2; --grid: rgba(43, 42, 40, 0.0); }
 body {
   background-image:
     radial-gradient(rgba(0, 0, 0, 0.07) 0.8px, transparent 1.1px),
@@ -981,3 +981,9 @@ html::after { opacity: 0.35; }
   html:not(.xh) a, html:not(.xh) button { cursor: pointer; }
   html.xh input[type="text"], html.xh input[type="email"], html.xh textarea { cursor: text; }
 }
+
+/* the page reads as the plain #f2f2f2: paper grain and edge vignette are only a whisper in the light theme */
+:root:not([data-theme="dark"]) body.dr::after { opacity: 0.06; }
+:root:not([data-theme="dark"]) html::after { opacity: 0.1; }
+:root:not([data-theme="dark"])::after { opacity: 0.1; }
+:root:not([data-theme="dark"]) .grain { opacity: 0.025; }
