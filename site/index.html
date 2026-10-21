@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="datum.css?v=7"><link rel="stylesheet" href="style.css?v=7"><link rel="stylesheet" href="drafting.css?v=83"><link rel="stylesheet" href="pass.css?v=6"><link rel="stylesheet" href="navdd.css?v=3"><link rel="stylesheet" href="intro.css?v=20">
+  <link rel="stylesheet" href="datum.css?v=7"><link rel="stylesheet" href="style.css?v=7"><link rel="stylesheet" href="drafting.css?v=83"><link rel="stylesheet" href="object-lab.css?v=11"><link rel="stylesheet" href="navdd.css?v=3"><link rel="stylesheet" href="intro.css?v=20">
   <script>
     (function () {
       try {
@@ -46,6 +46,7 @@
       <nav class="nav" id="nav" aria-label="Main">
         <a href="#work" class="keep">Work</a>
         <a href="#about">About</a>
+        <a href="#object-lab">Object Lab</a>
         <a href="#contact" class="keep">Contact</a>
         <button type="button" data-open="resume">Resume</button>
         <button type="button" class="theme" id="theme" aria-label="Toggle light and dark mode" title="Light / dark"><svg viewBox="0 0 26 26" class="ln bulb" aria-hidden="true"><circle class="glow" cx="13" cy="11" r="9"/><path class="rays" d="M13 1.2v1.8M3.6 5l1.3 1.3M22.4 5l-1.3 1.3M1.4 11h1.8M22.8 11h1.8"/><path class="glass" d="M9.6 17.4c0-1.8-2.6-3-2.6-6.2a6 6 0 0 1 12 0c0 3.2-2.6 4.4-2.6 6.2z"/><path class="fil red thin" d="M11.2 17.4v-3.6l1.8-1.6 1.8 1.6v3.6"/><path d="M10 20h6M11 22.6h4"/></svg></button>
@@ -127,7 +128,7 @@
           
         </div>
       </div>
-      <div class="dr-tags"><span class="dr-tag r">Design systems</span><span class="dr-tag b">User research</span><span class="dr-tag">Mobile app design</span><a class="dr-tag more" href="#contact">More about me &rarr;</a></div>
+      <div class="dr-tags"><span class="dr-tag r">Design systems</span><span class="dr-tag b">User research</span><span class="dr-tag">Mobile app design</span><a class="dr-tag more" href="#contact">More about me &rarr;</a><a class="dr-tag more" href="#object-lab">Play Object Lab &rarr;</a></div>
     </section>
 
     <section class="dr-sec" id="habits">
@@ -156,7 +157,6 @@
     <section class="dr-sec" id="contact">
       <div class="dr-head" style="grid-template-columns:110px minmax(0,1fr)">
         <div class="dr-no">04<small>S-04</small></div>
-        <span class="eyebrow-l">Get in touch</span>
       </div>
       <div class="dr-contact">
         <div>
@@ -167,21 +167,59 @@
             <button class="dt-btn dt-btn--outline dt-btn--big" type="button" data-open="resume">Resume &rarr;</button>
           </div>
         </div>
-        <div class="dr-ticket rv" id="pass" role="group" aria-label="Visitor pass. Visit each case study to punch your pass.">
-          <svg class="sk ln draw" viewBox="0 0 340 190" focusable="false" style="overflow:visible">
-            <g filter="url(#rough)"><g transform="rotate(-6 170 100)"><path d="M30 48 H310 V76 a11 11 0 0 0 0 22 V128 H30 V98 a11 11 0 0 0 0 -22 Z" class="paper"/><line class="thin dash" x1="238" y1="48" x2="238" y2="128"/></g></g>
-            <g transform="rotate(-6 170 100)">
-              <text class="t" x="52" y="66">ADMIT ONE</text><text class="hand" x="132" y="68">Portfolio</text>
-              <a class="pn" data-slug="locearn" href="work/locearn.html" aria-label="LocEarn case study"><circle class="hole" cx="62" cy="94" r="10"/><circle class="core" cx="62" cy="94" r="3.4"/><path class="ck" d="M57 94 l4 4 7 -8"/><text class="nm" x="62" y="119" text-anchor="middle">LOCEARN</text></a>
-              <a class="pn" data-slug="competition-tracking" href="work/competition-tracking.html" aria-label="Competition Tracking case study"><circle class="hole" cx="108" cy="94" r="10"/><circle class="core" cx="108" cy="94" r="3.4"/><path class="ck" d="M103 94 l4 4 7 -8"/><text class="nm" x="108" y="119" text-anchor="middle">TRACKING</text></a>
-              <a class="pn" data-slug="kangaru" href="work/kangaru.html" aria-label="Kangaru case study"><circle class="hole" cx="154" cy="94" r="10"/><circle class="core" cx="154" cy="94" r="3.4"/><path class="ck" d="M149 94 l4 4 7 -8"/><text class="nm" x="154" y="119" text-anchor="middle">KANGARU</text></a>
-              <a class="pn" data-slug="datum" href="work/datum.html" aria-label="Datum case study"><circle class="hole" cx="200" cy="94" r="10"/><circle class="core" cx="200" cy="94" r="3.4"/><path class="ck" d="M195 94 l4 4 7 -8"/><text class="nm" x="200" y="119" text-anchor="middle">DATUM</text></a>
-              <g class="stub" data-open="contact" role="button" tabindex="0" aria-label="Open contact options"><rect x="240" y="50" width="68" height="76" fill="transparent"/><path d="M286 60 l14 -2 -2 14" class="thin"/><line x1="298" y1="58" x2="276" y2="78" class="thin"/><text class="t" x="248" y="92">N&#186; 01</text><text class="t cnt" x="248" y="107">0/4</text><text class="nm" x="248" y="118">PUNCHED</text></g>
-              <g class="stamp" aria-hidden="true"><rect x="196" y="126" width="124" height="24" rx="2"/><text x="258" y="143" text-anchor="middle">VALIDATED</text></g>
-            </g>
-          </svg>
-          <svg class="sk dm" viewBox="0 0 340 190" aria-hidden="true"><line x1="30" y1="22" x2="310" y2="22"/><line x1="30" y1="17" x2="30" y2="27"/><line x1="310" y1="17" x2="310" y2="27"/><text x="158" y="19">280</text></svg>
-          <p class="pass-msg" id="pass-msg" aria-live="polite">Visit each case study to punch your pass.</p>
+        <div class="ol" id="object-lab" data-screen="intro" role="group" aria-label="Object Lab: solve a jigsaw puzzle of an everyday object and unlock a design insight">
+          <div class="ol-bar">
+            <span class="ol-cap">Object Lab</span>
+            <span class="ol-ctx" id="ol-ctx" tabindex="-1"></span>
+            <span class="ol-sp"></span>
+            <p class="ol-stats" id="ol-stats" hidden><span id="ol-progress">0 of 0 pieces</span><span class="ol-meter" aria-hidden="true"><i id="ol-meter"></i></span><output id="ol-timer" role="timer">00:00</output></p>
+          </div>
+          <div class="sr-only" id="ol-live" role="status" aria-live="polite"></div>
+
+          <div class="ol-screen ol-intro" id="ol-intro">
+            <h3 id="ol-title" tabindex="-1">Solve a puzzle. Discover the design.</h3>
+            <div class="ol-thumbs" id="ol-cards"></div>
+            <div class="ol-intro-foot">
+              <fieldset class="ol-diff"><legend class="sr-only">Difficulty</legend><div class="ol-seg" id="ol-diff"></div></fieldset>
+              <button type="button" class="ol-btn primary" id="ol-start">Start exploring</button>
+            </div>
+          </div>
+
+          <div class="ol-screen ol-play" id="ol-play" hidden>
+            <div class="ol-tools" role="toolbar" aria-label="Puzzle controls">
+              <button type="button" class="ol-btn" id="ol-back" aria-label="Back to the objects">&larr; Objects</button>
+              <button type="button" class="ol-btn" id="ol-ref" aria-pressed="false">Reference</button>
+              <button type="button" class="ol-btn" id="ol-hint">Hint</button>
+              <button type="button" class="ol-btn" id="ol-undo" disabled>Undo</button>
+              <button type="button" class="ol-btn" id="ol-reset">Reset</button>
+              <button type="button" class="ol-btn" id="ol-pause">Pause</button>
+            </div>
+            <div class="ol-fieldwrap" id="ol-fieldwrap" aria-describedby="ol-kbd">
+              <div class="ol-field" id="ol-field"></div>
+              <div class="ol-pause" id="ol-pause-screen" hidden>
+                <p class="ol-eyebrow">Paused</p>
+                <p class="ol-pause-title">The clock is stopped and the pieces are hidden.</p>
+                <button type="button" class="ol-btn primary" id="ol-resume">Resume</button>
+              </div>
+              <div class="ol-loading" id="ol-loading" hidden>Preparing pieces&hellip;</div>
+            </div>
+            <p class="sr-only" id="ol-kbd">Drag a piece onto the board and it snaps when close. Keyboard: press Enter on a piece to pick it up, use the arrow keys to move it, or press Tab to reach a board square and Enter to place it there. Escape drops it.</p>
+          </div>
+
+          <div class="ol-screen ol-done" id="ol-done" hidden>
+            <figure class="ol-done-fig"><img id="ol-done-img" alt="" width="1600" height="1200"><figcaption id="ol-done-credit"></figcaption></figure>
+            <div class="ol-done-body">
+              <h3 id="ol-done-title" tabindex="-1"></h3>
+              <div class="ol-ins"><p class="ol-eyebrow">UX principle</p><p class="ol-principle" id="ol-done-principle"></p></div>
+              <p class="ol-insight" id="ol-done-insight"></p>
+              <p class="ol-src">Source: <a id="ol-done-src" target="_blank" rel="noopener"></a></p>
+              <div class="ol-actions">
+                <button type="button" class="ol-btn primary" id="ol-next">Next object</button>
+                <button type="button" class="ol-btn" id="ol-replay">Play again</button>
+              </div>
+              <p class="ol-dl"><button type="button" class="ol-link" id="ol-dl">Download image</button><span id="ol-dl-msg" role="status"></span></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -242,7 +280,7 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="intro.js?v=26"></script>
   <script src="script.js?v=14"></script>
-  <script src="drafting.js?v=22"></script><script src="pass.js?v=3"></script><script src="navdd.js?v=3"></script><script src="xhair.js?v=1"></script>
+  <script src="drafting.js?v=22"></script><script src="navdd.js?v=3"></script><script src="xhair.js?v=1"></script><script type="module" src="object-lab/app.js?v=15"></script>
   <script src="portrait.js?v=1"></script>
 </body>
 </html>

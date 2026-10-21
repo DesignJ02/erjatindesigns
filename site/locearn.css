@@ -485,3 +485,112 @@ body.le .act p { font-size: clamp(15px, 1.3vw, 18px); max-width: 52ch; margin: 0
   .le .pan::after { display: block; content: "Swipe to explore \2192"; margin-top: 10px; font: 500 11px/1 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .le .cx-cmp-knob::after { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
 }
+
+/* =====================================================================================================
+   Typographic system for all case studies (one scale, one hierarchy)
+   section label 14 mono  ·  chapter title 36 / 600  ·  lead 19  ·  item title 19 / 600  ·  body 16.5-17 in near-ink  ·  captions 12 mono
+   Titles stay calm so the body copy carries the reading; body copy is dark enough to read comfortably.
+   ===================================================================================================== */
+body.le { --le-body: color-mix(in srgb, var(--ink) 86%, transparent); }
+
+/* chapter head */
+body.le .ch-label { font-size: 14px; letter-spacing: .12em; }
+body.le .ch-head h2 { font-size: clamp(28px, 2.7vw, 38px); font-weight: 600; line-height: 1.14; letter-spacing: -0.025em; max-width: 28ch; }
+body.le .ch-head::after { content: none; }                                   /* the dimension line under each title is gone */
+body.le .ch-body > p { font-size: 19px; line-height: 1.65; color: var(--le-body); max-width: 72ch; }
+body.le .ch-body > p strong { font-weight: 600; color: var(--ink); }
+
+/* item titles and body copy inside every card, list and box */
+body.le .ch .cx-k h4, body.le .ch .cs-card h4, body.le .ch .cs-step h4 { font-size: 19px !important; font-weight: 600 !important; line-height: 1.3 !important; letter-spacing: -0.012em !important; color: var(--ink); margin: 0 0 6px !important; min-height: 0 !important; }
+body.le .ch .cx-k p, body.le .ch .cs-card p, body.le .ch .cs-note span, body.le .ch .cs-list li, body.le .ch .cs-step p { font-size: 16.5px; line-height: 1.65; color: var(--le-body); }
+body.le .ch .cs-card li { font-size: 16px; color: var(--le-body); }
+body.le .ch .cs-card p.k, body.le .ch .cs-sub, body.le .ch .cs-note b { font-size: 12px; color: var(--accent); }
+body.le .ch .cs-quote p { font-size: 20px; font-weight: 500; line-height: 1.45; }
+body.le .ch .cs-metrics h4 { font-size: 19px; font-weight: 600; }
+body.le .ch .cs-metrics p { font-size: 16.5px; color: var(--le-body); }
+body.le .cx-vq p { font-size: 20px !important; font-weight: 500; line-height: 1.4 !important; letter-spacing: -0.01em !important; }
+body.le .cx-vq small { font-size: 13px !important; color: color-mix(in srgb, var(--ink) 72%, transparent) !important; line-height: 1.5; }
+
+/* no hatching: highlights are a plain tint */
+body.le .cx-k.hl, body.le #problem .cx-flow .node.on, body.le #options .cx-k.hl { background-image: none !important; }
+body.le #problem .cx-flow .node.on { background: var(--hi-red); }
+
+/* jobs to be done: statements only, no ruled box */
+body.le #problem .cx-cards.c2 { border-top: 0 !important; }
+body.le #problem .cx-cards.c2 .cx-k { border: 0 !important; padding-left: 0 !important; padding-right: 24px !important; }
+body.le #problem .cx-cards.c2 .cx-k p { font-size: 19px !important; line-height: 1.55 !important; color: var(--ink); }
+
+/* the sheet crease is gone (the unfold motion stays) */
+body.le .fold > .crease { display: none !important; }
+body.le .fold.folding::after { background: none; }
+
+/* trust: calmer list, the rider's question is the one highlighted line */
+body.le #trust .cx-k { padding: 18px 0 20px; }
+body.le #trust .cx-k h4 { margin-bottom: 8px !important; }
+body.le #trust .cx-k .ask { font-size: 16px; padding: 4px 12px; margin: 0 0 10px; border-left-width: 3px; }
+body.le #trust .cx-k p:not(.ask) { font-size: 16.5px; }
+
+/* key decisions / constraints / friction points: one title size, steady body */
+body.le #v1 .cx-cards .cx-k p.ask { font-size: 16.5px; font-style: normal; color: var(--ink); font-weight: 500; margin-top: 8px; }
+body.le .cx-box > .cx-cards .cx-k, body.le #feedback .cx-cards .cx-k { padding-bottom: 24px; }
+
+/* the shift: a statement with an arrow, not a poster */
+body.le .cx-shift { margin-top: 56px; padding: 28px 0 0; border-top: 1px solid var(--cad-line); display: grid; gap: 12px; }
+body.le .cx-shift small { font: 500 12px/1 var(--le-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+body.le .cx-shift p { margin: 0; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.25; font-weight: 600; letter-spacing: -0.025em; max-width: 30ch; color: var(--ink); }
+body.le .cx-shift .from { color: color-mix(in srgb, var(--ink) 52%, transparent); font-weight: 500; }
+body.le .cx-shift i { font-style: normal; color: var(--accent); font-weight: 500; margin: 0 .15em; }
+body.le .cx-shift mark { background: linear-gradient(transparent 62%, var(--hi-red) 62%); color: inherit; padding: 0 2px; }
+
+/* V2 redesign spreads: one light surface, roomier, a clear reading order */
+body.le #v2 .cx-redo, body.le #v2 .cx-redo:nth-of-type(even) { background: var(--surface); padding: clamp(28px, 4vw, 56px); gap: clamp(28px, 5vw, 80px); align-items: start; outline-offset: 4px; }
+body.le #v2 .cx-redo h3 { font-size: clamp(24px, 2.3vw, 32px); font-weight: 600; line-height: 1.2; letter-spacing: -0.025em; max-width: 22ch; margin: 14px 0 26px; }
+body.le #v2 .cx-pts { display: grid; gap: 0; }
+body.le #v2 .cx-pt { padding: 18px 0; grid-template-columns: 36px minmax(0, 1fr); column-gap: 12px; }
+body.le #v2 .cx-pt b { font-size: 18px; font-weight: 600; margin-bottom: 4px; display: block; }
+body.le #v2 .cx-pt span { font-size: 16.5px; line-height: 1.6; color: var(--le-body); }
+body.le #v2 .cx-trade { margin-top: 26px; padding-top: 20px; font-size: 16.5px; line-height: 1.6; color: var(--le-body); }
+body.le #v2 .cx-trade b { font-size: 12px; display: block; margin-bottom: 8px; color: var(--accent); }
+body.le #v2 .cx-redo .cx-t { font-size: 12px; }
+body.le #v2 .cx-cmp-hint { margin-top: 14px; }
+
+/* reflection: title and body share one baseline, body reads at full strength */
+body.le #reflection .cx-k { grid-template-columns: 40px minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: start; column-gap: clamp(18px, 3vw, 44px); padding: 28px 0; }
+body.le #reflection .cx-k .n { margin: 0; align-self: start; }
+body.le #reflection .cx-k h4 { font-size: 20px !important; line-height: 28px !important; margin: 0 !important; }
+body.le #reflection .cx-k p { font-size: 17px !important; line-height: 28px !important; margin: 0 !important; color: var(--le-body) !important; max-width: none !important; }
+@media (max-width: 800px) { body.le #reflection .cx-k { grid-template-columns: 40px minmax(0, 1fr); } body.le #reflection .cx-k p { grid-column: 2; line-height: 1.6 !important; } }
+
+/* act headings keep their size, the label above them follows the 14px section label */
+body.le .act b { font-size: 14px; }
+
+/* act dividers: a quiet part-opener. Left-aligned like the chapters, one hairline above, title a step above the chapter titles */
+body.le .act { display: block; text-align: left; margin: clamp(88px, 9vw, 128px) 0 0; padding: 28px 0 0; border: 0; }
+body.le .act::before { height: 1px; background: var(--cad-line); }
+body.le .act b { display: block; font: 500 14px/1 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+body.le .act h3 { font-size: clamp(30px, 3.1vw, 44px); font-weight: 600; line-height: 1.1; letter-spacing: -0.028em; margin: 0 0 12px; }
+body.le .act p { margin: 0; font-size: 18px; line-height: 1.55; max-width: 60ch; color: color-mix(in srgb, var(--ink) 72%, transparent); }
+/* the chapter that follows an act divider needs no rule of its own */
+body.le .fold > .crease + .ch { border-top: 0; padding-top: clamp(40px, 5vw, 64px); }
+
+/* ---- round 3: readable card copy, no rules under cards, a stronger "shift" ---- */
+body.le .ch .cx-k p, body.le .ch .cs-card p, body.le .ch .cs-list li, body.le .ch .cs-step p, body.le #v2 .cx-pt span, body.le #v2 .cx-trade {
+  color: color-mix(in srgb, var(--ink) 92%, transparent) !important; font-weight: 500;
+}
+body.le .ch .cs-card p.k { font-weight: 500; }
+body.le #v1 .cx-cards .cx-k p.ask { font-weight: 600; color: var(--ink) !important; margin-top: 10px; }
+body.le .cx-cards .cx-k, body.le .cx-box .cx-k, body.le #feedback .cx-cards .cx-k { border-bottom: 0 !important; }
+body.le .cx-box > .cx-cards .cx-k, body.le #feedback .cx-cards .cx-k, body.le #v1 .cx-cards .cx-k { padding-bottom: 6px; }
+
+body.le .cx-shift { margin-top: 64px; padding: 0; border: 0; display: grid; gap: 18px; }
+body.le .cx-shift .sh-row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.15fr); align-items: stretch; gap: clamp(12px, 2vw, 28px); }
+body.le .cx-shift .sh-from, body.le .cx-shift .sh-to { padding: clamp(20px, 2.4vw, 32px); display: grid; align-content: start; gap: 10px; }
+body.le .cx-shift .sh-from { background: var(--surface); border: 1px solid var(--cad-line); }
+body.le .cx-shift .sh-to { background: var(--hi-red); border: 1px solid var(--accent); border-left-width: 4px; }
+body.le .cx-shift b { font: 500 12px/1 var(--le-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+body.le .cx-shift .sh-to b { color: var(--accent); }
+body.le .cx-shift p { margin: 0; max-width: none; font-size: clamp(20px, 2vw, 28px); line-height: 1.28; letter-spacing: -0.02em; }
+body.le .cx-shift .sh-from p { font-weight: 500; color: color-mix(in srgb, var(--ink) 80%, transparent); }
+body.le .cx-shift .sh-to p { font-weight: 600; color: var(--ink); }
+body.le .cx-shift .sh-arrow { align-self: center; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--accent); border-radius: 50%; color: var(--accent); font-style: normal; font-size: 20px; background: var(--surface); }
+@media (max-width: 760px) { body.le .cx-shift .sh-row { grid-template-columns: 1fr; } body.le .cx-shift .sh-arrow { transform: rotate(90deg); justify-self: center; } }
