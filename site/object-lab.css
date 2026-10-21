@@ -138,3 +138,6 @@
   .ol-thumb, .ol-meter i, .ol-piece.snap, .ol-refimg { transition: none; }
   .ol-piece.pop svg, .ol-piece.miss svg, .ol-piece.hint svg, .ol-slots .ghost.hint, .ol-field.celebrate .ol-board::after { animation: none; }
 }
+
+/* two-column contact: lift the frame so its top lines up with the section number, level with "04" */
+@media (min-width: 1001px) { .dr-contact > .ol { margin-top: -131px; } }
