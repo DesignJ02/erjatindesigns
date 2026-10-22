@@ -12,6 +12,100 @@
 
   var finished = false, watchdog = null, started = false, anims = [];
 
+  /* Paper sound, made with the Web Audio API. Browsers block sound until the visitor has interacted with the page,
+     so it tries to play on its own and, if the browser says no, offers a small "Sound on" button instead. */
+  var snd = (function () {
+    var ctx = null, master = null, buf = null, events = null, clock = null, btn = null, off = false;
+    function noise() {
+      if (buf) return buf;
+      var n = Math.floor(ctx.sampleRate * 1.5), d;
+      buf = ctx.createBuffer(1, n, ctx.sampleRate); d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      return buf;
+    }
+    function src(when, dur) { var s2 = ctx.createBufferSource(); s2.buffer = noise(); s2.loop = true; s2.start(when, Math.random()); s2.stop(when + dur + 0.05); return s2; }
+    /* a crinkling slide of paper: band-passed noise whose level flutters, with the odd tiny crackle */
+    function rustle(when, dur, vol, phase0) {
+      var s2 = src(when, dur), bp = ctx.createBiquadFilter(), hp = ctx.createBiquadFilter(), g = ctx.createGain();
+      bp.type = "bandpass"; bp.Q.value = 0.7; hp.type = "highpass"; hp.frequency.value = 700;
+      bp.frequency.setValueAtTime(1500, when); bp.frequency.linearRampToValueAtTime(3400, when + dur);
+      g.gain.value = 0;
+      s2.connect(bp); bp.connect(hp); hp.connect(g); g.connect(master);
+      for (var k = 0; k < dur; k += 0.03 + Math.random() * 0.05) {
+        var p = Math.min(1, (k + phase0) / (dur + phase0)), env = Math.pow(Math.sin(Math.PI * p), 0.8);
+        g.gain.setTargetAtTime(vol * env * (0.2 + Math.random() * 0.8), when + k, 0.012);
+        if (Math.random() < 0.3) click(when + k, vol * env);
+      }
+    }
+    function click(when, vol) {
+      var c = src(when, 0.02), hp = ctx.createBiquadFilter(), g = ctx.createGain();
+      hp.type = "highpass"; hp.frequency.value = 2800;
+      g.gain.setValueAtTime(vol * 0.9, when); g.gain.exponentialRampToValueAtTime(0.0001, when + 0.012);
+      c.connect(hp); hp.connect(g); g.connect(master);
+    }
+    /* a flap of paper settling flat: a short soft thump */
+    function pat(when, vol) {
+      var n = src(when, 0.12), lp = ctx.createBiquadFilter(), g = ctx.createGain(), o = ctx.createOscillator(), og = ctx.createGain();
+      lp.type = "lowpass"; lp.frequency.value = 600;
+      g.gain.setValueAtTime(vol, when); g.gain.exponentialRampToValueAtTime(0.0001, when + 0.1);
+      n.connect(lp); lp.connect(g); g.connect(master);
+      o.frequency.setValueAtTime(95, when); o.frequency.exponentialRampToValueAtTime(48, when + 0.14);
+      og.gain.setValueAtTime(vol * 0.7, when); og.gain.exponentialRampToValueAtTime(0.0001, when + 0.16);
+      o.connect(og); og.connect(master); o.start(when); o.stop(when + 0.2);
+    }
+    function whoosh(when, dur, vol, phase0) {
+      var s2 = src(when, dur), bp = ctx.createBiquadFilter(), g = ctx.createGain();
+      bp.type = "bandpass"; bp.Q.value = 0.5;
+      bp.frequency.setValueAtTime(450, when); bp.frequency.exponentialRampToValueAtTime(2200, when + dur);
+      var peak = when + Math.max(0.05, dur * 0.55 - phase0);
+      g.gain.setValueAtTime(0.0001, when); g.gain.linearRampToValueAtTime(vol, peak); g.gain.linearRampToValueAtTime(0.0001, when + dur);
+      s2.connect(bp); bp.connect(g); g.connect(master);
+    }
+    /* schedule whatever is still to come, measured from where the animation is right now */
+    function schedule() {
+      var now = ctx.currentTime + 0.03, ct = clock ? clock() : 0;
+      events.forEach(function (e) {
+        var end = e.t + (e.d || 0);
+        if (end < ct) return;
+        var when = now + Math.max(0, e.t - ct), phase = Math.max(0, ct - e.t), dur = (e.d || 0) - phase;
+        if (e.k === "rustle" && dur > 0.05) rustle(when, dur, e.v, phase);
+        else if (e.k === "whoosh" && dur > 0.05) whoosh(when, dur, e.v, phase);
+        else if (e.k === "pat" && e.t >= ct) pat(when, e.v);
+      });
+    }
+    function start() {
+      if (off || !ctx) return;
+      master = master || (function () { var m = ctx.createGain(); m.gain.value = 0.5; m.connect(ctx.destination); return m; })();
+      schedule(); hideBtn();
+    }
+    function hideBtn() { if (btn && btn.parentNode) btn.parentNode.removeChild(btn); btn = null; }
+    function offer(root) {
+      if (btn || off) return;
+      btn = document.createElement("button");
+      btn.type = "button"; btn.className = "pi-snd"; btn.textContent = "Sound on"; btn.setAttribute("aria-label", "Play the paper sound");
+      btn.addEventListener("click", function () { if (ctx) ctx.resume().then(start, hideBtn); });
+      root.appendChild(btn);
+    }
+    return {
+      arm: function (evs, getClock, root) {
+        events = evs; clock = getClock;
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          ctx = new AC();
+          if (ctx.state === "running") start(); else offer(root);
+        } catch (e) { ctx = null; }
+      },
+      stop: function () {
+        off = true; hideBtn();
+        try { if (master && ctx) { master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setTargetAtTime(0, ctx.currentTime, 0.05); setTimeout(function () { try { ctx.close(); } catch (e) {} }, 400); } else if (ctx) ctx.close(); } catch (e) {}
+      }
+    };
+  })();
+  var DESK_SND = [{ k: "rustle", t: 0.95, d: 1.5, v: 0.5 }, { k: "pat", t: 2.45, v: 0.5 }, { k: "rustle", t: 2.9, d: 1.5, v: 0.5 }, { k: "pat", t: 4.4, v: 0.55 }, { k: "whoosh", t: 4.9, d: 1.4, v: 0.16 }];
+  var MOB_SND = [{ k: "rustle", t: 0.8, d: 1.05, v: 0.5 }, { k: "pat", t: 1.85, v: 0.5 }, { k: "rustle", t: 1.95, d: 1.15, v: 0.5 }, { k: "pat", t: 3.1, v: 0.55 }, { k: "whoosh", t: 3.0, d: 0.7, v: 0.14 }];
+  var sndClock = function () { return anims[0] ? anims[0].currentTime / 1000 : 0; };
+
   function seen() { try { sessionStorage.setItem("introSeen", "1"); } catch (e) {} }
   function cleanup() {
     html.classList.remove("intro-pending", "intro-lock");
@@ -21,7 +115,7 @@
     clearTimeout(watchdog);
   }
   function reveal(fast) {
-    if (finished) return; finished = true; seen();
+    if (finished) return; finished = true; seen(); snd.stop();
     var g = window.gsap;
     var runHero = window.__runHero || function () {};
     var items = [".dr-bar", ".dr-eyebrow", ".dr-role", ".stack", ".dr-side > p", ".dr-hero-grid .dim-v"];
@@ -134,6 +228,7 @@
       var mgo = function () {
         if (started || finished) return; started = true;
         anims.forEach(function (a) { a.currentTime = 0; a.play(); });
+        snd.arm(MOB_SND, sndClock, root);
         setTimeout(function () { if (!finished) reveal(false); }, MT.handoff * 1000);
       };
       window.__introGo = mgo;
@@ -226,7 +321,7 @@
       s += T(940, 130, "SHEET 3 / 3", "mono", 24, 'text-anchor="end"');
       s += L(60, 176, 940, 176) + L(60, 164, 60, 188, "thin") + L(940, 164, 940, 188, "thin");
       s += T(500, 162, "1240", "mono", 22, MID);
-      s += '<image href="assets/intro/hero.webp?v=2" x="' + HERO.x + '" y="' + HERO.y + '" width="' + HERO.w + '" height="' + HERO.h.toFixed(1) + '" preserveAspectRatio="none"/>';
+      s += '<image href="assets/intro/hero.webp?v=3" x="' + HERO.x + '" y="' + HERO.y + '" width="' + HERO.w + '" height="' + HERO.h.toFixed(1) + '" preserveAspectRatio="none"/>';
       s += R(HERO.x, HERO.y, HERO.w, HERO.h.toFixed(1), "thin");
       s += T(60, HERO.y + HERO.h + 70, "PRODUCT DESIGN · USER-CENTRED", "mono", 24);
       s += T(60, HERO.y + HERO.h + 112, "ENGINEER BY TRAINING · DESIGNER BY CHOICE", "mono", 24);
@@ -376,12 +471,13 @@
       if (started || finished) return; started = true;
       anims.forEach(function (a) { a.currentTime = 0; a.play(); });
       master.onfinish = function () { reveal(false); };
+      snd.arm(DESK_SND, sndClock, root);
       /* hand over slightly before the last frame so the cross-fade overlaps the end of the zoom */
       setTimeout(function () { if (!finished) reveal(false); }, (TT.zoom0 + TT.zoom + 0.05) * 1000);
     }
     window.__introGo = go;
     if (!/[?&]hold/.test(location.search)) {
-      var imgs = ["assets/intro/hero.webp?v=2", "assets/portrait/final.webp"].map(function (u2) {
+      var imgs = ["assets/intro/hero.webp?v=3", "assets/portrait/final.webp"].map(function (u2) {
         var im = new Image(); im.src = u2; return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
       });
       Promise.all(imgs).then(go);

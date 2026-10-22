@@ -91,3 +91,11 @@ html.intro-pending #intro { display: block; position: fixed; inset: 0; z-index: 
 #intro .pm-s.sa > .pm-face.b { display: none; }
 #intro .pm-sh { position: absolute; inset: 0; background: #14110c; opacity: 0; pointer-events: none; }
 #intro .pm-face svg text { font-variant-ligatures: none; }
+
+#intro .pi-snd {
+  position: absolute; left: max(18px, env(safe-area-inset-left)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: 3;
+  font: 500 12px/1 "DM Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase;
+  color: #edecE8; background: rgba(14, 30, 22, .65); border: 1px solid rgba(235, 231, 220, .55); padding: 10px 14px; cursor: pointer;
+  transition: background .2s, color .2s;
+}
+#intro .pi-snd:hover, #intro .pi-snd:focus-visible { background: #edecE8; color: #1d2b22; outline: none; }

@@ -14,11 +14,6 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  // ---- greeting ----
-  var h = new Date().getHours();
-  var g = $("#greeting");
-  if (g) g.textContent = "( Good " + (h < 12 ? "morning" : h < 18 ? "afternoon" : "evening") + " )";
-
   // ---- marquee ----
   var skills = ["Product Design", "0 → 1 Products", "B2B SaaS", "Mobile Experiences", "Design Systems", "UX Research", "Prototyping", "AdTech · Logistics · Health-tech"];
   var track = $("#marquee");

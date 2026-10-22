@@ -81,12 +81,12 @@
 /* ---------- Button (types: primary | outline | secondary | ghost | danger; sizes: small | md | big) ---------- */
 .dt-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: var(--font-family-primary); font-weight: 600; font-size: 14px; line-height: 1.2;
-  padding: 10px 20px; border-radius: 8px; border: 0; cursor: pointer; white-space: nowrap;
+  font-family: var(--font-family-primary); font-weight: 600; font-size: 14px; line-height: 16px;
+  padding: 12px 20px; border-radius: 8px; border: 0; cursor: pointer; white-space: nowrap;
   transition: background .15s, color .15s, transform .3s cubic-bezier(.22,1,.36,1), box-shadow .2s;
 }
-.dt-btn--small { padding: 6px 14px; font-size: 12px; border-radius: 6px; }
-.dt-btn--big { padding: 14px 28px; font-size: 16px; border-radius: 10px; }
+.dt-btn--small { padding: 8px 16px; font-size: 12px; border-radius: 6px; }
+.dt-btn--big { padding: 16px 28px; font-size: 16px; border-radius: 10px; }
 .dt-btn--primary { background: var(--color-brand-primary); color: #fff; }
 .dt-btn--primary:hover { background: var(--surface-primary-hover); }
 .dt-btn--secondary { background: var(--color-brand-secondary); color: #fff; }
@@ -102,23 +102,23 @@
 
 /* ---------- Tag & Badge (variants: brand | success | error | warning | info | default; sizes: sm | md | lg) ---------- */
 .dt-tag {
-  display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-family-primary);
-  font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 6px; line-height: 1.3;
+  display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-family-primary);
+  font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 6px; line-height: 16px;
   background: rgba(255,255,255,.08); color: rgba(255,255,255,.6); white-space: nowrap;
 }
 .dt-tag--sm { font-size: 10px; padding: 2px 8px; border-radius: 4px; }
-.dt-tag--lg { font-size: 14px; padding: 6px 16px; border-radius: 8px; }
+.dt-tag--lg { font-size: 14px; padding: 8px 16px; border-radius: 8px; }
 .dt-tag--brand { background: rgba(231,39,87,.18); color: #E72757; }
 .dt-tag--success { background: rgba(10,199,32,.18); color: #0AC720; }
 .dt-tag--error { background: rgba(199,10,51,.18); color: #F65578; }
 .dt-tag--warning { background: rgba(243,124,27,.2); color: #F37C1B; }
 .dt-tag--info { background: rgba(27,146,243,.18); color: #1B92F3; }
-.dt-tag--dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.dt-tag--dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 
 /* ---------- Tooltip (placement: top | bottom | left | right; theme: dark | light) ---------- */
 .dt-tooltip {
   position: absolute; background: var(--bg-tooltip); color: rgba(255,255,255,.85);
-  border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 7px 12px;
+  border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: 8px 12px;
   font-family: var(--font-family-primary); font-size: 12px; font-weight: 500; white-space: nowrap;
   box-shadow: 0 4px 16px rgba(0,0,0,.4); pointer-events: none;
 }
