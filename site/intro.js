@@ -226,10 +226,10 @@
       s += T(940, 130, "SHEET 3 / 3", "mono", 24, 'text-anchor="end"');
       s += L(60, 176, 940, 176) + L(60, 164, 60, 188, "thin") + L(940, 164, 940, 188, "thin");
       s += T(500, 162, "1240", "mono", 22, MID);
-      s += '<image href="assets/intro/hero.webp" x="' + HERO.x + '" y="' + HERO.y + '" width="' + HERO.w + '" height="' + HERO.h.toFixed(1) + '" preserveAspectRatio="none"/>';
+      s += '<image href="assets/intro/hero.webp?v=2" x="' + HERO.x + '" y="' + HERO.y + '" width="' + HERO.w + '" height="' + HERO.h.toFixed(1) + '" preserveAspectRatio="none"/>';
       s += R(HERO.x, HERO.y, HERO.w, HERO.h.toFixed(1), "thin");
       s += T(60, HERO.y + HERO.h + 70, "PRODUCT DESIGN · USER-CENTRED", "mono", 24);
-      s += T(60, HERO.y + HERO.h + 112, "FORMER ENGINEER · DESIGNER BY CHOICE", "mono", 24);
+      s += T(60, HERO.y + HERO.h + 112, "ENGINEER BY TRAINING · DESIGNER BY CHOICE", "mono", 24);
       s += T(940, PH - 60, "js.", "", 64, 'text-anchor="end" font-weight="700"');
       return s;
     }
@@ -381,7 +381,7 @@
     }
     window.__introGo = go;
     if (!/[?&]hold/.test(location.search)) {
-      var imgs = ["assets/intro/hero.webp", "assets/portrait/final.webp"].map(function (u2) {
+      var imgs = ["assets/intro/hero.webp?v=2", "assets/portrait/final.webp"].map(function (u2) {
         var im = new Image(); im.src = u2; return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
       });
       Promise.all(imgs).then(go);
