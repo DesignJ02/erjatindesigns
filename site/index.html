@@ -18,7 +18,12 @@
       /* always open on the hero: no remembered scroll spot after a reload, a revisit or a link from another page. A #section link still works. */
       try {
         if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-        if (!location.hash || location.hash === "#top") window.addEventListener("pageshow", function () { window.scrollTo(0, 0); });
+        if (!location.hash || location.hash === "#top") {
+          var moved = false, top = function () { if (!moved) window.scrollTo(0, 0); };
+          ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (e) { window.addEventListener(e, function () { moved = true; }, { once: true, passive: true }); });
+          window.addEventListener("pageshow", top);
+          window.addEventListener("load", function () { top(); setTimeout(top, 150); setTimeout(top, 600); });
+        }
       } catch (e) {}
       try {
         var t = localStorage.getItem("theme");
