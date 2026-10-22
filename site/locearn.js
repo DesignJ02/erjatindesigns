@@ -72,3 +72,35 @@
   }
   update();
 })();
+
+/* screen recordings play only while they are on screen (and not for visitors who asked for less motion).
+   The two sides of a V1 / V2 slider start together and loop on their own length. A short timer re-tries any clip that the
+   browser paused or refused, so a quick scroll past can never leave one stuck. */
+(function () {
+  var vids = document.querySelectorAll(".cx-vid video, .cx-cmp.vid video");
+  if (!vids.length) return;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) { document.querySelectorAll(".cx-vid video").forEach(function (v) { v.controls = true; }); return; }
+  var groups = [];                                      /* each is { el: observed element, list: videos, on: visible? } */
+  vids.forEach(function (v) {
+    var g = v.closest(".cx-cmp.vid");
+    var key = g || v, found = groups.filter(function (x) { return x.key === key; })[0];
+    if (!found) groups.push({ key: key, el: g ? g.querySelector("video") : v, list: g ? Array.prototype.slice.call(g.querySelectorAll("video")) : [v], on: false, started: false });
+  });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      var g = groups.filter(function (x) { return x.el === e.target; })[0];
+      if (!g) return;
+      g.on = e.isIntersecting;
+      if (g.on) { if (!g.started) { g.list.forEach(function (v) { try { v.currentTime = 0; } catch (err) {} }); g.started = true; } }
+      else { g.list.forEach(function (v) { v.pause(); }); g.started = false; }
+    });
+  }, { threshold: 0.35 });
+  groups.forEach(function (g) { io.observe(g.el); });
+  setInterval(function () {
+    groups.forEach(function (g) {
+      if (!g.on) return;
+      g.list.forEach(function (v) { if (v.paused && v.readyState >= 2) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } });
+    });
+  }, 700);
+})();

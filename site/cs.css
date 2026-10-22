@@ -140,3 +140,8 @@ body.le.cs { justify-items: stretch; grid-template-columns: minmax(0, 1fr); }
 .le .cx-hero-art .sw i { display: block; height: 44px; background: var(--c); border: 1px solid var(--pencil); }
 .le .cx-hero-art .sw span { display: grid; gap: 2px; }
 .le .cx-hero-art .sw em { font-style: normal; color: var(--accent); }
+
+/* competition tracking hero: one laptop mockup instead of two flat screenshots */
+body.le .cx-hero-art:has(.scr.lap) { height: 440px; min-height: 0; }
+.le .cx-hero-art .scr.lap { left: -14%; right: auto; top: 54%; width: 128%; background: none; border: 0; box-shadow: none; transform: translateY(-50%); z-index: 2; }
+@media (max-width: 900px) { body.le .cx-hero-art:has(.scr.lap) { height: 300px; } body.le .cx-hero-art .scr.lap { left: -4%; width: 108%; } }
