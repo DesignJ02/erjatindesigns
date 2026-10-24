@@ -80,9 +80,10 @@
 
   // count-up stats
   $$("[data-to]").forEach(function (el) {
+    var fmt = function (n) { return el.dataset.comma ? Math.round(n).toLocaleString("en-US") : n.toFixed(dec); };
     var to = parseFloat(el.dataset.to), suf = el.dataset.suf || "", dec = (el.dataset.to.split(".")[1] || "").length;
     if (reduce || !("IntersectionObserver" in window)) return; // real value is already in the markup
-    el.firstChild.nodeValue = (0).toFixed(dec);
+    el.firstChild.nodeValue = fmt(0);
     var o = new IntersectionObserver(function (es) {
       if (!es[0].isIntersecting) return;
       o.disconnect();
@@ -90,7 +91,7 @@
       (function step(t) {
         if (t0 === null) t0 = t;
         var k = Math.min(1, (t - t0) / 1300), e = 1 - Math.pow(1 - k, 3);
-        el.firstChild.nodeValue = (to * e).toFixed(dec);
+        el.firstChild.nodeValue = fmt(to * e);
         if (k < 1) requestAnimationFrame(step);
       })(performance.now());
     }, { threshold: 0.6 });
