@@ -840,3 +840,16 @@ html:has(body.le), body.le { background-color: #fff; }
 /* slider screens are cropped inside the same bezel as the onboarding video */
 .le #v2 .cx-cmp.vid .cx-cmp-stage { aspect-ratio: 576 / 1280; border: 6px solid #17171a; border-radius: 28px; background: #000; box-shadow: 0 20px 26px rgba(30, 28, 24, .28); }
 @media (min-width: 901px) { .le #v2 .cx-cmp.phone.vid { width: min(380px, 100%, max(220px, calc(64vh * 0.45))); } }
+
+/* hero details box: one 1px frame for roles and scale, content on a shared 20px inset */
+@media (min-width: 901px) {
+  body.le .cx-hero .lx-meta { border: 1px solid var(--ink); border-bottom: 0; background: #fff; margin-bottom: 0; }
+  body.le .cx-hero .lx-stats { border: 1px solid var(--ink); background: #fff; margin-top: 0; padding: 0; }
+  body.le .cx-hero .lx-meta > div { padding: 20px; border: 0; }
+  body.le .cx-hero .lx-meta > div + div { border-left: 1px solid var(--ink); }
+  body.le .cx-hero .lx-stats .lx-statcap { padding: 20px 20px 0; border: 0; }
+  body.le .cx-hero .lx-stats > div:not(.lx-statcap) { padding: 20px 20px 28px; border: 0; border-left: 1px solid var(--ink); }
+  body.le .cx-hero .lx-stats > div:nth-child(2) { border-left: 0; }
+  body.le .cx-hero .lx-meta { border-bottom: 1px solid var(--ink); }
+  body.le .cx-hero .lx-stats { border-top: 0; }
+}

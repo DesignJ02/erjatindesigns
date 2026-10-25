@@ -104,3 +104,35 @@
     });
   }, 700);
 })();
+
+/* hero laptop: the poster button loads and plays the prototype in the screen; the full screen button plays it large */
+(function () {
+  var btn = document.querySelector(".lap-play"), v = document.querySelector(".lap-v"), fs = document.querySelector(".lap-fs");
+  if (!btn || !v) return;
+  function start() {
+    if (!v.getAttribute("src")) v.src = v.getAttribute("data-src");
+    v.hidden = false;
+    btn.hidden = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  btn.addEventListener("click", start);
+  var lap = document.querySelector(".scr.lap");
+  function fsEl() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  if (fs && lap) {
+    var label = fs.querySelector("span");
+    fs.addEventListener("click", function () {
+      if (fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+      start();
+      var f = lap.requestFullscreen || lap.webkitRequestFullscreen;
+      if (f) { try { var r = f.call(lap); if (r && r.catch) r.catch(function () {}); } catch (e) {} }
+    });
+    function sync() { var on = fsEl() === lap; if (label) label.textContent = on ? "Exit full screen" : "Full screen"; fs.setAttribute("aria-label", on ? "Exit full screen" : "Play prototype full screen"); }
+    document.addEventListener("fullscreenchange", function () {
+      /* if the player's own full screen was used, swap it for the laptop version */
+      if (fsEl() === v) { var x = document.exitFullscreen || document.webkitExitFullscreen; Promise.resolve(x.call(document)).then(function () { var f = lap.requestFullscreen || lap.webkitRequestFullscreen; if (f) f.call(lap); }).catch(function () {}); }
+      sync();
+    });
+    document.addEventListener("webkitfullscreenchange", sync);
+  }
+})();

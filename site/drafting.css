@@ -994,3 +994,4 @@ html::after { opacity: 0.35; }
 :root:not([data-theme="dark"]) html::after { opacity: 0.1; }
 :root:not([data-theme="dark"])::after { opacity: 0.1; }
 :root:not([data-theme="dark"]) .grain { opacity: 0.025; }
+.cx .ch > .dim-v, .cx .ch .dim-v { display: none !important; }
