@@ -11,6 +11,7 @@
     cur.setAttribute("aria-hidden", "true");
     document.body.appendChild(cur);
   }
+  if (!cur.querySelector("i")) cur.appendChild(document.createElement("i"));   /* the ring that opens over clickable things */
   var on = false;
   function move(e) {
     cur.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
@@ -21,7 +22,7 @@
   document.addEventListener("mouseleave", function () { cur.classList.add("off"); });
   document.addEventListener("mouseenter", function () { cur.classList.remove("off"); });
   document.addEventListener("mouseover", function (e) {
-    var t = e.target.closest && e.target.closest("a, button, [role='button'], summary, label, .dr-row, .chip");
+    var t = e.target.closest && e.target.closest("a, button, [role='button'], summary, label, .work-row, .dr-row, .chip, .bl-tile, .lap-play, [class*='card'], .lx-opt, .lx-dc, .lx-js, .dt-q, .cx-cmp");
     cur.classList.toggle("link", !!t);
   }, { passive: true });
 })();

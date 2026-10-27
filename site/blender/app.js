@@ -4,8 +4,8 @@ import { BLENDER } from "./data.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const grid = $("bl-grid"), vids = $("bl-videos"), lb = $("bl-lb");
-if (grid && vids && lb) {
+const vids = $("bl-videos"), lb = $("bl-lb");
+if (vids && lb) {
   /* ---- videos: a poster until played, then a normal video with controls and sound ---- */
   BLENDER.videos.forEach((v) => {
     const f = document.createElement("figure");
@@ -22,16 +22,6 @@ if (grid && vids && lb) {
     vids.appendChild(f);
   });
 
-  /* ---- project tiles ---- */
-  BLENDER.projects.forEach((p, pi) => {
-    const b = document.createElement("button");
-    b.type = "button"; b.className = "bl-tile";
-    b.innerHTML = '<span class="bl-tile-img"><img src="' + p.shots[0].thumb + '" alt="" loading="lazy" decoding="async" width="800" height="450"></span><span class="bl-tile-t"><b>' + esc(p.title) + "</b><small>" + p.shots.length + (p.shots.length === 1 ? " render" : " renders") + "</small></span>";
-    b.setAttribute("aria-label", "Open " + p.title + ", " + p.shots.length + " renders");
-    b.addEventListener("click", () => open(pi, 0, b));
-    grid.appendChild(b);
-  });
-
   /* ---- lightbox ---- */
   let pi = 0, si = 0, opener = null;
   const img = $("bl-lb-img"), cap = $("bl-lb-cap"), prev = $("bl-prev"), next = $("bl-next");
@@ -43,6 +33,7 @@ if (grid && vids && lb) {
     [(si + 1) % p.shots.length, (si - 1 + p.shots.length) % p.shots.length].forEach((k) => { const i = new Image(); i.src = p.shots[k].src; });
   }
   function open(p, s, from) { pi = p; si = s; opener = from; show(); lb.showModal(); }
+  window.addEventListener("bl:open", (e) => open(e.detail.index, 0, e.detail.from));
   const step = (d) => { const n = BLENDER.projects[pi].shots.length; si = (si + d + n) % n; show(); };
   prev.addEventListener("click", () => step(-1));
   next.addEventListener("click", () => step(1));

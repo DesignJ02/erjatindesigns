@@ -139,6 +139,31 @@
     setState(d > 0 ? "open" : "closed");
   }
   window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* first time it comes into view: it opens up by itself, then lights each layer in turn so a visitor sees that every
+     layer covers something different. Any hover, tap or key press ends the walk-through. */
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var order = layers.slice().sort(function (a, b) { return (+a.getAttribute("data-i")) - (+b.getAttribute("data-i")); });
+  var tour = [], touring = false, seen = false;
+  function stopTour(clear) { touring = false; tour.forEach(clearTimeout); tour = []; if (clear) show(null); }
+  ["pointerenter", "focusin", "pointerdown", "keydown"].forEach(function (ev) { stk.addEventListener(ev, function () { if (touring) stopTour(false); }); });
+  function walk() {
+    touring = true;
+    order.forEach(function (l, i) { tour.push(setTimeout(function () { if (touring) show(l); }, 500 + i * 1500)); });
+    tour.push(setTimeout(function () { if (touring) { touring = false; show(null); } }, 500 + order.length * 1500 + 300));
+  }
+  function arrive() {
+    if (seen) return;
+    seen = true;
+    setState("open");
+    if (!calm) tour.push(setTimeout(walk, 900));
+  }
+  try {
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && es[0].intersectionRatio >= 0.4) { arrive(); io.disconnect(); }
+    }, { threshold: [0.4, 0.6] });
+    io.observe(stk);
+  } catch (e) { arrive(); }
 })();
 
 /* CAD inspector: hovering a line of the name selects it like a CAD object and reads out live dimensions,
