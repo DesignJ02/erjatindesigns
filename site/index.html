@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="datum.css?v=107"><link rel="stylesheet" href="style.css?v=107"><link rel="stylesheet" href="drafting.css?v=206"><link rel="stylesheet" href="blender.css?v=109"><link rel="stylesheet" href="folders.css?v=1"><link rel="stylesheet" href="navdd.css?v=103"><link rel="stylesheet" href="intro.css?v=121">
+  <link rel="stylesheet" href="datum.css?v=107"><link rel="stylesheet" href="style.css?v=107"><link rel="stylesheet" href="drafting.css?v=211"><link rel="stylesheet" href="blender.css?v=110"><link rel="stylesheet" href="folders.css?v=2"><link rel="stylesheet" href="navdd.css?v=103"><link rel="stylesheet" href="intro.css?v=121">
   <script>
     (function () {
       /* always open on the hero: no remembered scroll spot after a reload, a revisit or a link from another page. A #section link still works. */
@@ -172,17 +172,16 @@
       </div>
       <p class="bl-lede">Personal projects, 3D experiments and tools built with the help of vibe coding.</p>
       <div class="fd-row"><section class="fd" id="fd-blender" data-fd="blender" aria-label="3D / Blender"><i class="fd-guide l" aria-hidden="true"></i><i class="fd-guide r" aria-hidden="true"></i><svg class="fd-back" viewBox="0 0 520 232" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60V210Q506 226 490 226H30Q14 226 14 210Z"/></svg><ul class="fd-cards" id="fd-blender-cards"></ul><button type="button" class="fd-front" aria-expanded="false" aria-controls="fd-blender-cards"><svg class="fd-front-svg" viewBox="0 0 520 232" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="body" d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60V210Q506 226 490 226H30Q14 226 14 210Z"/><path class="edge" d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60"/></svg><img class="fd-ico" src="assets/blender/blender-logo.png" alt="" width="242" height="198"><span class="fd-state" aria-hidden="true"></span><span class="fd-name">3D / Blender</span><span class="fd-meta">Renders &middot; Visuals &middot; Experiments</span><svg class="fd-slash" viewBox="0 0 40 20" aria-hidden="true" focusable="false"><path d="M8 18L16 2M18 18L26 2M28 18L36 2"/></svg></button></section><section class="fd" id="fd-tools" data-fd="tools" aria-label="Vibe-coded Tools"><i class="fd-guide l" aria-hidden="true"></i><i class="fd-guide r" aria-hidden="true"></i><svg class="fd-back" viewBox="0 0 520 232" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60V210Q506 226 490 226H30Q14 226 14 210Z"/></svg><ul class="fd-cards" id="fd-tools-cards"></ul><button type="button" class="fd-front" aria-expanded="false" aria-controls="fd-tools-cards"><svg class="fd-front-svg" viewBox="0 0 520 232" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="body" d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60V210Q506 226 490 226H30Q14 226 14 210Z"/><path class="edge" d="M14 34Q14 18 30 18H178Q190 18 198 27L212 44H490Q506 44 506 60"/></svg><svg class="fd-ico code" viewBox="0 0 40 32" aria-hidden="true" focusable="false"><path d="M12 6L3 16l9 10M28 6l9 10-9 10M23 3L17 29"/></svg><span class="fd-state" aria-hidden="true"></span><span class="fd-name">Vibe-coded Tools</span><span class="fd-meta">AI tools &middot; Utilities &middot; Experiments</span><svg class="fd-slash" viewBox="0 0 40 20" aria-hidden="true" focusable="false"><path d="M8 18L16 2M18 18L26 2M28 18L36 2"/></svg></button></section></div>
-      <div class="bl-videos" id="bl-videos"></div>
       <p class="bl-more"><a href="https://www.artstation.com/jatinsrivastava5" target="_blank" rel="noopener">More on ArtStation &rarr;</a></p>
     </section>
 
     <section class="dr-sec" id="contact">
-      <div class="dr-head" style="grid-template-columns:110px minmax(0,1fr)">
+      <div class="dr-head">
         <div class="dr-no">07<small>S-07</small></div>
       </div>
       <div class="dr-contact">
         <div>
-          <h2>Let&rsquo;s<br>talk<span class="dot">.</span></h2>
+          <h2>Let&rsquo;s talk<span class="dot">.</span></h2>
           <p class="tagline">&hellip;and build something <em>people like.</em></p>
           <div class="dr-btns">
             <button class="dt-btn dt-btn--primary dt-btn--big" type="button" data-open="contact">Contact me</button>
@@ -257,8 +256,15 @@
     </div>
     <p class="bl-cap" id="bl-lb-cap" aria-live="polite"></p>
   </dialog>
+  <dialog class="bl-lb" id="bl-vlb" aria-label="Video">
+    <div class="bl-stage">
+      <video id="bl-vlb-v" controls playsinline preload="none"></video>
+      <button type="button" class="bl-x" id="bl-vlb-x" aria-label="Close">&times;</button>
+    </div>
+    <p class="bl-cap" id="bl-vlb-cap"></p>
+  </dialog>
 
-  <script src="drafting.js?v=25"></script><script src="navdd.js?v=3"></script><script src="xhair.js?v=2"></script><script type="module" src="blender/app.js?v=9"></script><script type="module" src="blender/folders.js?v=1"></script>
+  <script src="drafting.js?v=25"></script><script src="navdd.js?v=3"></script><script src="xhair.js?v=2"></script><script type="module" src="blender/app.js?v=10"></script><script type="module" src="blender/folders.js?v=2"></script>
   <script src="portrait.js?v=1"></script>
-</body>
+<script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})})</script></body>
 </html>

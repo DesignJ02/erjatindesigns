@@ -48,3 +48,7 @@ a.fd-link:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px
 @media (max-width: 700px) { .fd-row { grid-template-columns: 1fr; gap: 56px; } .fd { max-width: 440px; } }
 .fd.calm .fd-card, .fd.calm .fd-front, .fd.calm .fd-back, .fd.calm .fd-link { transition: none; }
 @media (prefers-reduced-motion: reduce) { .fd-card, .fd-front, .fd-back, .fd-link, .fd-guide, .fd-tag { transition: none !important; } }
+.fd-row { align-items: end; }
+.fd-play { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(255, 255, 255, .22); pointer-events: none; transition: transform .25s ease; }
+.fd-play::after { content: ""; position: absolute; left: 17px; top: 13px; border-left: 15px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+a.fd-link:hover .fd-play { transform: scale(1.1); }

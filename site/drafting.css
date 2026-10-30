@@ -1009,3 +1009,32 @@ html::after { opacity: 0.35; }
 @keyframes stk-ping { 0% { transform: scale(.4); opacity: .8; } 80%, 100% { transform: scale(1.3); opacity: 0; } }
 .stk.has-on .stk-hint { opacity: .45; }
 @media (prefers-reduced-motion: reduce) { .stk-hint { transition: none; } .stk-hint i::after { animation: none; } }
+
+/* section headers: number and label side by side with a hairline between them, the title underneath, and the content
+   below all starting on the same left edge (the reference layout, applied to every section) */
+.dr-head { display: grid; grid-template-columns: auto auto minmax(0, 1fr); grid-template-areas: "no label aside" "title title aside"; gap: 0 0; column-gap: 0; row-gap: 24px; align-items: start; margin-bottom: 44px; }
+.dr-head > .dr-no { grid-area: no; }
+.dr-head .eyebrow-l { grid-area: label; grid-column: auto; position: relative; margin: 0 0 0 28px; padding: 17px 0 7px 29px; border-bottom: 0; font-size: 12px; letter-spacing: 0.14em; justify-self: start; align-self: start; }
+.dr-head .eyebrow-l::before { content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 62px; background: var(--pencil-soft); }
+.dr-head .eyebrow-l::after { content: ""; position: absolute; left: 29px; right: 0; bottom: 0; height: 1px; background: var(--accent); }
+.dr-head h2, #work .dr-head h2 { grid-area: title; grid-column: 1 / -1; font-size: 50px; line-height: 1.06; max-width: none; }
+.dr-head aside { grid-area: aside; grid-column: auto; grid-row: 1 / span 2; justify-self: end; align-self: center; }
+.dr-list, .dr-about, .dr-habits, .dr-next, .dr-quotes, .dr-contact, .dr-tags { margin-left: 0; }
+@media (max-width: 900px) {
+  .dr-head { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "no label" "title title"; }
+  .dr-head .eyebrow-l { margin-left: 20px; padding-left: 21px; }
+  .dr-head .eyebrow-l::after { left: 21px; }
+  .dr-head h2, #work .dr-head h2 { font-size: clamp(30px, 9vw, 40px); }
+  .dr-head aside { display: none; }
+}
+
+/* last section: number, tag, title, line and buttons in one tight left-aligned stack */
+#contact .dr-head { margin-bottom: 12px; }
+#contact .dr-contact { grid-template-columns: minmax(0, 1fr); }
+.dr-contact h2, #contact .dr-contact h2 { font-size: 50px; line-height: 1.06; margin: 0; }
+#contact .dr-contact .tagline { font-size: 20px; line-height: 28px; margin-top: 16px; }
+#contact .dr-contact .dr-btns { margin-top: 36px; }
+
+/* every subheading is semibold (600) */
+.dr-lede, .dr-habit h3, .dr-row h3, #contact .tagline { font-weight: 600; }
+body.cx .cx-main h3, body.cx .cx-main h4 { font-weight: 600 !important; }

@@ -49,3 +49,4 @@ html:has(.bl-lb[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .bl-tile, .bl-play img, .bl-tile-img img, .bl-btn { transition: none; } }
 
 .eyebrow-l .bl-mark { display: inline-block; width: 20px; height: auto; margin: -4px 8px -2px 0; vertical-align: middle; }
+.bl-stage video { max-width: 100%; max-height: 100%; width: auto; height: auto; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); background: #000; }

@@ -4,24 +4,8 @@ import { BLENDER } from "./data.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const vids = $("bl-videos"), lb = $("bl-lb");
-if (vids && lb) {
-  /* ---- videos: a poster until played, then a normal video with controls and sound ---- */
-  BLENDER.videos.forEach((v) => {
-    const f = document.createElement("figure");
-    f.className = "bl-vid";
-    f.innerHTML = '<button type="button" class="bl-play" aria-label="Play ' + esc(v.title) + '"><img src="' + v.poster + '" alt="" loading="lazy" decoding="async" width="1280" height="720"><i class="bl-btn" aria-hidden="true"></i></button><figcaption>' + esc(v.title) + "</figcaption>";
-    f.querySelector("button").addEventListener("click", () => {
-      vids.querySelectorAll("video").forEach((o) => o.pause());
-      const el = document.createElement("video");
-      el.src = v.src; el.poster = v.poster; el.controls = true; el.autoplay = true; el.playsInline = true; el.preload = "auto";
-      el.setAttribute("aria-label", v.title);
-      f.querySelector("button").replaceWith(el);
-      el.play().catch(() => {});
-    });
-    vids.appendChild(f);
-  });
-
+const lb = $("bl-lb");
+if (lb) {
   /* ---- lightbox ---- */
   let pi = 0, si = 0, opener = null;
   const img = $("bl-lb-img"), cap = $("bl-lb-cap"), prev = $("bl-prev"), next = $("bl-next");

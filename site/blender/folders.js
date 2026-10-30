@@ -10,7 +10,8 @@ const vid = (id) => BLENDER.videos.find((v) => v.id === id);
 
 const COLLECTIONS = {
   blender: [
-    { title: vid("bugatti").title, img: vid("bugatti").poster, href: "#bl-videos", note: "Watch the ad" },
+    { title: vid("bugatti").title, img: vid("bugatti").poster, video: vid("bugatti").src, note: "Watch the trailer" },
+    { title: vid("volvo").title, img: vid("volvo").poster, video: vid("volvo").src, note: "Watch the ad" },
     { title: BLENDER.projects[proj("airpods")].title, img: BLENDER.projects[proj("airpods")].shots[0].thumb, open: proj("airpods"), note: BLENDER.projects[proj("airpods")].shots.length + " renders" },
     { title: BLENDER.projects[proj("lambo-wheel")].title, img: BLENDER.projects[proj("lambo-wheel")].shots[0].thumb, open: proj("lambo-wheel"), note: BLENDER.projects[proj("lambo-wheel")].shots.length + " renders" }
   ],
@@ -20,20 +21,41 @@ const COLLECTIONS = {
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const hoverOK = window.matchMedia("(hover: hover) and (pointer: fine)");
-const WIDTHS = [100, 95, 90], GAP = 12, PEEK = 14, RATIO = 520 / 232;
+const WIDTHS = [100, 96, 92, 88], GAP = 12, PEEK = 14, RATIO = 520 / 232;
+
+/* video dialog: the ads play in a plain dark viewer, closed with Esc, the button or a click outside */
+const vdlg = document.getElementById("bl-vlb"), vel = document.getElementById("bl-vlb-v"), vcap = document.getElementById("bl-vlb-cap");
+let vfrom = null;
+function playVideo(a) {
+  if (!vdlg || !vel) return;
+  vfrom = a;
+  vel.poster = a.dataset.poster; vel.src = a.dataset.video;
+  vcap.textContent = a.dataset.title;
+  vdlg.showModal();
+  const p = vel.play(); if (p && p.catch) p.catch(() => {});
+}
+if (vdlg) {
+  const stop = () => { vel.pause(); vel.removeAttribute("src"); vel.load(); if (vfrom) vfrom.focus(); };
+  document.getElementById("bl-vlb-x").addEventListener("click", () => vdlg.close());
+  vdlg.addEventListener("click", (e) => { if (e.target === vdlg || e.target.classList.contains("bl-stage")) vdlg.close(); });
+  vdlg.addEventListener("close", stop);
+}
 
 document.querySelectorAll(".fd").forEach((fd) => {
-  const key = fd.dataset.fd, list = (COLLECTIONS[key] || []).slice(0, 3);
+  const key = fd.dataset.fd, list = (COLLECTIONS[key] || []).slice(0, 4);
   const ul = fd.querySelector(".fd-cards"), front = fd.querySelector(".fd-front"), back = fd.querySelector(".fd-back");
   ul.innerHTML = list.map((it, i) => {
     const body = (it.img ? '<img src="' + it.img + '" alt="" decoding="async"' + (it.fit ? ' class="contain"' : "") + ">" : "") + '<span class="fd-tag"><b>' + esc(it.title) + "</b><i>" + esc(it.note || "") + "</i></span>";
     const style = ' style="--w:' + WIDTHS[i] + '%' + (it.bg ? ";--bg:" + esc(it.bg) : "") + '"';
+    if (it.video) return '<li class="fd-card"' + style + '><a class="fd-link" href="#blender" data-video="' + esc(it.video) + '" data-poster="' + esc(it.img) + '" data-title="' + esc(it.title) + '" aria-label="Play ' + esc(it.title) + '">' + body + '<span class="fd-play" aria-hidden="true"></span></a></li>';
     if (it.open != null) return '<li class="fd-card"' + style + '><a class="fd-link" href="#blender" data-open="' + it.open + '" aria-label="Open ' + esc(it.title) + '">' + body + "</a></li>";
     if (it.href) return '<li class="fd-card"' + style + '><a class="fd-link" href="' + esc(it.href) + '"' + (it.href.charAt(0) === "#" ? "" : ' target="_blank" rel="noopener"') + ' aria-label="' + esc(it.title) + '">' + body + "</a></li>";
     return '<li class="fd-card"' + style + '><div class="fd-link fd-off" aria-label="' + esc(it.title) + ', link coming soon">' + body + "</div></li>";
   }).join("");
 
   ul.addEventListener("click", (e) => {
+    const v = e.target.closest("a[data-video]");
+    if (v) { e.preventDefault(); playVideo(v); return; }
     const a = e.target.closest("a[data-open]");
     if (!a) return;
     e.preventDefault();
