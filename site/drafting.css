@@ -341,8 +341,26 @@ footer.dr-foot { border: 0; padding: 0; margin: 0; }
 .cx-rail a.on span { max-width: 0; opacity: 0; }
 .cx-rail a:hover span, .cx-rail a:focus-visible span { max-width: 160px; opacity: 1; }
 /* hovering or focusing any number opens every chapter label at once */
-.cx-rail:hover a span, .cx-rail:focus-within a span { max-width: 240px; opacity: 1; }
-.cx-rail:hover a.on span, .cx-rail:focus-within a.on span { max-width: 240px; opacity: 1; }
+.cx-rail:not(.shut):hover a span, .cx-rail:not(.shut):focus-within a span { max-width: 420px; opacity: 1; }
+.cx-rail:not(.shut):hover a.on span, .cx-rail:not(.shut):focus-within a.on span { max-width: 420px; opacity: 1; }
+
+/* pointing at the chapter list dims the page behind it with a grey that is deepest on the left; the word under the pointer lifts and turns black, the chapter you are in stays in the accent colour */
+body::after { content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .7s ease;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 32%, rgba(0, 0, 0, .5) 52%, transparent 80%); mask-image: linear-gradient(90deg, #000 0, #000 32%, rgba(0, 0, 0, .5) 52%, transparent 80%);
+  background: linear-gradient(90deg, rgba(150, 150, 150, .46) 0%, rgba(150, 150, 150, .3) 36%, rgba(150, 150, 150, .1) 70%, rgba(150, 150, 150, 0) 100%); }
+body:has(.cx-rail:not(.shut):hover)::after, body:has(.cx-rail a:focus-visible)::after { opacity: 1; }
+.cx-rail a, .cx-rail a b { transition: color .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1), border-color .5s ease, text-shadow .5s ease, max-width .5s var(--ease), opacity .3s; }
+/* the paper box behind the list only comes back once the dimming has faded, so no outline shows over the gradient */
+.cx-rail { transition: background-color .35s ease .55s; }
+.cx-rail:not(.shut):hover, .cx-rail:not(.shut):has(:focus-visible) { background: transparent; transition-delay: 0s; }
+.cx-rail:not(.shut):hover a, .cx-rail:not(.shut):has(:focus-visible) a { color: #7a7a78; }
+.cx-rail:not(.shut):hover a.on, .cx-rail:not(.shut):has(:focus-visible) a.on { color: var(--accent); border-color: var(--accent); }
+.cx-rail:not(.shut):hover a:hover, .cx-rail:not(.shut):has(:focus-visible) a:focus-visible { color: #000; transform: translate(10px, -2px); text-shadow: 0 6px 14px rgba(0, 0, 0, .18); }
+.cx-rail:not(.shut):hover a.on:hover, .cx-rail:not(.shut):has(:focus-visible) a.on:focus-visible { color: var(--accent); }
+/* after picking a chapter the list folds shut and stays shut until the pointer has left it */
+.cx-rail.shut a span, .cx-rail.shut a:hover span, .cx-rail.shut a.on span { max-width: 0; opacity: 0; }
+@media (prefers-reduced-motion: reduce) { body::after, .cx-rail, .cx-rail a, .cx-rail a b { transition: none; } .cx-rail:hover a:hover { transform: none; } }
 
 /* =====================================================================
    v2 — matched to the reference: quiet paper, big asymmetric work rows,

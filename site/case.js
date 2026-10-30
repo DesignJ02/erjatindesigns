@@ -16,6 +16,33 @@
 
   // chapter rail (scroll-spy)
   var links = $$("[data-ch]");
+  /* jump to a chapter. The page keeps changing height while you travel (images load, sheets unfold), so a plain smooth scroll
+     stops short or long. This one re-measures the chapter heading on every frame, and keeps correcting briefly after it arrives. */
+  var NAV = 140, scrollRaf = 0, stopScroll = function () { cancelAnimationFrame(scrollRaf); scrollRaf = 0; };
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) { addEventListener(ev, stopScroll, { passive: true }); });
+  function goTo(sec) {
+    stopScroll();
+    var head = sec.querySelector(".ch-head") || sec;
+    var where = function () { return Math.max(0, Math.round(head.getBoundingClientRect().top + scrollY - NAV)); };
+    if (reduce) { scrollTo(0, where()); return; }
+    var from = scrollY, t0 = performance.now(), dur = Math.min(1200, Math.max(550, Math.abs(where() - from) * 0.22)), settled = 0;
+    (function step(now) {
+      var k = Math.min(1, (now - t0) / dur), e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2, to = where();
+      scrollTo(0, k < 1 ? from + (to - from) * e : to);
+      if (k < 1) { scrollRaf = requestAnimationFrame(step); return; }
+      /* arrived: watch for layout shifts a little longer and follow the heading */
+      if (Math.abs(to - scrollY) > 1) settled = 0; else settled++;
+      if (now - t0 < dur + 1500 && settled < 20) scrollRaf = requestAnimationFrame(step);
+      else scrollRaf = 0;
+    })(t0);
+  }
+  var rail = links.length ? links[0].closest(".cx-rail") : null;
+  /* after a jump the list stays open while the pointer is on it and folds away once the pointer leaves; the clicked link must not keep it open through focus */
+  function shut() {
+    if (!rail) return;
+    if (document.activeElement && rail.contains(document.activeElement)) document.activeElement.blur();
+  }
+  if (rail) { rail.addEventListener("mouseleave", function () { rail.classList.remove("shut"); }); rail.addEventListener("pointerleave", function () { rail.classList.remove("shut"); }); }
   if (links.length && "IntersectionObserver" in window) {
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
@@ -28,7 +55,9 @@
       l.addEventListener("click", function (e) {
         if (!t) return;
         e.preventDefault();
-        t.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+        goTo(t);
+        shut();
+        if (history.replaceState) history.replaceState(null, "", "#" + l.dataset.ch);
       });
     });
   }
