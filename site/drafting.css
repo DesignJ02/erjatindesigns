@@ -341,8 +341,8 @@ footer.dr-foot { border: 0; padding: 0; margin: 0; }
 .cx-rail a.on span { max-width: 0; opacity: 0; }
 .cx-rail a:hover span, .cx-rail a:focus-visible span { max-width: 160px; opacity: 1; }
 /* hovering or focusing any number opens every chapter label at once */
-.cx-rail:not(.shut):hover a span, .cx-rail:not(.shut):focus-within a span { max-width: 420px; opacity: 1; }
-.cx-rail:not(.shut):hover a.on span, .cx-rail:not(.shut):focus-within a.on span { max-width: 420px; opacity: 1; }
+.cx-rail:not(.shut):hover a span, .cx-rail:not(.shut):has(:focus-visible) a span { max-width: 420px; opacity: 1; }
+.cx-rail:not(.shut):hover a.on span, .cx-rail:not(.shut):has(:focus-visible) a.on span { max-width: 420px; opacity: 1; }
 
 /* pointing at the chapter list dims the page behind it with a grey that is deepest on the left; the word under the pointer lifts and turns black, the chapter you are in stays in the accent colour */
 body::after { content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .7s ease;

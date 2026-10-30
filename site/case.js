@@ -42,7 +42,7 @@
     if (!rail) return;
     if (document.activeElement && rail.contains(document.activeElement)) document.activeElement.blur();
   }
-  if (rail) { rail.addEventListener("mouseleave", function () { rail.classList.remove("shut"); }); rail.addEventListener("pointerleave", function () { rail.classList.remove("shut"); }); }
+  if (rail) { var away = function () { rail.classList.remove("shut"); if (document.activeElement && rail.contains(document.activeElement) && !document.activeElement.matches(":focus-visible")) document.activeElement.blur(); }; rail.addEventListener("mouseleave", away); rail.addEventListener("pointerleave", away); }
   if (links.length && "IntersectionObserver" in window) {
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
