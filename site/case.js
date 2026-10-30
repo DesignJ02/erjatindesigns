@@ -5,6 +5,13 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+
+  // going back to the home page from a case study should not replay the intro film
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href*='index.html']");
+    if (a) { try { sessionStorage.setItem("introSeen", "1"); } catch (err) {} }
+  });
+
   // reading progress
   var bar = $("#cxbar");
   function prog() {
