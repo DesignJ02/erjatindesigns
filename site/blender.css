@@ -50,3 +50,8 @@ html:has(.bl-lb[open]) { overflow: hidden; }
 
 .eyebrow-l .bl-mark { display: inline-block; width: 20px; height: auto; margin: -4px 8px -2px 0; vertical-align: middle; }
 .bl-stage video { max-width: 100%; max-height: 100%; width: auto; height: auto; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); background: #000; }
+
+/* the page hides the system pointer and draws its own, but that one sits underneath an open viewer; inside the viewer the normal pointer is shown */
+.bl-lb, .bl-lb * { cursor: auto !important; }
+.bl-lb button, .bl-lb .bl-nav, .bl-lb .bl-x { cursor: pointer !important; }
+html:has(.bl-lb[open]) .cursor { display: none !important; }
