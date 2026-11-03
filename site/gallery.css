@@ -43,6 +43,12 @@ a.gx-link:hover .gx-play, a.gx-link:focus-visible .gx-play { background: var(--a
 .gx-cap i { flex: 0 0 auto; font: 400 11px/16px var(--font-family-mono, "DM Mono", monospace); font-style: normal; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: color .25s ease; }
 a.gx-link:hover .gx-cap i, a.gx-link:focus-visible .gx-cap i { color: var(--accent); }
 
+/* the one-line description sits over the bottom of the picture on a dark fade, rising in on hover or focus (always shown where there is no hover) */
+.gx-desc { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 38px 16px 14px; font-size: 13px; line-height: 18px; color: #fff; background: linear-gradient(to top, rgba(10, 10, 10, .86), rgba(10, 10, 10, .55) 55%, rgba(10, 10, 10, 0)); opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .35s var(--ease); pointer-events: none; }
+.gx-card:hover .gx-desc, .gx-card:focus-within .gx-desc { opacity: 1; transform: none; }
+.gx-play { z-index: 2; }
+@media (hover: none) { .gx-desc { opacity: 1; transform: none; } }
+
 /* tools: their previews are wide strips, so the boxes are shorter and the artwork sits whole inside */
 .gx[data-gx="tools"] { --ar: 5 / 2; }
 
@@ -82,4 +88,4 @@ a.gx-link:hover .gx-cap i, a.gx-link:focus-visible .gx-cap i { color: var(--acce
   .gx-track { scroll-snap-type: x mandatory; cursor: auto; }
   .gx-cap b { font-size: 16px; }
 }
-@media (prefers-reduced-motion: reduce) { .gx-img img, .gx-img::after, .gx-play, .gx-btn, .gx-cap i { transition: none; } a.gx-link:hover .gx-img img { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gx-img img, .gx-img::after, .gx-play, .gx-btn, .gx-cap i { transition: none; } a.gx-link:hover .gx-img img { transform: none; } .gx-desc { transition: none; transform: none; } }

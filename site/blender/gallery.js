@@ -3,7 +3,7 @@
    The progress bar follows the real scroll position. Content is data-driven: add an entry below (or to blender/tools.js) and it
    becomes another card. Blender cards use the real renders and ad posters, tool cards use the supplied previews. Nothing is invented. */
 import { BLENDER } from "./data.js";
-import { TOOLS } from "./tools.js?v=12";
+import { TOOLS } from "./tools.js?v=15";
 
 const proj = (id) => BLENDER.projects.findIndex((p) => p.id === id);
 const vid = (id) => BLENDER.videos.find((v) => v.id === id);
@@ -16,7 +16,7 @@ const GALLERIES = {
     { title: "Exploded views", ref: "3D-003", img: BLENDER.projects[wheel].shots[0].thumb, alt: "Lamborghini steering wheel render", open: wheel, label: "Open the Lamborghini steering wheel renders" },
     { title: "Volvo ad", ref: "3D-004", img: vid("volvo").poster, alt: "Volvo ad, still frame", video: vid("volvo").src, label: "Play the Volvo ad" }
   ],
-  tools: TOOLS.map((t, i) => ({ title: t.name, ref: "TOOL-" + String(i + 1).padStart(3, "0"), img: t.preview, alt: t.name + " preview", href: t.href, bg: t.bg, fit: !t.cover, video: t.video, poster: t.poster, label: t.video ? "Play " + t.name : t.href ? "Open " + t.name : t.name + ", link coming soon" }))
+  tools: TOOLS.map((t, i) => ({ title: t.name, ref: "TOOL-" + String(i + 1).padStart(3, "0"), img: t.preview, alt: t.name + " preview", href: t.href, bg: t.bg, desc: t.desc, fit: !t.cover, video: t.video, poster: t.poster, label: t.video ? "Play " + t.name : t.href ? "Open " + t.name : t.name + ", link coming soon" }))
 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -30,7 +30,9 @@ function playVideo(a) {
   if (!vdlg || !vel) return;
   vfrom = a;
   vel.poster = a.dataset.poster; vel.src = a.dataset.video;
-  vcap.textContent = a.dataset.title;
+  vcap.textContent = "";
+  const t = document.createElement("span"); t.className = "t"; t.textContent = a.dataset.title; vcap.appendChild(t);
+  if (a.dataset.desc) { const d = document.createElement("span"); d.className = "d"; d.textContent = a.dataset.desc; vcap.appendChild(d); }
   vdlg.showModal();
   const p = vel.play(); if (p && p.catch) p.catch(() => {});
 }
@@ -42,10 +44,10 @@ if (vdlg) {
 }
 
 function card(it) {
-  const img = '<span class="gx-img"' + (it.bg ? ' style="--bgi:' + esc(it.bg) + '"' : "") + '><img src="' + esc(it.img) + '" alt="' + esc(it.alt) + '" width="800" height="400" loading="lazy" decoding="async" draggable="false"' + (it.fit ? ' class="fit"' : "") + ">" + (it.video ? '<span class="gx-play" aria-hidden="true"></span>' : "") + "</span>";
+  const img = '<span class="gx-img"' + (it.bg ? ' style="--bgi:' + esc(it.bg) + '"' : "") + '><img src="' + esc(it.img) + '" alt="' + esc(it.alt) + '" width="800" height="400" loading="lazy" decoding="async" draggable="false"' + (it.fit ? ' class="fit"' : "") + ">" + (it.video ? '<span class="gx-play" aria-hidden="true"></span>' : "") + (it.desc ? '<span class="gx-desc">' + esc(it.desc) + "</span>" : "") + "</span>";
   const cap = '<span class="gx-cap"><b>' + esc(it.title) + "</b><i>" + esc(it.ref) + "</i></span>";
   const aria = ' aria-label="' + esc(it.label) + '"';
-  if (it.video) return '<li class="gx-card"><a class="gx-link" draggable="false" href="#blender" data-video="' + esc(it.video) + '" data-poster="' + esc(it.poster || it.img) + '" data-title="' + esc(it.title) + '"' + aria + ">" + img + cap + "</a></li>";
+  if (it.video) return '<li class="gx-card"><a class="gx-link" draggable="false" href="#blender" data-video="' + esc(it.video) + '" data-poster="' + esc(it.poster || it.img) + '" data-title="' + esc(it.title) + '"' + (it.desc ? ' data-desc="' + esc(it.desc) + '"' : "") + aria + ">" + img + cap + "</a></li>";
   if (it.open != null) return '<li class="gx-card"><a class="gx-link" draggable="false" href="#blender" data-open="' + it.open + '"' + aria + ">" + img + cap + "</a></li>";
   if (it.href) return '<li class="gx-card"><a class="gx-link" draggable="false" href="' + esc(it.href) + '"' + (it.href.charAt(0) === "#" ? "" : ' target="_blank" rel="noopener"') + aria + ">" + img + cap + "</a></li>";
   return '<li class="gx-card"><div class="gx-link gx-off" title="Link coming soon">' + img + cap + "</div></li>";

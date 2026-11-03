@@ -55,3 +55,7 @@ html:has(.bl-lb[open]) { overflow: hidden; }
 .bl-lb, .bl-lb * { cursor: auto !important; }
 .bl-lb button, .bl-lb .bl-nav, .bl-lb .bl-x { cursor: pointer !important; }
 html:has(.bl-lb[open]) .cursor { display: none !important; }
+
+/* the video viewer's caption: the title, then a one-line description in plain sentence case */
+#bl-vlb-cap .t { display: block; }
+#bl-vlb-cap .d { display: block; max-width: 90ch; margin: 8px auto 0; font: 400 14px/20px var(--font-family, "General Sans", Inter, system-ui, sans-serif); letter-spacing: 0; text-transform: none; color: rgba(255, 255, 255, .88); white-space: normal; }
