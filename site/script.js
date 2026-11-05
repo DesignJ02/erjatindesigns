@@ -7,7 +7,7 @@
     email: "jatinsri98@gmail.com",
     linkedin: "https://www.linkedin.com/in/jsri02/",
     whatsapp: "919971404680", // digits with country code
-    resume: "https://drive.google.com/file/d/1VndxdrHPZmuRvznzAuqy-1_3kL_mwV6l/view?usp=sharing",
+    resume: "https://drive.google.com/file/d/1bd2Unxu6Mtwyb8yrUCtTD3dPRCsGU7lJ/view?usp=sharing",
   };
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
