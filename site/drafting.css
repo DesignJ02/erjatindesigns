@@ -1078,13 +1078,13 @@ body.cx .cx-hero h1 br { display: none; }
 @media (prefers-reduced-motion: reduce) { .work-row:active, .dr-row:active, a.gx-link:active, .gx-btn:active, .chip:active { scale: 1; } }
 
 /* ---- revealing sections: home blocks (drafting.js) and case-study chapters (children of a revealed body arrive in turn) ---- */
-.sr { opacity: 0; translate: 0 26px; transition: opacity .8s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms), translate .9s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+.sr { opacity: 0; translate: 0 22px; transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(var(--d, 0ms) * var(--rvt, 1)), translate calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(var(--d, 0ms) * var(--rvt, 1)); }
 .sr.sr-in { opacity: 1; translate: 0 0; }
 .ch-body.cx-rv { opacity: 1; transform: none; transition: none; }
-.ch-body.cx-rv > * { opacity: 0; translate: 0 24px; transition: opacity .8s cubic-bezier(.22, 1, .36, 1), translate .9s cubic-bezier(.22, 1, .36, 1); }
+.ch-body.cx-rv > * { opacity: 0; translate: 0 20px; transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1), translate calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
 .ch-body.cx-rv.in > * { opacity: 1; translate: 0 0; }
-.ch-body.cx-rv.in > :nth-child(2) { transition-delay: .08s; } .ch-body.cx-rv.in > :nth-child(3) { transition-delay: .16s; }
-.ch-body.cx-rv.in > :nth-child(4) { transition-delay: .24s; } .ch-body.cx-rv.in > :nth-child(n+5) { transition-delay: .3s; }
+.ch-body.cx-rv.in > :nth-child(2) { transition-delay: calc(.036s * var(--rvt, 1)); } .ch-body.cx-rv.in > :nth-child(3) { transition-delay: calc(.072s * var(--rvt, 1)); }
+.ch-body.cx-rv.in > :nth-child(4) { transition-delay: calc(.108s * var(--rvt, 1)); } .ch-body.cx-rv.in > :nth-child(n+5) { transition-delay: calc(.144s * var(--rvt, 1)); }
 @media (prefers-reduced-motion: reduce) { .sr, .ch-body.cx-rv > * { opacity: 1; translate: none; transition: none; } }
 
 /* ---- scroll-linked motion, Apple style: media settles into place as it arrives, the opening screen recedes as you leave it.
@@ -1101,3 +1101,24 @@ body.cx .cx-hero h1 br { display: none; }
 }
 /* the page itself is the scroller: the body must not become its own scroll box, or scroll-linked motion has nothing to follow */
 body { overflow-x: clip; overflow-y: visible; }
+
+/* ---- phone and tablet: readable small print and finger-sized tap targets ---- */
+@media (max-width: 1024px) {
+  small, .cx-t, figcaption, .dr-side p, .dr-side mark, .dr-eyebrow span, .dr-eyebrow b, .dr-no small, .stack .label, .stk-hint, .stk-card .k, .gx-sub, .gx-cap i, .cx-eyebrow, .cx-meta b,
+  .lx-stat span, .lx-mtag, .lx-mcap b, .lx-mcap span, .lap-play span, .cs-shot figcaption, .cs-phone figcaption, .cx-cmp-tag, .cx-cmp-hint { font-size: 12px !important; }
+  .xl-lab b { font-size: 10.5px !important; }
+}
+/* small text links keep their look but get a 44 px touch area (an invisible halo, so nothing moves) */
+@media (hover: none), (max-width: 1024px) {
+  a[href="#top"], a[href$="index.html#top"], a[href*="artstation.com"] { position: relative; }
+  a[href="#top"]::after, a[href$="index.html#top"]::after, a[href*="artstation.com"]::after { content: ""; position: absolute; inset: -14px -10px; }
+}
+
+/* phones: the light/dark switch stays in the bar (it used to be hidden, or tucked inside the menu on the home page and missing from case studies) */
+@media (max-width: 700px) {
+  .dr-bar .nav .theme, .nav .theme { display: grid; place-items: center; }
+  .dr-bar .nav .theme { width: 44px; }
+  .dr-bar .nav.open .theme { width: 100%; }
+  .dr-bar .nav a:not(.menu-btn) { padding-inline: 12px; }
+  .dr-bar .nav .menu-btn { padding: 0 12px; }
+}

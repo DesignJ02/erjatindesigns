@@ -685,7 +685,7 @@ body.le .cx-shift .sh-arrow { align-self: center; display: grid; place-items: ce
 .lx-js > span:last-child { grid-column: 1 / -1; font-size: 16px; line-height: 1.5; color: var(--muted); }
 .lx-kd { margin-top: 40px; }
 .lx-decs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.lx-dc { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; align-items: center; padding: 40px 24px 24px; background: rgb(245, 245, 245); border: 1px solid var(--pencil-soft); }
+.lx-dc { position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; align-items: center; padding: 40px 24px 24px; background: transparent; border: 1px solid var(--pencil-soft); }
 .lx-dc .lx-n { position: absolute; left: 24px; top: 16px; }
 .lx-dc img { display: block; width: 100%; height: auto; }
 .lx-dc b { display: block; font-size: 20px; font-weight: 600; line-height: 1.3; }
@@ -864,19 +864,19 @@ body.le .cx-shift .sh-arrow { align-self: center; display: grid; place-items: ce
 
 /* ---- options: pop up, reject three, select one (locearn.js adds .lx-anim and the state classes) ---- */
 .lx-anim .lx-opt { opacity: 0; transform: translateY(34px) scale(.93); }
-.lx-anim .lx-opt.lx-in { opacity: 1; transform: none; transition: opacity .4s ease, transform .55s cubic-bezier(.34, 1.45, .5, 1); }
-.lx-anim .lx-opt h4 { background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0% 3px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-bottom: 3px; width: fit-content; transition: background-size .35s cubic-bezier(.22, 1, .36, 1); }
+.lx-anim .lx-opt.lx-in { opacity: 1; transform: none; transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1), transform calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-anim .lx-opt h4 { background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0% 3px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; padding-bottom: 3px; width: fit-content; transition: background-size calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
 .lx-anim .lx-opt.lx-why h4 { background-size: 100% 3px; }
 .lx-anim .lx-opt:not(.sel) .lx-rej { opacity: 0; transform: scale(1.8); }
-.lx-anim .lx-opt.lx-no .lx-rej { opacity: .92; transform: none; transition: opacity .1s ease, transform .3s cubic-bezier(.3, 1.6, .5, 1); }
-.lx-anim .lx-opt:not(.sel) img, .lx-anim .lx-opt:not(.sel) > p:not(.lx-ot), .lx-anim .lx-opt:not(.sel) .lx-ot { transition: opacity .6s ease, filter .6s ease; }
+.lx-anim .lx-opt.lx-no .lx-rej { opacity: .92; transform: none; transition: opacity calc(.06s * var(--rvt, 1)) ease, transform calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-anim .lx-opt:not(.sel) img, .lx-anim .lx-opt:not(.sel) > p:not(.lx-ot), .lx-anim .lx-opt:not(.sel) .lx-ot { transition: opacity calc(.36s * var(--rvt, 1)) ease, filter calc(.36s * var(--rvt, 1)) ease; }
 .lx-anim .lx-opt.lx-no img { opacity: .45; filter: grayscale(.9); }
 .lx-anim .lx-opt.lx-no > p:not(.lx-ot), .lx-anim .lx-opt.lx-no .lx-ot { opacity: .55; }
 .lx-anim .lx-opt.sel { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
 .lx-anim .lx-opt.sel .lx-rej { opacity: 0; transform: scale(1.8); }
-.lx-anim .lx-opt.sel.lx-yes { transform: translateY(-8px) scale(1.025); box-shadow: 0 22px 44px -18px color-mix(in srgb, var(--accent) 45%, transparent); transition: transform .7s cubic-bezier(.34, 1.45, .5, 1), box-shadow .7s ease; }
-.lx-anim .lx-opt.sel.lx-yes .lx-rej { opacity: .92; transform: none; transition: opacity .1s ease, transform .3s cubic-bezier(.34, 1.8, .5, 1); }
-.lx-anim .lx-opt.sel .lx-stat { opacity: .35; transition: opacity .6s ease .3s; }
+.lx-anim .lx-opt.sel.lx-yes { transform: translateY(-8px) scale(1.025); box-shadow: 0 22px 44px -18px color-mix(in srgb, var(--accent) 45%, transparent); transition: transform calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1), box-shadow calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-anim .lx-opt.sel.lx-yes .lx-rej { opacity: .92; transform: none; transition: opacity calc(.06s * var(--rvt, 1)) ease, transform calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-anim .lx-opt.sel .lx-stat { opacity: .35; transition: opacity calc(.36s * var(--rvt, 1)) ease calc(.18s * var(--rvt, 1)); }
 .lx-anim .lx-opt.sel.lx-yes .lx-stat { opacity: 1; }
 .ch-body.cx-rv > .lx-opts { opacity: 1; translate: none; transition: none; }
 @media (max-width: 900px) { .lx-anim .lx-opt.sel.lx-yes { transform: none; } }
@@ -896,26 +896,84 @@ body.le .cx-shift .sh-arrow { align-self: center; display: grid; place-items: ce
 .lx-anim .lx-opt.sel.lx-yes { box-shadow: 0 22px 44px -18px color-mix(in srgb, var(--stamp-ok) 50%, transparent); }
 .lx-opt.sel .lx-stat { border-top-color: color-mix(in srgb, var(--stamp-ok) 35%, transparent); }
 
-/* ---- rider journey image: the frame lines sit exactly on the edges of the "Key design decisions" cards below, and the five steps
-   pop in one after another from left to right (locearn.js builds one clipped layer per step while it plays) ---- */
-.lx-jimg { margin: 32px 0 0; position: relative; }
-.lx-jimg img { display: block; width: 105.88%; max-width: none; margin-left: -2.885%; height: auto; }
-[data-theme="dark"] .lx-jimg img { background: #fff; border-radius: 6px; }
-:root:not([data-theme="dark"]) .lx-jimg img { mix-blend-mode: multiply; }
-.lx-jimg.lx-jr > img { visibility: hidden; }
-.lx-jseg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.lx-jseg img { position: absolute; margin: 0; left: -2.885%; top: 0; width: 105.88%; max-width: none; height: auto; visibility: visible !important; }
-.lx-jin { position: absolute; inset: 0; }
-/* each step arrives its own way; all of them only reveal pixels in place, so the frame lines never shift */
-.lx-jseg.e1 .lx-jin { opacity: 0; transform: translateX(-46px); }                                                       /* 1 slide in with a small overshoot */
-.lx-jseg.e1.on .lx-jin { opacity: 1; transform: none; transition: opacity .45s ease, transform .8s cubic-bezier(.34, 1.5, .5, 1); }
-.lx-jseg.e2 .lx-jin { clip-path: inset(-40px calc(100% - var(--r)) 100% var(--l)); }                                    /* 2 curtain drops from the top */
-.lx-jseg.e2.on .lx-jin { clip-path: inset(-40px calc(100% - var(--r)) -40px var(--l)); transition: clip-path .85s cubic-bezier(.65, 0, .25, 1); }
-.lx-jseg.e3 .lx-jin { clip-path: inset(-40px calc(100% - var(--l)) -40px var(--l)); }                                   /* 3 the route is traced left to right */
-.lx-jseg.e3.on .lx-jin { clip-path: inset(-40px calc(100% - var(--r)) -40px var(--l)); transition: clip-path 1.1s cubic-bezier(.45, 0, .25, 1); }
-.lx-jseg.e4 .lx-jin { opacity: 0; filter: blur(16px); }                                                                  /* 4 the photo comes into focus */
-.lx-jseg.e4.on .lx-jin { opacity: 1; filter: blur(0); transition: opacity .6s ease, filter .9s ease; }
-.lx-jseg.e5 .lx-jin { clip-path: circle(0% at var(--c) 55%); }                                                           /* 5 a circle opens from the middle */
-.lx-jseg.e5.on .lx-jin { clip-path: circle(60% at var(--c) 55%); transition: clip-path .9s cubic-bezier(.34, 1.3, .5, 1); }
-.ch-body.cx-rv > .lx-jimg { opacity: 1; translate: none; transition: none; }
-@media (max-width: 760px) { .lx-jimg { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-inline: 0; } .lx-jimg img { width: 760px; margin-left: 0; } }
+/* ---- rider journey: one frame, five separate cards inside it; the cards pop up one after another from left to right
+   (locearn.js adds .lx-jr, then .lx-go). The frame carries + marks on its corners and the middle of each side. ---- */
+.lx-jframe { --jl: color-mix(in srgb, var(--ink) 38%, transparent); position: relative; margin-top: 32px; padding: 26px 32px 32px; border: 1px solid var(--jl); }
+.lx-x { position: absolute; width: 20px; height: 20px; z-index: 2; pointer-events: none; }
+.lx-x::before, .lx-x::after { content: ""; position: absolute; background: var(--jl); }
+.lx-x::before { left: 0; right: 0; top: 9.5px; height: 1px; } .lx-x::after { top: 0; bottom: 0; left: 9.5px; width: 1px; }
+.lx-x.a { left: -10.5px; top: -10.5px; } .lx-x.b { right: -10.5px; top: -10.5px; } .lx-x.c { left: -10.5px; bottom: -10.5px; } .lx-x.d { right: -10.5px; bottom: -10.5px; }
+.lx-jt { margin: 0; }
+.lx-jcards { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
+.lx-jc { position: relative; display: flex; flex-direction: column; padding: 4px 6px 10px; border: 0; background: transparent; }
+.lx-jc:not(:last-child)::after { content: ""; position: absolute; top: 28%; right: -21px; width: 18px; height: 9px; z-index: 1; background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12' fill='none' stroke='%23c81e48' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 6h21M17 1.5L22 6l-5 4.5'/%3E%3C/svg%3E"); }
+.lx-jv { display: block; aspect-ratio: 387 / 288; margin: 0 0 12px; }
+.lx-jv img { display: block; width: 100%; height: 100%; object-fit: contain; }
+:root:not([data-theme="dark"]) .lx-jv img { mix-blend-mode: multiply; filter: brightness(1.04); }
+[data-theme="dark"] .lx-jv img { background: #fff; border-radius: 6px; }
+.lx-jc b { display: flex; align-items: baseline; gap: 8px; font-size: 19px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+.lx-jc b i { font-style: normal; font-family: var(--le-mono); font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: .02em; }
+.lx-jc p { margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: var(--muted); }
+.lx-jr .lx-jc { opacity: 0; transform: translateY(14px) scale(.92); transform-origin: 50% 70%; }
+.lx-jr.lx-go .lx-jc { opacity: 1; transform: none; transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(var(--i, 0) * .3s * var(--rvt, 1)), transform calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(var(--i, 0) * .3s * var(--rvt, 1)); }
+.ch-body.cx-rv > .lx-jframe { opacity: 1; translate: none; transition: none; }
+@media (max-width: 1100px) { .lx-jcards { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 28px; } .lx-jc { grid-column: span 2; } .lx-jc:nth-child(n+4) { grid-column: span 3; } .lx-jc::after { display: none; } .lx-jv { aspect-ratio: auto; height: 190px; } }
+@media (max-width: 900px) { .lx-jframe { padding: 22px 18px 24px; } }
+@media (max-width: 760px) { .lx-jc, .lx-jc:nth-child(n+4) { grid-column: auto; } .lx-jv { aspect-ratio: 387 / 288; height: auto; } .lx-jcards { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 74%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; } .lx-jc { scroll-snap-align: start; } }
+@media (prefers-reduced-motion: reduce) { .lx-jr .lx-jc { opacity: 1; transform: none; } }
+
+/* key design decisions: no grey card fill; the little drawings blend into the page instead of sitting on grey squares */
+:root:not([data-theme="dark"]) .lx-dc img { mix-blend-mode: multiply; filter: brightness(1.07); }   /* the drawings carry a faint grey backdrop (242-246); this lifts it to white, and multiply then lets the page show through */
+
+/* the grey squares behind the decisions drawings are gone; dark mode keeps its own surface */
+
+/* ---- How it works: sequential reveal (locearn.js adds .lx-hw, then .in / .go per card and arrow) ---- */
+.lx-hw .lx-step { opacity: 0; translate: 0 14px; }
+.lx-hw .lx-step.in { opacity: 1; translate: 0 0; transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1), translate calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-hw .lx-ico { position: relative; }
+.hx-arrow { display: block; width: 22px; height: 11px; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.hx-arrow path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.lx-hw .lx-arr.go .hx-arrow .l { stroke-dashoffset: 0; transition: stroke-dashoffset calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.lx-hw .lx-arr.go .hx-arrow .h { stroke-dashoffset: 0; transition: stroke-dashoffset calc(.09s * var(--rvt, 1)) ease-out calc(.15s * var(--rvt, 1)); }
+/* 1 pin */
+.hx-pin path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.hx-pin circle { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.2); }
+.hx-pin { transform: translateY(-9px); }
+.hx-ring { fill: none; stroke: var(--accent); stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.3); }
+.go .hx-pin path { stroke-dashoffset: 0; transition: stroke-dashoffset calc(.24s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
+.go .hx-pin circle { opacity: 1; transform: none; transition: opacity calc(.12s * var(--rvt, 1)) ease calc(.15s * var(--rvt, 1)), transform calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.15s * var(--rvt, 1)); }
+.go .hx-pin { transform: none; transition: transform calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.12s * var(--rvt, 1)); }
+.go .hx-ring { animation: hx-ripple calc(.36s * var(--rvt, 1)) ease-out calc(.33s * var(--rvt, 1)) both; }
+@keyframes hx-ripple { 0% { opacity: .9; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.5); } }
+/* 2 camera */
+.hx-cam { opacity: 0; transition: opacity calc(.18s * var(--rvt, 1)) ease; }
+.go .hx-cam { opacity: 1; }
+.hx-vf { fill: none; stroke: var(--accent); stroke-width: 1.3; stroke-linecap: round; }
+.hx-vf path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.go .hx-vf path { stroke-dashoffset: 0; transition: stroke-dashoffset calc(.21s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.06s * var(--rvt, 1)); }
+.go .hx-vf { animation: hx-vf-fade calc(.24s * var(--rvt, 1)) ease calc(.54s * var(--rvt, 1)) forwards; }
+@keyframes hx-vf-fade { to { opacity: .35; } }
+.hx-focus { fill: none; stroke: currentColor; stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(2.6); }
+.go .hx-focus { animation: hx-focus calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.18s * var(--rvt, 1)) both; }
+@keyframes hx-focus { 0% { opacity: 0; transform: scale(2.6); } 40% { opacity: .8; } 70% { opacity: .8; transform: scale(.8); } 100% { opacity: 0; transform: scale(1); } }
+.hx-flash { position: absolute; inset: 0; border-radius: 50%; background: #fff; opacity: 0; pointer-events: none; }
+.go .hx-flash { animation: hx-flash calc(.12s * var(--rvt, 1)) ease-in-out calc(.45s * var(--rvt, 1)) both; }
+@keyframes hx-flash { 0% { opacity: 0; } 25% { opacity: .85; } 100% { opacity: 0; } }
+/* 3 wallet */
+.hx-trace { fill: none; stroke: var(--accent); stroke-width: .9; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .9; }
+.go .hx-trace { animation: hx-trace calc(.6s * var(--rvt, 1)) ease-in-out both; }
+@keyframes hx-trace { 0% { stroke-dashoffset: 1; opacity: .9; } 45% { stroke-dashoffset: 0; opacity: .9; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+.hx-coin { opacity: 0; fill: var(--surface, #fff); stroke: var(--accent); stroke-width: 1.2; }
+.hx-coin .hx-rs { fill: none; stroke-width: .9; stroke-linecap: round; stroke-linejoin: round; }
+.go .hx-coin { animation: hx-coin calc(.36s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.18s * var(--rvt, 1)) both; }
+@keyframes hx-coin {
+  0% { opacity: 0; transform: translate(1px, 1.5px); } 12% { opacity: 1; }
+  20% { transform: translate(3.4px, .3px); } 40% { transform: translate(5.6px, .6px); } 60% { transform: translate(7.8px, 2.5px); } 80% { transform: translate(10px, 6px); }
+  92% { opacity: 1; transform: translate(11.7px, 10px) scale(.8); } 100% { opacity: 0; transform: translate(12px, 11px) scale(.4); } }
+.go .hx-wallet { animation: hx-nudge calc(.18s * var(--rvt, 1)) ease-in-out calc(.51s * var(--rvt, 1)) both; }
+@keyframes hx-nudge { 0% { transform: none; } 40% { transform: translateY(1.2px); } 100% { transform: none; } }
+.hx-ok { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.4); }
+.hx-ok circle { fill: var(--accent); stroke: none; }
+.hx-ok path { fill: none; stroke: #fff; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.go .hx-ok { opacity: 1; transform: none; transition: opacity calc(.12s * var(--rvt, 1)) ease calc(.6s * var(--rvt, 1)), transform calc(.18s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1) calc(.6s * var(--rvt, 1)); }
+.go .hx-ok path { stroke-dashoffset: 0; transition: stroke-dashoffset calc(.15s * var(--rvt, 1)) ease-in-out calc(.72s * var(--rvt, 1)); }

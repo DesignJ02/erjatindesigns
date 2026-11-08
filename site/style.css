@@ -301,7 +301,7 @@ footer { padding: 72px 0 52px; margin-top: 60px; border-top: 1px solid var(--lin
 @media (hover: hover) and (pointer: fine) { .cursor { display: block; } .work-row, a, button { cursor: none; } body { cursor: none; } }
 
 /* reveal */
-.rv { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+.rv { opacity: 0; transform: translateY(22px); transition: opacity calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1), transform calc(.3s * var(--rvt, 1)) cubic-bezier(.65, 0, .35, 1); }
 .rv.in { opacity: 1; transform: none; }
 
 /* case study */

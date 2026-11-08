@@ -146,44 +146,90 @@
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { box.classList.add("lx-done"); return; }
   var cards = Array.prototype.slice.call(box.querySelectorAll(".lx-opt"));
   box.classList.add("lx-anim");
-  var timers = [], at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+  var timers = [], rv = function () { return window.rvScale ? window.rvScale() : 1; }, k0 = 1, at = function (ms, fn) { timers.push(setTimeout(fn, ms * k0)); };
   var io = new IntersectionObserver(function (es) {
     if (!es[0].isIntersecting) return;
-    io.disconnect();
+    io.disconnect(); k0 = rv();
     cards.forEach(function (c, i) {                                                                    /* each card pops up and is judged straight away */
-      var t = i * 220;
+      var t = i * 90;
       at(t, function () { c.classList.add("lx-in"); });
-      if (c.classList.contains("sel")) { at(t + 330, function () { c.classList.add("lx-yes"); }); return; }
-      at(t + 200, function () { c.classList.add("lx-why"); });                                       /* the reason is marked */
-      at(t + 330, function () { c.classList.add("lx-no"); });                                        /* and the stamp lands */
+      if (c.classList.contains("sel")) { at(t + 200, function () { c.classList.add("lx-yes"); }); return; }
+      at(t + 120, function () { c.classList.add("lx-why"); });                                       /* the reason is marked */
+      at(t + 200, function () { c.classList.add("lx-no"); });                                        /* and the stamp lands */
     });
   }, { threshold: 0.4 });
   io.observe(box);
 })();
 
-/* The rider journey picture: its five steps arrive one after another from left to right, each in its own way (slide, curtain, route trace, focus pull, circle).
-   While it plays, one clipped copy of the picture per step slides in; afterwards the plain picture takes over, so the end state is
-   seamless. Nothing is hidden unless this script runs; reduced-motion visitors, and narrow screens, see the picture straight away. */
+/* The rider journey: each step is its own card, and the cards pop up one after another from left to right (300 ms each, ease in and out)
+   the first time the row comes into view. Nothing is hidden unless this script runs; reduced-motion visitors see the cards at once. */
 (function () {
-  var fig = document.querySelector(".lx-jimg"), base = fig && fig.querySelector("img");
-  if (!base || !("IntersectionObserver" in window) || window.innerWidth < 761 || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
-  var cuts = [0, 21.25, 39, 57.25, 76.9, 100], segs = [];         /* the five steps, cut at the arrows */
-  for (var i = 0; i < 5; i++) {
-    var s = document.createElement("div"), box = document.createElement("div"), im = base.cloneNode(false);
-    s.className = "lx-jseg e" + (i + 1); s.setAttribute("aria-hidden", "true");
-    s.style.cssText = "--l:" + cuts[i] + "%;--r:" + cuts[i + 1] + "%;--c:" + ((cuts[i] + cuts[i + 1]) / 2) + "%;clip-path:inset(-40px " + (100 - cuts[i + 1]) + "% -40px " + cuts[i] + "%)";
-    box.className = "lx-jin"; im.alt = ""; im.removeAttribute("loading");
-    box.appendChild(im); s.appendChild(box); fig.appendChild(s); segs.push(s);
-  }
-  fig.classList.add("lx-jr");
-  var mark = document.createElement("span");
-  mark.setAttribute("aria-hidden", "true"); mark.style.cssText = "display:block;position:relative;top:150px;height:1px;margin-bottom:-1px;pointer-events:none";
-  fig.parentNode.insertBefore(mark, fig);
+  var row = document.querySelector(".lx-jcards");
+  if (!row || !("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  Array.prototype.forEach.call(row.children, function (c, i) { c.style.setProperty("--i", i); });
+  row.classList.add("lx-jr");
   var io = new IntersectionObserver(function (es) {
     if (!es[0].isIntersecting) return;
-    io.disconnect(); mark.remove();
-    segs.forEach(function (s, k) { setTimeout(function () { s.classList.add("on"); }, k * 300); });
-    setTimeout(function () { fig.classList.remove("lx-jr"); segs.forEach(function (s) { s.remove(); }); }, 4 * 300 + 1300);
-  }, { threshold: 0, rootMargin: "0px 0px -15% 0px" });
-  io.observe(mark);
+    io.disconnect(); row.classList.add("lx-go");
+  }, { threshold: 0.3 });
+  io.observe(row);
+})();
+
+/* How it works: the three cards and the two arrows arrive in sequence, and each icon does one small thing: the pin drops and settles on
+   a red ripple, the camera focuses inside viewfinder brackets and clicks once, a rupee coin follows a fine red path into the wallet which
+   then shows a confirmation mark. Plays once when the row comes into view. Nothing is hidden unless this script runs; visitors who ask
+   for less motion get the plain row. */
+(function () {
+  var how = document.querySelector(".lx-how");
+  if (!how || !("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var NS = "http://www.w3.org/2000/svg", steps = how.querySelectorAll(".lx-step"), arrs = how.querySelectorAll(".lx-arr");
+  if (steps.length !== 3) return;
+  var el = function (n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; };
+  var wrap = function (svg, cls) { var g = el("g", { "class": cls }); Array.prototype.slice.call(svg.childNodes).forEach(function (c) { g.appendChild(c); }); svg.appendChild(g); return g; };
+  var svgs = [0, 1, 2].map(function (i) { return steps[i].querySelector("svg"); });
+  svgs.forEach(function (s) { s.style.overflow = "visible"; });
+  /* 1 pin: the outline is drawn, the pin drops, a small red ripple spreads under it */
+  var pin = wrap(svgs[0], "hx-pin"); pin.querySelector("path").setAttribute("pathLength", "1");
+  svgs[0].insertBefore(el("ellipse", { "class": "hx-ring", cx: 12, cy: 21.6, rx: 4.2, ry: 1.2 }), pin);
+  /* 2 camera: viewfinder brackets, a focusing ring in the lens, and a flash layer for the shutter */
+  wrap(svgs[1], "hx-cam");
+  var vf = el("g", { "class": "hx-vf" });
+  ["M1 6V1h5", "M18 1h5v5", "M23 18v5h-5", "M6 23H1v-5"].forEach(function (d) { vf.appendChild(el("path", { d: d, pathLength: 1 })); });
+  svgs[1].appendChild(vf);
+  svgs[1].appendChild(el("circle", { "class": "hx-focus", cx: 12, cy: 13.4, r: 1.5 }));
+  var flash = document.createElement("i"); flash.className = "hx-flash"; flash.setAttribute("aria-hidden", "true"); steps[1].querySelector(".lx-ico").appendChild(flash);
+  /* 3 wallet: a fine red path, a rupee coin that rides it, the wallet's small nudge and a confirmation mark */
+  var wal = wrap(svgs[2], "hx-wallet");
+  svgs[2].insertBefore(el("path", { "class": "hx-trace", d: "M1 1.5Q7 -3.5 12 11", pathLength: 1 }), wal);
+  var coin = el("g", { "class": "hx-coin" });
+  coin.appendChild(el("circle", { r: 2.6 }));
+  coin.appendChild(el("path", { "class": "hx-rs", d: "M-1.1 -1.1h2.2M-1.1 0.2h2.2M-1.1 -1.1c1.6 0 1.6 2.2 0 2.2h-.3l1.5 1.4" }));
+  svgs[2].appendChild(coin);
+  var ok = el("g", { "class": "hx-ok" });
+  ok.appendChild(el("circle", { cx: 20.5, cy: 4, r: 3.7 }));
+  ok.appendChild(el("path", { d: "M18.8 4.1l1.2 1.2 2.1-2.5", pathLength: 1 }));
+  svgs[2].appendChild(ok);
+  /* the arrows become fine lines that draw themselves */
+  arrs.forEach(function (a) {
+    a.textContent = "";
+    var s = el("svg", { viewBox: "0 0 24 12", "class": "hx-arrow", "aria-hidden": "true", focusable: "false" });
+    s.appendChild(el("path", { d: "M1 6h21", pathLength: 1, "class": "l" }));
+    s.appendChild(el("path", { d: "M17 1.5L22 6l-5 4.5", pathLength: 1, "class": "h" }));
+    a.appendChild(s);
+  });
+  how.classList.add("lx-hw");
+  var k1 = 1, at = function (ms, fn) { setTimeout(fn, ms * k1); };
+  var io = new IntersectionObserver(function (es) {
+    if (!es[0].isIntersecting) return;
+    io.disconnect(); k1 = window.rvScale ? window.rvScale() : 1;
+    at(0,    function () { steps[0].classList.add("in"); });
+    at(60,   function () { steps[0].classList.add("go"); });       /* pin */
+    at(450,  function () { arrs[0].classList.add("go"); });
+    at(600,  function () { steps[1].classList.add("in"); });
+    at(660,  function () { steps[1].classList.add("go"); });       /* camera: brackets, focus, then the click */
+    at(1110, function () { arrs[1].classList.add("go"); });
+    at(1260, function () { steps[2].classList.add("in"); });
+    at(1320, function () { steps[2].classList.add("go"); });       /* coin, wallet, confirmation */
+  }, { threshold: 0.35 });
+  io.observe(how);
 })();

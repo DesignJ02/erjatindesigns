@@ -222,10 +222,40 @@
   var idx = new Map();
   els.forEach(function (e) {
     var p = e.parentElement, n = (idx.get(p) || 0); idx.set(p, n + 1);
-    e.classList.add("sr"); e.style.setProperty("--d", Math.min(n, 4) * 90 + "ms");
+    e.classList.add("sr"); e.style.setProperty("--d", Math.min(n, 4) * 40 + "ms");
   });
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("sr-in"); io.unobserve(x.target); } });
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
   els.forEach(function (e) { io.observe(e); });
+})();
+
+/* Reveal pace follows the visitor: the faster the page is being scrolled, the quicker (and tighter) every reveal plays; a slow read
+   gets slightly gentler ones. The pace is a single number, --rvt, that every reveal duration and delay is multiplied by
+   (1 = the standard 300 ms). It is measured while scrolling and returns to 1 when the page is still, so jumping to a section
+   or a link plays the standard reveal. window.rvScale() gives scripted sequences the same number. */
+(function () {
+  var root = document.documentElement, cur = 1, v = 0, last = window.scrollY, lastT = 0, run = false, idle = 0;
+  window.rvScale = function () { return cur; };
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  function target(s) {                      /* px per ms -> pace: 1.15 when reading slowly, 1 around a normal scroll, 0.3 for a hard flick */
+    if (s <= 0.3) return 1.15;
+    if (s >= 3.5) return 0.3;
+    return 1.15 * Math.pow(0.3 / 1.15, Math.log(s / 0.3) / Math.log(3.5 / 0.3));
+  }
+  function set(x) { x = Math.round(x * 20) / 20; if (x !== cur) { cur = x; root.style.setProperty("--rvt", x); } }
+  function tick(now) {
+    var dt = Math.max(1, now - lastT), y = window.scrollY, inst = Math.abs(y - last) / dt;
+    last = y; lastT = now;
+    v += (inst - v) * 0.25;
+    if (inst < 0.02) idle += dt; else idle = 0;
+    if (idle > 350) { v = 0; set(1); run = false; return; }      /* page is still again: back to the standard pace */
+    if (v > 0.02) set(target(v));
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener("scroll", function () {
+    if (run) return;
+    run = true; last = window.scrollY; lastT = performance.now(); idle = 0; v = 0;
+    requestAnimationFrame(tick);
+  }, { passive: true });
 })();
