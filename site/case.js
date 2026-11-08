@@ -71,22 +71,58 @@
 
   // drag-to-compare
   $$(".cx-cmp").forEach(function (c) {
-    var inp = $("input", c);
-    var set = function () { c.style.setProperty("--p", inp.value); };
-    inp.addEventListener("input", set);
-    set();
+    var inp = $("input", c), stage = $(".cx-cmp-stage", c), under = $(".b", c);
+    var tagL = $(".cx-cmp-tag.l", c), tagR = $(".cx-cmp-tag.r", c);
+    var NS = "http://www.w3.org/2000/svg";
+    // the divider is a thin curve that bows with the drag speed; the "after" layer is clipped to the same curve
+    var svg = document.createElementNS(NS, "svg"), path = document.createElementNS(NS, "path");
+    svg.setAttribute("class", "cx-cmp-line"); svg.setAttribute("viewBox", "0 0 100 100"); svg.setAttribute("preserveAspectRatio", "none"); svg.setAttribute("aria-hidden", "true");
+    svg.appendChild(path); c.insertBefore(svg, $(".cx-cmp-knob", c));
+    var pos = +inp.value, goal = pos, bow = 0, last = pos, running = false, N = 20;
+    function draw() {
+      var w = stage.clientWidth || 1, h = stage.clientHeight || 1;
+      var b = bow / w * 100, pts = [], d = "", i, y, x;
+      for (i = 0; i <= N; i++) {
+        y = i / N; x = pos + b * Math.sin(y * Math.PI);
+        pts.push(x.toFixed(3) + "% " + (y * 100).toFixed(2) + "%");
+        d += (i ? "L" : "M") + x.toFixed(3) + " " + (y * 100).toFixed(2);
+      }
+      path.setAttribute("d", d);
+      if (under) under.style.clipPath = "polygon(" + pts.join(",") + ",100% 100%,100% 0%)";
+      c.style.setProperty("--p", (pos + b).toFixed(3));
+      var px = (pos + b) / 100 * w;
+      if (tagL) tagL.style.opacity = Math.max(0, Math.min(1, (px - (tagL.offsetLeft + tagL.offsetWidth * .35)) / 28));
+      if (tagR) tagR.style.opacity = Math.max(0, Math.min(1, ((tagR.offsetLeft + tagR.offsetWidth * .65) - px) / 28));
+    }
+    function frame() {
+      var prev = pos;
+      pos += (goal - pos) * (reduce ? 1 : 0.16);                      // ease toward the pointer, so the line glides
+      if (Math.abs(goal - pos) < 0.01) pos = goal;
+      var vel = (pos - prev) / 100 * (stage.clientWidth || 1);       // px moved this frame
+      var want = Math.max(-34, Math.min(34, vel * 5));               // the middle of the line leads the motion, then relaxes
+      bow += ((reduce ? 0 : want) - bow) * 0.2;
+      if (Math.abs(bow) < 0.05 && pos === goal) bow = 0;
+      draw();
+      if (pos !== goal || bow !== 0) requestAnimationFrame(frame); else running = false;
+    }
+    function go() { if (!running) { running = true; requestAnimationFrame(frame); } }
+    inp.step = "0.1";
+    var user = false;
+    inp.addEventListener("input", function () { user = true; goal = +inp.value; go(); });
+    window.addEventListener("resize", draw);
+    draw();
     if (!reduce && "IntersectionObserver" in window) {
       // gentle intro sweep so people discover the interaction
       var once = new IntersectionObserver(function (es) {
         if (!es[0].isIntersecting) return;
         once.disconnect();
-        var from = 50, t0 = null;
+        var t0 = null;
         (function step(t) {
           if (t0 === null) t0 = t;
-          var k = Math.min(1, (t - t0) / 1100);
-          var v = from + Math.sin(k * Math.PI * 2) * 18 * (1 - k);
-          inp.value = v; set();
-          if (k < 1) requestAnimationFrame(step); else { inp.value = 50; set(); }
+          var k = Math.min(1, (t - t0) / 1400);
+          if (user) return;                                            // the visitor took over
+          goal = 50 + Math.sin(k * Math.PI * 2) * 18 * (1 - k); inp.value = goal; go();
+          if (k < 1) requestAnimationFrame(step); else { goal = 50; inp.value = 50; go(); }
         })(performance.now());
       }, { threshold: 0.6 });
       once.observe(c);

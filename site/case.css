@@ -224,3 +224,12 @@ body.cx { font-family: var(--cx-body); font-size: 18px; line-height: 28px; }
 .cx-hero h1 em { -webkit-text-stroke: 2px var(--accent); }
 .cx-tokens { border-radius: 12px; overflow: hidden; background: var(--panel); font-family: var(--font-family-mono); }
 .cx-tokens div { grid-template-columns: 30px minmax(0, 1.6fr) auto; }
+
+/* drag-to-compare, smooth version: the divider is a curve that bows with the drag and eases toward the pointer (see case.js) */
+.cx-cmp-line { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
+.cx-cmp-line path { fill: none; stroke: var(--accent); stroke-width: 2px; vector-effect: non-scaling-stroke; stroke-linejoin: round; filter: drop-shadow(0 0 2px rgba(255,255,255,.7)); }
+.cx-cmp-knob { background: none; width: 0; transform: none; }
+.cx-cmp-knob::after { content: "\2039\203A"; letter-spacing: 3px; padding-right: 0; text-indent: 3px; background: rgba(20,20,22,.88); font-size: 20px; font-weight: 500; line-height: 1; box-shadow: 0 0 0 1px rgba(255,255,255,.25), 0 8px 20px rgba(0,0,0,.3); transition: transform .2s ease; }
+.cx-cmp:active .cx-cmp-knob::after { transform: scale(.94); }
+.cx-cmp-tag { transition: none; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+@media (prefers-reduced-motion: reduce) { .cx-cmp-knob::after { transition: none; } }
