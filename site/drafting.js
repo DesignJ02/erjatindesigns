@@ -211,3 +211,21 @@
     s.addEventListener("pointerleave", function () { if (cur === s) { cur = null; el.classList.remove("on"); } });
   });
 })();
+
+/* revealing sections (home page): blocks that had no reveal yet rise and fade in as they arrive, siblings one after another.
+   Reduced-motion visitors, and browsers without IntersectionObserver, see everything straight away. */
+(function () {
+  if (!("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var sel = ".dr-sec > .dr-head, .dr-sec .dr-list > .dr-row, .dr-sec .dr-quotes, .dr-sec .bl-lede, .dr-sec .gx, .dr-sec .dr-contact, .dr-sec .stk";
+  var els = Array.prototype.filter.call(document.querySelectorAll(sel), function (e) { return !e.closest(".rv") && !e.classList.contains("rv"); });
+  if (!els.length) return;
+  var idx = new Map();
+  els.forEach(function (e) {
+    var p = e.parentElement, n = (idx.get(p) || 0); idx.set(p, n + 1);
+    e.classList.add("sr"); e.style.setProperty("--d", Math.min(n, 4) * 90 + "ms");
+  });
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("sr-in"); io.unobserve(x.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  els.forEach(function (e) { io.observe(e); });
+})();

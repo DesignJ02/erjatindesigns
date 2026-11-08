@@ -136,3 +136,54 @@
     document.addEventListener("webkitfullscreenchange", sync);
   }
 })();
+
+/* Options: the four cards pop up one by one, then the verdict plays out. The three rejected cards each dim and have their reason
+   underlined before a REJECTED stamp lands; the chosen card then lifts, gains its border and the SELECTED badge.
+   Nothing is hidden unless this script runs, and visitors who ask for less motion see the finished state straight away. */
+(function () {
+  var box = document.querySelector(".lx-opts");
+  if (!box || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { box.classList.add("lx-done"); return; }
+  var cards = Array.prototype.slice.call(box.querySelectorAll(".lx-opt"));
+  box.classList.add("lx-anim");
+  var timers = [], at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+  var io = new IntersectionObserver(function (es) {
+    if (!es[0].isIntersecting) return;
+    io.disconnect();
+    cards.forEach(function (c, i) {                                                                    /* each card pops up and is judged straight away */
+      var t = i * 220;
+      at(t, function () { c.classList.add("lx-in"); });
+      if (c.classList.contains("sel")) { at(t + 330, function () { c.classList.add("lx-yes"); }); return; }
+      at(t + 200, function () { c.classList.add("lx-why"); });                                       /* the reason is marked */
+      at(t + 330, function () { c.classList.add("lx-no"); });                                        /* and the stamp lands */
+    });
+  }, { threshold: 0.4 });
+  io.observe(box);
+})();
+
+/* The rider journey picture: its five steps arrive one after another from left to right, each in its own way (slide, curtain, route trace, focus pull, circle).
+   While it plays, one clipped copy of the picture per step slides in; afterwards the plain picture takes over, so the end state is
+   seamless. Nothing is hidden unless this script runs; reduced-motion visitors, and narrow screens, see the picture straight away. */
+(function () {
+  var fig = document.querySelector(".lx-jimg"), base = fig && fig.querySelector("img");
+  if (!base || !("IntersectionObserver" in window) || window.innerWidth < 761 || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var cuts = [0, 21.25, 39, 57.25, 76.9, 100], segs = [];         /* the five steps, cut at the arrows */
+  for (var i = 0; i < 5; i++) {
+    var s = document.createElement("div"), box = document.createElement("div"), im = base.cloneNode(false);
+    s.className = "lx-jseg e" + (i + 1); s.setAttribute("aria-hidden", "true");
+    s.style.cssText = "--l:" + cuts[i] + "%;--r:" + cuts[i + 1] + "%;--c:" + ((cuts[i] + cuts[i + 1]) / 2) + "%;clip-path:inset(-40px " + (100 - cuts[i + 1]) + "% -40px " + cuts[i] + "%)";
+    box.className = "lx-jin"; im.alt = ""; im.removeAttribute("loading");
+    box.appendChild(im); s.appendChild(box); fig.appendChild(s); segs.push(s);
+  }
+  fig.classList.add("lx-jr");
+  var mark = document.createElement("span");
+  mark.setAttribute("aria-hidden", "true"); mark.style.cssText = "display:block;position:relative;top:150px;height:1px;margin-bottom:-1px;pointer-events:none";
+  fig.parentNode.insertBefore(mark, fig);
+  var io = new IntersectionObserver(function (es) {
+    if (!es[0].isIntersecting) return;
+    io.disconnect(); mark.remove();
+    segs.forEach(function (s, k) { setTimeout(function () { s.classList.add("on"); }, k * 300); });
+    setTimeout(function () { fig.classList.remove("lx-jr"); segs.forEach(function (s) { s.remove(); }); }, 4 * 300 + 1300);
+  }, { threshold: 0, rootMargin: "0px 0px -15% 0px" });
+  io.observe(mark);
+})();

@@ -401,3 +401,6 @@ body.le.cs #iteration .ch-body h3 { letter-spacing: -0.035em !important; }
 .scr.lap:fullscreen button, .scr.lap:fullscreen button * { cursor: pointer !important; }
 .scr.lap:-webkit-full-screen, .scr.lap:-webkit-full-screen * { cursor: auto !important; }
 .scr.lap:-webkit-full-screen button, .scr.lap:-webkit-full-screen button * { cursor: pointer !important; }
+
+/* ---- dark theme: cards and chips that were drawn white now use the blueprint surface so their text stays readable ---- */
+[data-theme="dark"] .ct-card, [data-theme="dark"] .dx-card, [data-theme="dark"] .dx-chips i, [data-theme="dark"] .ch-head .cu { background: var(--surface); }

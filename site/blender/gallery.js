@@ -86,21 +86,51 @@ document.querySelectorAll(".gx").forEach((gx) => {
   prev.addEventListener("click", () => stepBy(-1));
 
   track.addEventListener("dragstart", (e) => e.preventDefault());   /* links and images must not start a native drag, it would cancel ours */
-  /* mouse drag to scroll (touch uses native scrolling); a drag never counts as a click */
-  let sx = 0, sl = 0, down = false, moved = false;
+  /* mouse drag to scroll (touch uses native scrolling); a drag never counts as a click.
+     On release the gallery keeps the speed of the hand and coasts to a stop, and a new press stops it at once. */
+  let sx = 0, sl = 0, down = false, moved = false, hist = [], coast = 0;
+  const stopCoast = () => { if (coast) { cancelAnimationFrame(coast); coast = 0; track.classList.remove("drag"); } };
   track.addEventListener("pointerdown", (e) => {
     if (e.pointerType !== "mouse" || e.button !== 0) return;
-    down = true; moved = false; sx = e.clientX; sl = track.scrollLeft;
+    stopCoast();
+    down = true; moved = false; sx = e.clientX; sl = track.scrollLeft; hist = [{ x: e.clientX, t: e.timeStamp }];
   });
   track.addEventListener("pointermove", (e) => {
     if (!down) return;
     const dx = e.clientX - sx;
     if (!moved && Math.abs(dx) > 5) { moved = true; track.classList.add("drag"); try { track.setPointerCapture(e.pointerId); } catch (err) { /* carry on without capture */ } }
-    if (moved) track.scrollLeft = sl - dx;
+    if (moved) {
+      const max = track.scrollWidth - track.clientWidth, want = sl - dx;
+      /* past either end the gallery follows the hand less and less, then springs back */
+      track.scrollLeft = want;
+      const over = want < 0 ? -want : want > max ? want - max : 0;
+      track.style.transform = over ? "translateX(" + (want < 0 ? 1 : -1) * (over * 0.35 * 200 / (200 + over * 0.35)) + "px)" : "";
+      hist.push({ x: e.clientX, t: e.timeStamp }); if (hist.length > 6) hist.shift();
+    }
   });
-  const up = () => { down = false; track.classList.remove("drag"); };
+  const up = (e) => {
+    if (!down) return;
+    down = false;
+    const was = moved && hist.length > 1 ? hist[hist.length - 1] : null, from = hist[0];
+    let v = was && was.t > from.t ? -(was.x - from.x) / (was.t - from.t) : 0;      /* px per ms, in scroll direction */
+    if (was && e.timeStamp - was.t > 120) v = 0;                                /* held still before letting go */
+    const offset = track.style.transform;
+    if (offset) { track.style.transition = "transform .45s cubic-bezier(.22,1,.36,1)"; track.style.transform = ""; setTimeout(() => { track.style.transition = ""; }, 460); }
+    if (reduce || Math.abs(v) < 0.15) { track.classList.remove("drag"); return; }
+    let last = performance.now();
+    const step = (now) => {
+      const dt = Math.min(32, now - last); last = now;
+      const before = track.scrollLeft;
+      track.scrollLeft = before + v * dt;
+      v *= Math.pow(0.995, dt);                                                   /* gradual deceleration, like scrolling */
+      if (Math.abs(v) < 0.02 || track.scrollLeft === before) { coast = 0; track.classList.remove("drag"); return; }
+      coast = requestAnimationFrame(step);
+    };
+    coast = requestAnimationFrame(step);
+  };
   track.addEventListener("pointerup", up);
   track.addEventListener("pointercancel", up);
+  track.addEventListener("wheel", stopCoast, { passive: true });
   track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; return; } }, true);
 
   /* clicks: the ads open the video viewer, renders open the lightbox, tools open their page */

@@ -1065,3 +1065,39 @@ body.cx .cx-main h3, body.cx .cx-main h4 { font-weight: 600 !important; }
 body.cx .cx-hero h1, body.cx .cx-hero h1.lx-h1 { font-size: clamp(30px, 2.9vw, 44px) !important; line-height: 1.2 !important; font-weight: 500 !important; letter-spacing: -0.03em !important; max-width: min(100%, 12em) !important; text-wrap: balance; }
 body.cx .cx-hero h1 em, body.cx .cx-hero h1.lx-h1 em { color: var(--accent) !important; -webkit-text-stroke: 0 !important; background: none !important; padding: 0 !important; margin: 0 !important; font-style: normal; white-space: normal !important; }
 body.cx .cx-hero h1 br { display: none; }
+
+/* ---- feel layer: instant press feedback, soft materials that respect the visitor's settings ---- */
+:where(.work-row, .dr-row, .chip, .gx-link, .gx-btn, .lx-opt, .cx-rail a, .nav a, .nav button, button, [role="button"]) { transition-property: scale, translate, opacity, color, background-color, border-color; }
+.gx-btn:active, .chip:active, .nav a:active, .nav button:active, .theme:active { scale: .94; transition-duration: .1s; }
+.work-row:active, .dr-row:active, a.gx-link:active { scale: .985; transition-duration: .1s; }
+@media (prefers-reduced-transparency: reduce) {
+  .cx-cmp-tag, .nav, .cx-rail { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  body::after { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+}
+@media (prefers-contrast: more) { .cx-cmp-tag { background: var(--surface) !important; color: var(--ink) !important; border: 1px solid var(--ink); } }
+@media (prefers-reduced-motion: reduce) { .work-row:active, .dr-row:active, a.gx-link:active, .gx-btn:active, .chip:active { scale: 1; } }
+
+/* ---- revealing sections: home blocks (drafting.js) and case-study chapters (children of a revealed body arrive in turn) ---- */
+.sr { opacity: 0; translate: 0 26px; transition: opacity .8s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms), translate .9s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+.sr.sr-in { opacity: 1; translate: 0 0; }
+.ch-body.cx-rv { opacity: 1; transform: none; transition: none; }
+.ch-body.cx-rv > * { opacity: 0; translate: 0 24px; transition: opacity .8s cubic-bezier(.22, 1, .36, 1), translate .9s cubic-bezier(.22, 1, .36, 1); }
+.ch-body.cx-rv.in > * { opacity: 1; translate: 0 0; }
+.ch-body.cx-rv.in > :nth-child(2) { transition-delay: .08s; } .ch-body.cx-rv.in > :nth-child(3) { transition-delay: .16s; }
+.ch-body.cx-rv.in > :nth-child(4) { transition-delay: .24s; } .ch-body.cx-rv.in > :nth-child(n+5) { transition-delay: .3s; }
+@media (prefers-reduced-motion: reduce) { .sr, .ch-body.cx-rv > * { opacity: 1; translate: none; transition: none; } }
+
+/* ---- scroll-linked motion, Apple style: media settles into place as it arrives, the opening screen recedes as you leave it.
+   Driven by the scroll position itself (so it reverses when you scroll back), only where the browser supports it. ---- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes settle { from { scale: .93; } to { scale: 1; } }
+    @keyframes recede { from { scale: 1; opacity: 1; } to { scale: .96; opacity: .35; } }
+    .cx-ph img, .cx-browser, .cx-flat, .cx-cmp, .cx-vid, .cs-shot, .cs-trio-shots img, .dr-row .art, .gx-frame {
+      animation: settle linear both; animation-timeline: view(); animation-range: entry 0% entry 65%;
+    }
+    .dr-hero { animation: recede linear both; animation-timeline: view(); animation-range: exit 10% exit 90%; transform-origin: 50% 0; }
+  }
+}
+/* the page itself is the scroller: the body must not become its own scroll box, or scroll-linked motion has nothing to follow */
+body { overflow-x: clip; overflow-y: visible; }
