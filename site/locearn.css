@@ -482,7 +482,7 @@ body.le .act p { font-size: clamp(15px, 1.3vw, 18px); max-width: 52ch; margin: 0
   .le .cx-box { outline-offset: 2px; padding: 20px 16px; }
   .le .dr-foot a { display: inline-block; padding: 12px 0; }
   .le .pan .cx-flat { overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
-  .le .pan .cx-flat img { width: auto; max-width: none; min-width: 720px; }
+  .le .pan .cx-flat img { width: 1000px; max-width: none; min-width: 0; height: auto; }   /* the flow chart is 3500 px wide; at 'auto' it filled nine screens, so it gets a fixed swipeable width */
   .le .pan::after { display: block; content: "Swipe to explore \2192"; margin-top: 12px; font: 500 11px/1 var(--le-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
   .le .cx-cmp-knob::after { width: 48px; height: 48px; margin: -24px 0 0 -24px; }
 }

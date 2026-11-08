@@ -1122,3 +1122,23 @@ body { overflow-x: clip; overflow-y: visible; }
   .dr-bar .nav a:not(.menu-btn) { padding-inline: 12px; }
   .dr-bar .nav .menu-btn { padding: 0 12px; }
 }
+@media (max-width: 700px) {
+  .cx .nav { transition: transform .3s cubic-bezier(.65, 0, .35, 1); }
+  .cx .nav.nav-away { transform: translateY(calc(-100% - 40px)); }
+}
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) { .cx .nav { transition: none; } }
+
+/* phones: the page is framed by a double line about 18 px in from the edge; content now keeps a real gutter inside it
+   (it used to sit 2 px from the line, and some blocks touched or crossed it) */
+@media (max-width: 700px) {
+  :root { --pad: 32px; }
+  .dr-sheet { padding-left: 32px; padding-right: 32px; }
+}
+
+/* case-study header: the js. box is exactly as tall as the menu beside it, and they share one top edge */
+.cx { --bar-h: 54px; }
+.cx .logo { top: 24px; height: var(--bar-h); box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 0; line-height: 1; }
+.cx .nav { top: 24px; height: var(--bar-h); box-sizing: border-box; align-items: stretch; }
+@media (min-width: 701px) { .cx .nav a { display: flex; align-items: center; justify-content: center; padding-block: 0; } }
+@media (max-width: 700px) { .cx .nav a.keep { display: flex; align-items: center; justify-content: center; padding-block: 0; } }
+.cx .nav .theme { align-self: center; }

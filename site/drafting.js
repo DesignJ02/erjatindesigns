@@ -259,3 +259,20 @@
     requestAnimationFrame(tick);
   }, { passive: true });
 })();
+
+/* Case-study nav on phones: the floating Work / Contact / bulb box slides away while you read downwards (it was covering headings and
+   text) and comes straight back as soon as you scroll up, reach the top, or move focus into it. */
+(function () {
+  var nav = document.querySelector(".cx .nav");
+  if (!nav || !window.matchMedia) return;
+  var mq = window.matchMedia("(max-width: 700px)"), last = window.scrollY, away = false;
+  function set(v) { if (v !== away) { away = v; nav.classList.toggle("nav-away", v); } }
+  window.addEventListener("scroll", function () {
+    if (!mq.matches) { set(false); last = window.scrollY; return; }
+    var y = window.scrollY, d = y - last;
+    if (y < 140) { set(false); last = y; return; }
+    if (Math.abs(d) < 10) return;
+    set(d > 0); last = y;
+  }, { passive: true });
+  nav.addEventListener("focusin", function () { set(false); });
+})();
